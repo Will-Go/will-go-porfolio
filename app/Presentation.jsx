@@ -14,7 +14,7 @@ function Presentarion() {
     //   typeSpeed: 50,
     // });
     const typedPreseantation = new Typed(presentation.current, {
-      strings: ["Hello, I'm Wilson."],
+      strings: ["Hello, I&apos;m Wilson."],
       typeSpeed: 50,
     });
 
@@ -29,7 +29,7 @@ function Presentarion() {
       <div className="grid  gap-4 place-content-center text-center md:text-left w-1/2">
         <div>
           <span className="text-4xl font-bold  " ref={presentation}>
-            Hello, I'm Wilson.
+            Hello, I&apos;m Wilson.
           </span>
         </div>
         <motion.div

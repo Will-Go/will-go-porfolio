@@ -30,8 +30,10 @@ function Projects() {
             <p>{description}</p>
             <h3>Tecnologies:</h3>
             <div className="flex flex-wrap gap-3 ">
-              {technologies.map((technology) => (
-                <div className="rounded-full shadow-sm hover:-translate-y-1 shadow-zinc-400  p-2 text-xs transition-all duration-500">
+              {technologies.map((technology, i) => (
+                <div
+                  key={i}
+                  className="rounded-full shadow-sm hover:-translate-y-1 shadow-zinc-400  p-2 text-xs transition-all duration-500">
                   {technology}
                 </div>
               ))}

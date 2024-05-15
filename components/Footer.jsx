@@ -27,8 +27,8 @@ function Footer() {
       <div className="flex flex-col justify-center items-end gap-4">
         <h2>Socials:</h2>
         <ol className="flex gap-4">
-          {socials.map(({ icon, link }) => (
-            <li>
+          {socials.map(({ icon, link }, i) => (
+            <li key={i}>
               <Link href={link}>{icon}</Link>
             </li>
           ))}
