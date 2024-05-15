@@ -40,10 +40,10 @@ function Projects() {
             </div>
             <div className="flex items-center justify-center mt-5">
               <Image
-                className=" rounded-md group-hover:rounded-sm transition-all duration-300"
+                className=" h-[120px] w-[120px] rounded-md group-hover:rounded-sm transition-all duration-300"
                 src={image}
-                width={120}
-                height={120}
+                width={200}
+                height={200}
               />
             </div>
           </motion.li>

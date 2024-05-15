@@ -19,12 +19,12 @@ function Footer() {
   ];
   const currenDate = new Date();
   return (
-    <div className="grid grid-cols-2  h-[25vh] rounded-t-md p-6 px-36 md:px-72 bg-gradient-to-tr from-black  bg-zinc-900">
-      <div className="flex flex-col  justify-center">
+    <div className="grid grid-cols-1 md:grid-cols-2  h-[25vh] rounded-t-md p-6 px-36 md:px-72 bg-gradient-to-tr from-black  bg-zinc-900">
+      <div className="flex flex-col items-center md:items-start justify-center">
         <h2>Wilson Gong Wu</h2>
         <p>{currenDate.getFullYear()}</p>
       </div>
-      <div className="flex flex-col justify-center items-end gap-4">
+      <div className="flex flex-col justify-center items-center md:items-end  gap-4">
         <h2>Socials:</h2>
         <ol className="flex gap-4">
           {socials.map(({ icon, link }, i) => (
