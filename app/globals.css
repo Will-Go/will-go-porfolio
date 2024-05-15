@@ -27,7 +27,39 @@ body {
 }
 
 @layer utilities {
+  h1{
+    @apply text-4xl font-bold;
+  
+  }
+  h2{
+    @apply text-lg font-bold
+  }
+  h3{
+    @apply text-lg font-bold  text-zinc-400 italic
+  }
+
+  hr{
+    @apply border-t-[0.5] border-gray-500 relative   my-12;
+  
+  }
+  p{
+    @apply text-zinc-400 text-sm
+  }
+
   .text-balance {
     text-wrap: balance;
   }
+
+  .hover-shadow{
+    @apply hover:shadow-xl hover:shadow-zinc-700 transition-all duration-300;
+  }
+
+}
+
+
+#particles canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
