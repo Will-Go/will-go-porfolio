@@ -3,7 +3,7 @@ import "./globals.css";
 import { Navbar } from "@/components";
 import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
-
+import ParticlesWrapper from "@/wrapper/ParticlesWrapper";
 export const metadata = {
   title: "Wilson's Portfolio",
   description: "Hello this is my personal porfolio!",
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className + "  font-mono "}>
         <main className="mx-1 lg:mx-28">
           <Navbar />
-          {children}
+          <ParticlesWrapper>{children}</ParticlesWrapper>
         </main>
 
         <Footer />

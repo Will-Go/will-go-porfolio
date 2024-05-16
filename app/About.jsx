@@ -3,7 +3,7 @@ import React from "react";
 function About() {
   return (
     <div className="flex flex-col items-center justify-center my-12 gap-6  ">
-      <h1 id="about" className="text-center">
+      <h1  className="text-center">
         About Me
       </h1>
       <p className=" text-center w-full md:w-1/2">

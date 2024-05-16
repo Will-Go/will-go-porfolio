@@ -6,12 +6,10 @@ import Skills from "./Skills";
 import Reveal from "@/components/Reveal";
 import Education from "./Education";
 import Projects from "./Projects";
-import ParticlesComponent from "@/components/particles";
 
 export default function Home() {
   return (
     <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300">
-      <ParticlesComponent id="particles" className=" absolute z-[-10]" />
       <Presentation />
 
       <Reveal>

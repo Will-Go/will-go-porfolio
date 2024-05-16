@@ -13,8 +13,8 @@ function Navbar() {
   const titulo = useRef(null);
   const links = [
     { text: "Home", href: "/" },
-    { text: "About", href: "#about" },
-    { text: "Projects", href: "#projects" },
+    { text: "About", href: "/#about" },
+    { text: "Projects", href: "/#projects" },
     { text: "Contact", href: "/contact" },
   ];
   useEffect(() => {
@@ -38,29 +38,32 @@ function Navbar() {
     };
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("scroll", function () {
-      setIsOpen(false);
-    });
+  // const handleWindowResize = () => setIsOpen(true);
 
-    return () => {
-      window.removeEventListener("scroll", () => setIsOpen(false));
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", function () {
+  //     setIsOpen(false);
+  //   });
+
+  //   return () => {
+  //     window.removeEventListener("scroll", () => handleWindowResize);
+  //   };
+  // }, []);
 
   return (
     <motion.nav
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`flex flex-col sticky top-0 p-4 m-3 backdrop-blur-md bg-opacity-80  bg-gradient-to-tr from-zinc-950  bg-zinc-900 rounded-lg drop-shadow-lg shadow-zinc-600 
+      className={`flex flex-col sticky  top-0 p-4 m-3 backdrop-blur-md bg-opacity-80  bg-gradient-to-tr from-zinc-950  bg-zinc-900 rounded-lg drop-shadow-lg shadow-zinc-600 
       } transition-all duration-300`}>
-      <div className="flex justify-between items-center relative ">
+      <div className="flex justify-between items-center">
         <div>
           <span ref={titulo} className=" font-bold">
             Wilson Gong Wu
           </span>
         </div>
+
         <button
           onClick={() => {
             setIsOpen(!isOpen);
@@ -94,11 +97,12 @@ function Navbar() {
           </AnimatePresence>
         </button>
 
-        <div className=" items-center gap-5 hidden md:flex">
+        <div className="items-center gap-5 hidden md:flex ">
           {links.map(({ text, href }, i) => (
             <Link
               key={i}
               href={href}
+              onClick={() => setIsOpen(false)}
               className="hover:-translate-y-0.5 transition-all duration-200">
               {text}
             </Link>
@@ -118,6 +122,7 @@ function Navbar() {
               <Link
                 key={i}
                 href={href}
+                onClick={() => setIsOpen(false)}
                 className="hover:-translate-y-0.5 transition-all duration-200">
                 {text}
               </Link>
