@@ -25,9 +25,9 @@ function Projects() {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.25 * i }}
-            className="flex flex-col group gap-2 border rounded-md cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-500">
+            className="flex flex-col group gap-2 shadow-sm shadow-zinc-400  rounded-md hover:rounded-sm cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-500">
             <h2>{name}</h2>
-            <p>{description}</p>
+            <p className=" text-justify">{description}</p>
             <h3>Tecnologies:</h3>
             <div className="flex flex-wrap gap-3 ">
               {technologies.map((technology, i) => (
