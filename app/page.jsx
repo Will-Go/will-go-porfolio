@@ -25,7 +25,7 @@ export default function Home() {
         <Education />
       </Reveal>
       <Reveal>
-        <hr />
+        <hr id="projects" />
         <Projects />
       </Reveal>
     </main>
