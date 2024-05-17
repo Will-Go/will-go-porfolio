@@ -55,7 +55,7 @@ function Navbar() {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`flex flex-col sticky  top-0 p-4 m-3 backdrop-blur-md bg-opacity-30 rounded-3xl  bg-gradient-to-tr from-zinc-950  bg-zinc-900 transition-all duration-300`}>
+      className={`flex flex-col sticky  top-0 p-4 m-3 backdrop-blur-md bg-opacity-30 rounded-3xl  bg-gradient-to-tr from-slate-950  bg-slate-700 transition-all duration-300`}>
       <div className="flex justify-between items-center">
         <Link className=" min-w-6" onClick={() => setIsOpen(false)} href={"/"}>
           <span ref={titulo} className=" font-bold">
