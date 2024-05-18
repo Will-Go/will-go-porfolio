@@ -9,7 +9,7 @@ import Projects from "./Projects";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300">
+    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 ">
       <Presentation />
 
       <Reveal>

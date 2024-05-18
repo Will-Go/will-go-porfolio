@@ -53,7 +53,7 @@ function Skills() {
             initial={{ y: 15, opacity: 0 }}
             animate={controls}
             transition={{ delay: 0.15 * i }}
-            className="flex justify-center items-center border rounded-xl cursor-default p-3  bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-700 transition-all duration-500">
+            className="flex justify-center items-center  border-2 border-white/10 rounded-xl cursor-default p-3  bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-700 transition-all duration-500">
             {techSkill}
           </motion.li>
         ))}

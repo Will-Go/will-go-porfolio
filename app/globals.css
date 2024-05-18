@@ -29,6 +29,10 @@
 
 }
 
+.typed-cursor {
+  height: 100%;
+}
+
 
 @tailwind components;
 @tailwind utilities;

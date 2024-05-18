@@ -14,9 +14,7 @@ function Projects() {
   ];
 
   return (
-    <div
-      id="projects"
-      className="flex flex-col items-center justify-center my-12 gap-6  ">
+    <div className="flex flex-col items-center justify-center my-12 gap-6  ">
       <h1 className="text-center">Projects</h1>
       <ol className="flex flex-col gap-3">
         {projects.map(({ name, description, technologies, image }, i) => (
@@ -25,7 +23,7 @@ function Projects() {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.25 * i }}
-            className="flex flex-col group gap-2 shadow-sm shadow-zinc-400  rounded-xl hover:rounded-sm cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-300">
+            className="flex flex-col group gap-2 border-2 border-white/10  rounded-xl hover:rounded-sm cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-300">
             <h2>{name}</h2>
             <p className=" text-justify">{description}</p>
             <h3>Tecnologies:</h3>
@@ -33,7 +31,7 @@ function Projects() {
               {technologies.map((technology, i) => (
                 <div
                   key={i}
-                  className="rounded-full shadow-sm hover:-translate-y-1 shadow-zinc-400  p-2 text-xs transition-all duration-500">
+                  className="rounded-full border-2 border-white/10  hover:-translate-y-1   p-2 text-xs transition-all duration-500">
                   {technology}
                 </div>
               ))}
