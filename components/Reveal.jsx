@@ -15,9 +15,10 @@ function Reveal({ children }) {
 
   return (
     <motion.div
+      className="my-8"
       initial={{ opacity: 0, y: 10 }}
       animate={controls}
-      transition={{ duration: 1 }}
+      transition={{ duration: 1, delay: 0.5 }}
       ref={ref}>
       {children}
     </motion.div>

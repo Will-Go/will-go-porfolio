@@ -2,6 +2,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+//COMPONENTS
+import Card from "@/components/Card";
+
 function Projects() {
   const projects = [
     {
@@ -22,28 +25,29 @@ function Projects() {
             key={i}
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, delay: 0.25 * i }}
-            className="flex flex-col group gap-2 border-2 border-white/10  rounded-xl hover:rounded-sm cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-300">
-            <h2>{name}</h2>
-            <p className=" text-justify">{description}</p>
-            <h3>Tecnologies:</h3>
-            <div className="flex flex-wrap gap-3 ">
-              {technologies.map((technology, i) => (
-                <div
-                  key={i}
-                  className="rounded-full border-2 border-white/10  hover:-translate-y-1   p-2 text-xs transition-all duration-500">
-                  {technology}
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center justify-center mt-5">
-              <Image
-                className=" h-[120px] w-[120px] rounded-xl group-hover:rounded-sm transition-all duration-300"
-                src={image}
-                width={200}
-                height={200}
-              />
-            </div>
+            transition={{ duration: 1, delay: 0.25 * i }}>
+            <Card>
+              <h2>{name}</h2>
+              <p className=" text-justify">{description}</p>
+              <h3>Tecnologies:</h3>
+              <div className="flex flex-wrap gap-3 mt-4 ">
+                {technologies.map((technology, i) => (
+                  <div
+                    key={i}
+                    className="rounded-full  border-2 border-white/10  hover:-translate-y-1   p-2 text-xs transition-all duration-500">
+                    {technology}
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-center mt-5">
+                <Image
+                  className=" h-[120px] w-[120px] rounded-xl group-hover:rounded-sm transition-all duration-300"
+                  src={image}
+                  width={200}
+                  height={200}
+                />
+              </div>
+            </Card>
           </motion.li>
         ))}
       </ol>
