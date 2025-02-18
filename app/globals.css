@@ -74,7 +74,7 @@ body {
   }
 
   hr{
-    @apply h-[1.5px] my-16 border-t-0 animate-pulse bg-gradient-to-r from-transparent via-zinc-300 to-transparent ;
+    @apply h-[1.5px] my-16 border-t-0  bg-gradient-to-r from-transparent via-zinc-300 to-transparent ;
   
   }
   p{

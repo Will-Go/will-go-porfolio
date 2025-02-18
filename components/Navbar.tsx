@@ -4,6 +4,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 
+//COmponents
+import MouseSpotlight from "./MouseSpotlight";
+
 //ICONS
 import { FaBars } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -11,6 +14,7 @@ import { RxCross2 } from "react-icons/rx";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const titulo = useRef(null);
+  const navRef = useRef(null);
   const links = [
     { text: "Home", href: "/" },
     { text: "About", href: "/#about" },
@@ -52,6 +56,7 @@ function Navbar() {
 
   return (
     <motion.nav
+      ref={navRef}
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
@@ -100,7 +105,7 @@ function Navbar() {
           </AnimatePresence>
         </button>
 
-        <div className="items-center gap-5 hidden md:flex ">
+        <div className="items-center gap-5 hidden md:flex text-sm ">
           {links.map(({ text, href }, i) => (
             <Link
               key={i}

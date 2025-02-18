@@ -5,6 +5,7 @@ import Image from "next/image";
 
 //COMPONENTS
 import Reveal from "@/components/Reveal";
+import Card from "@/components/Card";
 
 //ICONS
 import { BiLogoGmail } from "react-icons/bi";
@@ -38,7 +39,8 @@ function page() {
               />
             </motion.div>
 
-            <div className="flex flex-col group gap-2 shadow-sm shadow-zinc-400  rounded-md hover:rounded-sm cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-500">
+            <Card>
+              {" "}
               <ol className="grid gap-8">
                 {contacts.map(({ icon, text }, i) => (
                   <motion.li
@@ -53,7 +55,7 @@ function page() {
                   </motion.li>
                 ))}
               </ol>
-            </div>
+            </Card>
           </div>
         </div>
       </Reveal>

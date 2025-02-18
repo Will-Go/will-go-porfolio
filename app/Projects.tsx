@@ -2,6 +2,9 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
+//COMPONENTS
+import Card from "@/components/Card";
+
 function Projects() {
   const projects = [
     {
