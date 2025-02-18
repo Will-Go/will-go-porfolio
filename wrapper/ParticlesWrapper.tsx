@@ -1,6 +1,6 @@
 "use client";
 import ParticlesComponent from "@/components/particles";
-function ParticlesWrapper({ children }) {
+function ParticlesWrapper({ children }: { children: React.ReactNode }) {
   return (
     <>
       <ParticlesComponent id="particles" className=" absolute z-[-10]" />

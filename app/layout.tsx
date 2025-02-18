@@ -1,6 +1,5 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ParticlesWrapper from "@/wrapper/ParticlesWrapper";
 
@@ -19,7 +18,11 @@ const font = Encode_Sans_Expanded({
   weight: ["300", "600"],
 });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={font.className}>

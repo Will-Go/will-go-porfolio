@@ -4,7 +4,8 @@ function Education() {
   return (
     <div
       id="education"
-      className="flex flex-col items-center justify-center my-12 gap-6  ">
+      className="flex flex-col items-center justify-center my-12 gap-6  "
+    >
       <h1 className="text-center">Education</h1>
       <p className=" text-center w-full md:w-1/2">
         I&apos;m currently studying Software Engineering at Universidad
