@@ -55,7 +55,8 @@ function Navbar() {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`flex flex-col sticky  top-0 p-4 m-3 backdrop-blur-md bg-opacity-30 rounded-3xl  bg-gradient-to-tr from-slate-950  bg-slate-700 transition-all duration-300`}>
+      className={`flex flex-col sticky top-0 py-4 px-12 m-3  backdrop-blur-md bg-opacity-30 rounded-3xl  bg-gradient-to-tr from-slate-950  bg-slate-700 transition-all duration-300`}
+    >
       <div className="flex justify-between items-center">
         <Link className=" min-w-6" onClick={() => setIsOpen(false)} href={"/"}>
           <span ref={titulo} className=" font-bold">
@@ -67,7 +68,8 @@ function Navbar() {
           onClick={() => {
             setIsOpen(!isOpen);
           }}
-          className=" text-white flex items-center p-4 md:hidden relative">
+          className=" text-white flex items-center p-4 md:hidden relative"
+        >
           <AnimatePresence>
             {isOpen && (
               <motion.div
@@ -75,7 +77,8 @@ function Navbar() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className=" absolute">
+                className=" absolute"
+              >
                 {" "}
                 <RxCross2 />
               </motion.div>
@@ -88,7 +91,8 @@ function Navbar() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
-                className=" absolute">
+                className=" absolute"
+              >
                 {" "}
                 <FaBars />
               </motion.div>
@@ -102,13 +106,13 @@ function Navbar() {
               key={i}
               href={href}
               onClick={() => setIsOpen(false)}
-              className="hover:-translate-y-0.5 transition-all duration-200">
+              className="hover:-translate-y-0.5 transition-all duration-200"
+            >
               {text}
             </Link>
           ))}
         </div>
       </div>
-
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -116,13 +120,15 @@ function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col gap-2 items-center mt-6  ">
+            className="flex flex-col gap-2 items-center mt-6  "
+          >
             {links.map(({ text, href }, i) => (
               <Link
                 key={i}
                 href={href}
                 onClick={() => setIsOpen(false)}
-                className="hover:-translate-y-0.5 transition-all duration-200">
+                className="hover:-translate-y-0.5 transition-all duration-200"
+              >
                 {text}
               </Link>
             ))}
