@@ -4,9 +4,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 
-//COmponents
-import MouseSpotlight from "./MouseSpotlight";
-
 //ICONS
 import { FaBars } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -18,6 +15,7 @@ function Navbar() {
   const links = [
     { text: "Home", href: "/" },
     { text: "About", href: "/#about" },
+    { text: "Experience", href: "/#experience" },
     { text: "Projects", href: "/#projects" },
     { text: "Contact", href: "/contact" },
   ];
@@ -42,25 +40,13 @@ function Navbar() {
     };
   }, []);
 
-  // const handleWindowResize = () => setIsOpen(true);
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", function () {
-  //     setIsOpen(false);
-  //   });
-
-  //   return () => {
-  //     window.removeEventListener("scroll", () => handleWindowResize);
-  //   };
-  // }, []);
-
   return (
     <motion.nav
       ref={navRef}
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`flex flex-col sticky top-0 py-4 px-12 m-3  backdrop-blur-md bg-opacity-30 rounded-3xl  bg-linear-to-tr from-slate-950  bg-slate-700 transition-all duration-300`}
+      className={`flex flex-col sticky top-1 py-4 px-12 m-3 z-50 backdrop-blur-md rounded-2xl bg-accent-800/30 ease-in-out transition-all duration-300`}
     >
       <div className="flex justify-between items-center">
         <Link className=" min-w-6" onClick={() => setIsOpen(false)} href={"/"}>

@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useEffect } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
+import BackgroundBlur from "@/components/BackgroundBlur";
 
 function Skills() {
   const controls = useAnimation();
@@ -44,12 +45,13 @@ function Skills() {
   return (
     <div
       id="skills"
-      className="flex flex-col items-center justify-center my-8 gap-6 "
+      className="relative flex flex-col items-center justify-center my-8 gap-6 "
     >
+      <BackgroundBlur className="h-96 w-96" />
       <h1 className="text-center">Skills</h1>
       <ol
         ref={refSkills}
-        className="grid grid-cols-2 md:flex md:flex-wrap gap-4 justify-evenly  text-center relative   before:absolute before:h-[300px] before:w-[100px] sm:before:w-[100px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-50 after:h-[180px] after:w-[200px] sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] dark:before:bg-linear-to-br dark:before:from-transparent   dark:after:from-sky-900 dark:after:via-[#0141ff] dark:after:opacity-40 lg:before:h-[360px] after:animate-pulse z-[-1] "
+        className="grid grid-cols-2 md:flex md:flex-wrap gap-4 justify-evenly  text-center  "
       >
         {techSkills.map((techSkill, i) => (
           <motion.li
@@ -57,7 +59,7 @@ function Skills() {
             initial={{ y: 15, opacity: 0 }}
             animate={controls}
             transition={{ delay: 0.15 * i }}
-            className="flex justify-center items-center  border-2 border-white/10 rounded-xl cursor-default p-3  bg-linear-to-tl from-black  bg-zinc-900 transition-all duration-500"
+            className="flex justify-center items-center  border-2 border-primary-800 rounded-xl cursor-default p-3  bg-linear-to-tl hover:bg-accent-400/30 from-primary-950 via-primary-950 bg-primary-800 transition-all duration-500"
           >
             {techSkill}
           </motion.li>

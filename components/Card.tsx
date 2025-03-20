@@ -1,14 +1,22 @@
 "use client";
-
-interface CardProps {
+import { motion, MotionProps } from "framer-motion";
+import { cn } from "@/utils/cn";
+interface CardProps extends MotionProps {
   children: React.ReactNode;
+  className?: string;
 }
 
-function Card({ children }: CardProps) {
+function Card({ children, className, ...motionProps }: Readonly<CardProps>) {
   return (
-    <div className="cursor-default group relative overflow-hidden flex flex-col border-2 border-white/10 p-3 rounded-md hover:rounded-xs w-full bg-linear-to-tl from-black bg-zinc-900 transition-all duration-500">
+    <motion.div
+      {...motionProps}
+      className={cn(
+        "cursor-default group relative overflow-hidden border-2 border-primary-700/30 p-3 rounded-md  w-full bg-linear-to-tl hover:bg-primary-800 from-primary-950 bg-primary-900 !transition-all ease-in-out duration-500",
+        className
+      )}
+    >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
