@@ -42,7 +42,7 @@ function Projects() {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, delay: 0.25 * i }}
-            className="flex flex-col group gap-2 border-2 border-white/10  rounded-xl hover:rounded-sm cursor-default  p-3 bg-gradient-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-300"
+            className="flex flex-col group gap-2 border-2 border-white/10  rounded-xl hover:rounded-xs cursor-default  p-3 bg-linear-to-tl from-black  bg-zinc-900 hover:bg-zinc-800 transition-all duration-300"
           >
             <div className="flex items-center gap-2">
               <h2>{name}</h2> <span className="text-xs">{date}</span>
@@ -62,7 +62,7 @@ function Projects() {
             <div className="flex items-center justify-center mt-5">
               <Image
                 alt="Project image"
-                className=" h-[120px] w-[120px] rounded-xl group-hover:rounded-sm transition-all duration-300"
+                className=" h-[120px] w-[120px] rounded-xl group-hover:rounded-xs transition-all duration-300"
                 src={image}
                 width={200}
                 height={200}

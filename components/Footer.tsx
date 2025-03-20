@@ -19,7 +19,7 @@ function Footer() {
   ];
   const currenDate = new Date();
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 text-center md:text-left  h-[25vh] rounded-t-md p-6 px-36 md:px-72 bg-gradient-to-tr from-black  bg-zinc-900">
+    <div className="grid grid-cols-1 md:grid-cols-2 text-center md:text-left  h-[25vh] rounded-t-md p-6 px-36 md:px-72 bg-linear-to-tr from-black  bg-zinc-900">
       <div className="flex flex-col items-center md:items-start justify-center">
         <h2>by Wilson</h2>
         <p>{currenDate.getFullYear()}</p>
