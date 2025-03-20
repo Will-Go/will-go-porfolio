@@ -10,7 +10,7 @@ import Experience from "./Experience";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300  ">
+    <main className="min-h-screen  p-6 md:p-24 overflow-x-clip selection:text-black selection:bg-slate-300  ">
       <Presentation />
 
       <Reveal>
@@ -28,6 +28,10 @@ export default function Home() {
       <Reveal>
         <hr id="experience" />
         <Experience />
+      </Reveal>
+      <Reveal>
+        <hr id="projects" />
+        <Projects />
       </Reveal>
     </main>
   );

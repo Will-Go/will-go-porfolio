@@ -40,13 +40,37 @@ function Navbar() {
     };
   }, []);
 
+  // Handle smooth scrolling on hash change
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash; // e.g., "#about"
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    };
+
+    // Run on mount if there's a hash in the URL
+    handleHashChange();
+
+    // Listen for hash changes (e.g., clicking a link with #section)
+    window.addEventListener("hashchange", handleHashChange);
+
+    // Cleanup listener
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
+
   return (
     <motion.nav
       ref={navRef}
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`flex flex-col sticky top-1 py-4 px-12 m-3 z-50 backdrop-blur-md rounded-2xl bg-accent-800/30 ease-in-out transition-all duration-300`}
+      className={`flex flex-col sticky top-1 py-4 px-12 m-3 z-50 backdrop-blur-sm border border-accent-600/20 rounded-2xl bg-accent-900/30 ease-in-out transition-all duration-300`}
     >
       <div className="flex justify-between items-center">
         <Link className=" min-w-6" onClick={() => setIsOpen(false)} href={"/"}>
@@ -110,8 +134,8 @@ function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col gap-2 items-center mt-6  "
+            transition={{ duration: 0.25 }}
+            className="flex flex-col gap-2 items-center mt-6 h-[100vh] md:hidden"
           >
             {links.map(({ text, href }, i) => (
               <Link

@@ -2,39 +2,12 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import BackgroundBlur from "@/components/BackgroundBlur";
+import techSkills from "@/content/techSkills";
 
 function Skills() {
   const controls = useAnimation();
   const refSkills = useRef<HTMLOListElement | null>(null);
   const isInViewSkills = useInView(refSkills, { once: true });
-
-  const techSkills = [
-    "React.js",
-    "Next.js",
-    "Firebase",
-    "Tailwind CSS",
-    "Express.js",
-    "MongoDB",
-    "git",
-    "Bootstrap",
-    "jQuery",
-    "AWS",
-    "Azure",
-    "Command line tools",
-    "Windows",
-    "Linux",
-    "Python",
-    "JavaScript",
-    "Java",
-    "C#",
-    "Bash scripting",
-    "SQL",
-    "NoSQL",
-    "HTML",
-    "CSS",
-    "PHP",
-    "MSSQL",
-  ];
 
   useEffect(() => {
     if (isInViewSkills) {

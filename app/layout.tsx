@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <main className="mx-1 lg:mx-28">
+        <main className=" lg:mx-28">
           <Navbar />
           <ParticlesWrapper>{children}</ParticlesWrapper>
         </main>
