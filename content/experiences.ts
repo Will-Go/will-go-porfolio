@@ -1,4 +1,4 @@
-import { Experience } from "@/components/ExperienceCard";
+import Experience from "@/interfaces/IExperience";
 
 const experiences: Experience[] = [
   {

@@ -2,16 +2,9 @@ import Card from "./Card";
 import Image from "next/image";
 import Link from "next/link";
 import { MotionProps } from "framer-motion";
+import TextDisplayer from "./TextDisplayer";
 
-export interface Experience {
-  name: string;
-  date: string;
-  description: string;
-  technologies: string[];
-  imageUrl: string;
-  companyUrl?: string;
-}
-
+import Experience from "@/interfaces/IExperience";
 export interface ExperienceCardProps extends Experience, MotionProps {
   index: number;
 }
@@ -38,7 +31,9 @@ export default function ExperienceCard({
         <div className="flex items-center gap-2">
           <h2>{name}</h2> <span className="text-xs">{date}</span>
         </div>
-        <p className=" text-justify">{description}</p>
+        <div className=" text-justify">
+          <TextDisplayer text={description} />
+        </div>
         <h3>Tecnologies:</h3>
         <div className="flex flex-wrap gap-3 ">
           {technologies.map((technology, i) => (
