@@ -40,7 +40,7 @@ const projects: Project[] = [
     repoUrl: "https://github.com/Will-Go/rediriguido",
     description:
       "This project aimed to capture data from the browser of any user who visited the page and save it in a database. We achieved this by disguising the page as if it were a Google Docs link.",
-    categories: ["Web3", "Frontend", "Backend"],
+    categories: ["Recon", "Phising", "Frontend", "Backend"],
     technologies: ["NextJS", "Firebase", "TailwindCSS"],
   },
   {
