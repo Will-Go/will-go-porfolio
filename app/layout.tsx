@@ -26,8 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <main className=" lg:mx-28">
-          <Navbar />
+        <Navbar />
+        <main className="mt-24 lg:mx-28">
           <ParticlesWrapper>{children}</ParticlesWrapper>
         </main>
 

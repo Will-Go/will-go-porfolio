@@ -66,10 +66,10 @@ function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
       className={cn(
-        ` flex flex-col sticky  py-4 px-12  border border-primary-800/50 m-3  z-50 backdrop-blur-sm bg-accent-900/20 ease-in-out transition-all duration-300`,
+        ` flex flex-col fixed left-6 right-6 lg:left-24 lg:right-24 py-4 px-6 lg:px-12 border border-primary-800/50  z-50 backdrop-blur-sm bg-accent-900/20 ease-in-out transition-all duration-300`,
         isOpen
-          ? "top-0 m-0 rounded-none !border-none fixed left-0 right-0 h-full "
-          : "top-1 rounded-2xl "
+          ? "top-0 m-0 rounded-none !border-none   left-0 right-0 bottom-0 "
+          : "top-1 rounded-2xl m-3 "
       )}
     >
       <div className="flex justify-between items-center">
