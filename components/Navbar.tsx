@@ -43,29 +43,21 @@ function Navbar() {
     };
   }, []);
 
-  // Handle smooth scrolling on hash change
+  // Prevent scrolling when menu is open
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash; // e.g., "#about"
-      if (hash) {
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }
-    };
+    if (isOpen) {
+      // Disable scrolling
+      document.body.style.overflow = "hidden";
+    } else {
+      // Re-enable scrolling
+      document.body.style.overflow = "unset";
+    }
 
-    // Run on mount if there's a hash in the URL
-    handleHashChange();
-
-    // Listen for hash changes (e.g., clicking a link with #section)
-    window.addEventListener("hashchange", handleHashChange);
-
-    // Cleanup listener
+    // Cleanup function to ensure scrolling is restored
     return () => {
-      window.removeEventListener("hashchange", handleHashChange);
+      document.body.style.overflow = "unset";
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <motion.nav
@@ -140,7 +132,7 @@ function Navbar() {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0, y: -10 }}
-            animate={{ opacity: 1, height: "100%", y: 0 }}
+            animate={{ opacity: 1, height: "100vh", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -10 }}
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-2 items-center mt-12 md:hidden"
