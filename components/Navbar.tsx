@@ -4,6 +4,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 
+//UTILS
+import { cn } from "@/utils/cn";
+
 //ICONS
 import { FaBars } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -70,9 +73,12 @@ function Navbar() {
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className={`${
-        isOpen ? "top-0 m-0 rounded-none !border-none" : "top-1 m-3 rounded-2xl"
-      } flex flex-col sticky  py-4 px-12  border border-primary-800  z-50 backdrop-blur-xs bg-accent-900/30 ease-in-out transition-all duration-300`}
+      className={cn(
+        ` flex flex-col sticky  py-4 px-12  border border-primary-800/50 m-3  z-50 backdrop-blur-sm bg-accent-900/20 ease-in-out transition-all duration-300`,
+        isOpen
+          ? "top-0 m-0 rounded-none !border-none fixed left-0 right-0 h-full "
+          : "top-1 rounded-2xl "
+      )}
     >
       <div className="flex justify-between items-center">
         <Link className=" min-w-6" onClick={() => setIsOpen(false)} href={"/"}>
@@ -134,7 +140,7 @@ function Navbar() {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0, y: -10 }}
-            animate={{ opacity: 1, height: "100vh", y: 0 }}
+            animate={{ opacity: 1, height: "100%", y: 0 }}
             exit={{ opacity: 0, height: 0, y: -10 }}
             transition={{ duration: 0.25 }}
             className="flex flex-col gap-2 items-center mt-12 md:hidden"
