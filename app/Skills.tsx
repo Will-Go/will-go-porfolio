@@ -31,7 +31,7 @@ function Skills() {
             key={i}
             initial={{ y: 15, opacity: 0 }}
             animate={controls}
-            transition={{ delay: 0.15 * i }}
+            transition={{ delay: 0.075 * i }}
             className="flex justify-center items-center  border-2 border-primary-800 rounded-xl cursor-default p-3  bg-linear-to-tl hover:bg-accent-400/30 from-primary-950 via-primary-950 bg-primary-800 transition-all duration-500"
           >
             {techSkill}

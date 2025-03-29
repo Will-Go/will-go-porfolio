@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import BackgroundBlur from "@/components/BackgroundBlur";
 
 //COMPONENTS
 import Reveal from "@/components/Reveal";
@@ -19,7 +20,7 @@ function page() {
   ];
 
   return (
-    <main className=" min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300">
+    <main className=" min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-clip">
       <Reveal>
         <div className="flex flex-col  justify-center items-center mt-20 ">
           <h1>Contact Me</h1>
@@ -37,6 +38,7 @@ function page() {
                 height={200}
                 className="rounded-full max-w-[200px] max-h-[200px] object-cover relative dark:drop-shadow-[0_0_0.3rem_#ffffff70]  "
               />
+              <BackgroundBlur className="h-96 w-96" />
             </motion.div>
 
             <Card>
