@@ -48,7 +48,7 @@ function Presentarion() {
         <BackgroundBlur className="h-96 w-96" />
 
         <Image
-          src="/FotoWilson.jpg"
+          src="/meEdited.png"
           alt="A picture of Wilson"
           width={200}
           height={200}
