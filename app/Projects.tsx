@@ -22,7 +22,13 @@ function Projects() {
         <CarouselContent>
           {projects.map((project, i) => (
             <CarouselItem className="md:basis-1 lg:basis-1/3" key={i}>
-              <ProjectCard index={i} {...project} />
+              <ProjectCard
+                index={i}
+                {...project}
+                initial={{ y: 10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.25 * i }}
+              />
             </CarouselItem>
           ))}
         </CarouselContent>
