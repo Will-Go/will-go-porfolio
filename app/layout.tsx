@@ -8,8 +8,6 @@ export const metadata = {
   description: "Hello this is my personal porfolio!",
 };
 
-// const inter = Inter({ subsets: ["latin"] });
-
 //IMPORTA LAS FUENTES
 import { Encode_Sans_Expanded } from "next/font/google";
 
@@ -26,12 +24,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
-        <Navbar />
-        <main className="mt-24 lg:mx-28">
-          <ParticlesWrapper>{children}</ParticlesWrapper>
-        </main>
-
-        <Footer />
+        <ParticlesWrapper>
+          <Navbar />
+          <main className="mt-24 lg:mx-28">{children}</main>
+          <Footer />
+        </ParticlesWrapper>
       </body>
     </html>
   );

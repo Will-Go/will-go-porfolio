@@ -21,7 +21,7 @@ function Projects() {
       <Carousel className="w-full">
         <CarouselContent>
           {projects.map((project, i) => (
-            <CarouselItem className="md:basis-1 lg:basis-1/3" key={i}>
+            <CarouselItem className=" md:basis-1/2 lg:basis-1/3 " key={i}>
               <ProjectCard
                 index={i}
                 {...project}

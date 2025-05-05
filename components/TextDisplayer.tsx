@@ -48,7 +48,7 @@ export default function TextDisplayer({
         <button
           type="button"
           onClick={() => setSeeMore(!seeMore)}
-          className="text-accent-500! cursor-pointer text-xs mt-1 bg-transparent border-none p-0"
+          className="text-accent-500! cursor-pointer text-xs! mt-1 bg-transparent border-none p-0"
           style={{
             background: "none",
             border: "none",

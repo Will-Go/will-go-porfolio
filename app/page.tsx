@@ -1,6 +1,6 @@
-"use client";
 //COMPONENTS
-import Presentation from "./Presentation";
+import Image from "next/image";
+import BackgroundBlur from "@/components/BackgroundBlur";
 import About from "./About";
 import Skills from "./Skills";
 import Reveal from "@/components/Reveal";
@@ -10,8 +10,34 @@ import Experience from "./Experience";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  p-6 md:p-24 overflow-x-clip selection:text-black selection:bg-slate-300  ">
-      <Presentation />
+    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-clip animate-fade-in">
+      {/* <Presentation /> */}
+      <div className="flex flex-col justify-center items-center h-[70vh] md:flex-row gap-6 overflow-visible ">
+        <div className="grid  gap-4 place-content-center text-center md:text-left w-1/2">
+          <div>
+            <span className="text-4xl font-bold animate-fade-in with-cursor">
+              Hello, I&apos;m Wilson.
+            </span>
+          </div>
+          <div className="text-lg ">
+            <p>
+              I&apos;m a software engineer based in <strong>Costa Rica</strong>.
+              I specialize in building web applications.
+            </p>
+          </div>
+        </div>
+        <div className="relative flex place-items-center ">
+          {/* Background blur */}
+          <BackgroundBlur className="h-96 w-96" />
+          <Image
+            src="/meEdited.png"
+            alt="A picture of Wilson"
+            width={200}
+            height={200}
+            className="rounded-full max-w-[200px] max-h-[200px] object-cover relative "
+          />
+        </div>
+      </div>
 
       <Reveal>
         <hr id="about" />

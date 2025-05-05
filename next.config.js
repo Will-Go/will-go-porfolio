@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false, // Disable Strict Mode
+  experimental:{
+    viewTransition: true,
+  }
 };
 
 export default nextConfig;

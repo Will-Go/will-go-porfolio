@@ -53,6 +53,16 @@ html {
   --color-accent-700: #013199;
   --color-accent-800: #002966;
   --color-accent-900: #002033;
+
+  --animate-fade-in: fadeIn 0.75s ease-in forwards;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
 }
 
 /*
@@ -282,4 +292,40 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.with-cursor::after {
+  content: '';
+  display: inline-block;
+  width: 0.1em;
+  height: 1em;
+  background: currentColor;
+  margin-left: 0.2sem;
+  vertical-align: -0.1em;
+  opacity: 1;
+  animation: blink-cursor 1s cubic-bezier(0.4,0,0.2,1) infinite;
+}
+
+@keyframes blink-cursor {
+  0% { opacity: 1; }
+  40% { opacity: 0; }
+  60% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fade-in-up 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
 }

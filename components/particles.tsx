@@ -1,11 +1,17 @@
 import Particles, { initParticlesEngine } from "@tsparticles/react";
+import type { ISourceOptions } from "@tsparticles/engine";
 import { useEffect, useMemo, useState } from "react";
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
 // import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 
-const ParticlesComponent = (props) => {
+interface ParticlesComponentProps {
+  id: string;
+  className?: string;
+}
+
+const ParticlesComponent = (props: ParticlesComponentProps) => {
   const [init, setInit] = useState(false);
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -22,13 +28,18 @@ const ParticlesComponent = (props) => {
     });
   }, []);
 
-  const particlesLoaded = (container) => {
-    console.log(container);
-  };
-
-  const options = useMemo(
+  const options: ISourceOptions = useMemo(
     () => ({
       particles: {
+        shadow: {
+          enable: true,
+          color: "#ffffff",
+          blur: 12,
+          offset: {
+            x: 0,
+            y: 0,
+          },
+        },
         number: {
           value: 80,
           density: {
@@ -70,7 +81,7 @@ const ParticlesComponent = (props) => {
           anim: {
             enable: false,
             speed: 4,
-            size_min: 0.3,
+            size_min: 1,
             sync: false,
           },
         },
@@ -107,7 +118,7 @@ const ParticlesComponent = (props) => {
             enable: true,
             mode: "repulse",
           },
-          resize: true,
+          resize: { enable: true },
         },
         modes: {
           grab: {
@@ -140,7 +151,7 @@ const ParticlesComponent = (props) => {
     []
   );
 
-  return <Particles id={props.id} init={particlesLoaded} options={options} />;
+  return <Particles id={props.id} options={options} />;
 };
 
 export default ParticlesComponent;

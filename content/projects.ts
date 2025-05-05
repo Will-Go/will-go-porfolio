@@ -2,6 +2,22 @@ import Project from "@/interfaces/IProject";
 
 const projects: Project[] = [
   {
+    name: "AI_Todolist",
+    repoUrl: "https://github.com/Will-Go/AI_Todolist",
+    description:
+      "This is a AI power todo list where you can add manually your todos or let AI added for you. This gives the user the ease of use when starting a new task",
+    categories: ["Frontend", "AI", "Machine Learning"],
+    technologies: ["Python", "NextJS", "TailwindCSS", "Gemini API"],
+  },
+  {
+    name: "encryption-decryption_tool-UI",
+    repoUrl: "https://github.com/Will-Go/encryption-decryption_tool-UI",
+    description:
+      "This project is from my intership in HackSecure, this an UI tool to encrypt or decrypt files. This project was made for educational purposes.",
+    categories: ["Frontend Desktop", "Cryptography", "Cybersecurity"],
+    technologies: ["Python", "Tkinter"],
+  },
+  {
     name: "Comment-moderator-with-AI",
     repoUrl: "https://github.com/Will-Go/Comment-moderator-with-AI",
     description:
