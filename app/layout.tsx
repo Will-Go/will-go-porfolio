@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ParticlesWrapper from "@/wrapper/ParticlesWrapper";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Wilson's Portfolio",
@@ -29,6 +30,7 @@ export default function RootLayout({
           <main className="mt-24 lg:mx-28">{children}</main>
           <Footer />
         </ParticlesWrapper>
+        <Analytics />
       </body>
     </html>
   );
