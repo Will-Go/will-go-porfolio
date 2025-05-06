@@ -30,7 +30,7 @@ export default function Home() {
           {/* Background blur */}
           <BackgroundBlur className="h-96 w-96" />
           <Image
-            src="/meEdited.png"
+            src="/Wilson.png"
             alt="A picture of Wilson"
             width={200}
             height={200}
