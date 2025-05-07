@@ -1,4 +1,3 @@
-"use client";
 import ExperienceCard from "@/components/ExperienceCard";
 import experiences from "@/content/experiences";
 

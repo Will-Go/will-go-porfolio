@@ -1,3 +1,4 @@
+"use client";
 import Card from "./Card";
 import Image from "next/image";
 import Link from "next/link";

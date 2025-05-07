@@ -1,11 +1,13 @@
+"use client";
 import Card from "./Card";
-import Image from "next/image";
 import { RiShareBoxLine } from "react-icons/ri";
 import Link from "next/link";
 import TextDisplayer from "./TextDisplayer";
 import { MotionProps } from "framer-motion";
-
+import { formatDate } from "@/utils/dateFormatter";
 import Project from "@/interfaces/IProject";
+import { firstLetterCap } from "@/utils/firstLetterCap";
+
 export interface ProjectCardProps extends Project, MotionProps {
   index: number;
 }
@@ -17,6 +19,7 @@ export default function ProjectCard({
   categories,
   technologies,
   repoUrl,
+  created_at,
   ...motionProps
 }: Readonly<ProjectCardProps>) {
   return (
@@ -35,32 +38,46 @@ export default function ProjectCard({
         <h2>{name}</h2>
         <RiShareBoxLine />
       </Link>
+      {created_at && (
+        <div className="text-xs italic text-muted-foreground mb-3">
+          <span className="font-semibold">Created:</span>{" "}
+          {formatDate(created_at)}
+        </div>
+      )}
 
       <div className="text-justify">
         <TextDisplayer text={description} />
       </div>
-      <h3>Categor{categories.length === 1 ? "y" : "ies"}:</h3>
-      <div className="flex flex-wrap gap-3 ">
-        {categories.map((category, i) => (
-          <div
-            key={i}
-            className="rounded-full border-2 border-primary-800 bg-primary-950  hover:-translate-y-1   p-2 text-xs transition-all duration-500"
-          >
-            {category}
+      {categories.length > 0 && (
+        <>
+          <h3>Categor{categories.length === 1 ? "y" : "ies"}:</h3>
+          <div className="flex flex-wrap gap-3 ">
+            {categories.map((category, i) => (
+              <div
+                key={i}
+                className="rounded-full border-2 border-primary-800 bg-primary-950  hover:-translate-y-1   p-2 text-xs transition-all duration-500"
+              >
+                {firstLetterCap(category)}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <h3>Tecnolog{technologies.length === 1 ? "y" : "ies"}:</h3>
-      <div className="flex flex-wrap gap-3 ">
-        {technologies.map((technology, i) => (
-          <div
-            key={i}
-            className="rounded-full border-2 border-primary-800 bg-primary-950  hover:-translate-y-1   p-2 text-xs transition-all duration-500"
-          >
-            {technology}
+        </>
+      )}
+      {technologies.length > 0 && (
+        <>
+          <h3>Tecnolog{technologies.length === 1 ? "y" : "ies"}:</h3>
+          <div className="flex flex-wrap gap-3 ">
+            {technologies.map((technology, i) => (
+              <div
+                key={i}
+                className="rounded-full border-2 border-primary-800 bg-primary-950  hover:-translate-y-1   p-2 text-xs transition-all duration-500"
+              >
+                {firstLetterCap(technology)}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </Card>
   );
 }

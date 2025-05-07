@@ -1,3 +1,4 @@
+"use client";
 //NOTE: This component is used to display text with a "see more" button if the text is too long
 //NOTE: The text will be displayed with a maximum of 3 lines, if the text is longer than that, a "see more" button will be displayed
 import React, { useRef, useState, useEffect } from "react";

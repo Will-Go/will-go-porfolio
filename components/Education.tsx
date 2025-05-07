@@ -1,5 +1,3 @@
-import React from "react";
-
 //COMPONENTS
 import Card from "@/components/Card";
 

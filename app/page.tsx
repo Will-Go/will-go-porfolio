@@ -1,16 +1,16 @@
 //COMPONENTS
 import Image from "next/image";
 import BackgroundBlur from "@/components/BackgroundBlur";
-import About from "./About";
-import Skills from "./Skills";
+import About from "@/components/About";
+import Skills from "@/components/Skills";
 import Reveal from "@/components/Reveal";
-import Education from "./Education";
-import Projects from "./Projects";
-import Experience from "./Experience";
+import Education from "@/components/Education";
+import Projects from "@/components/Projects";
+import Experience from "@/components/Experience";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-clip animate-fade-in">
+    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-x-visible animate-fade-in">
       {/* <Presentation /> */}
       <div className="flex flex-col justify-center items-center h-[70vh] md:flex-row gap-6 overflow-visible ">
         <div className="grid  gap-4 place-content-center text-center md:text-left w-1/2">
