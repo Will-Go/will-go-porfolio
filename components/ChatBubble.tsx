@@ -5,6 +5,7 @@ import { FaComments, FaTimes, FaPaperPlane } from "react-icons/fa";
 import ChatInput from "./inputs/ChatInput";
 import { useChatBot } from "@/context/ChatBotProvider";
 import Message from "./Message";
+import { cn } from "@/utils/cn";
 
 function ChatBubble() {
   const { messages, addMessage, isOpen, toggleChat } = useChatBot();
@@ -77,7 +78,11 @@ function ChatBubble() {
             {/* Chat Header */}
             <div className="flex justify-between items-center p-5 border-b border-primary-800/40 bg-gradient-to-br from-primary-900/80 via-primary-950/90  ">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-accent-500 animate-pulse"></span>
+                <span
+                  className={cn(
+                    "w-3 h-3 rounded-full bg-accent-500 animate-pulse"
+                  )}
+                ></span>
                 <h3 className="font-bold text-lg text-primary-100 tracking-wide drop-shadow-sm">
                   Chat with Wilson
                 </h3>
