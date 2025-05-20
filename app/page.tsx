@@ -7,10 +7,11 @@ import Reveal from "@/components/Reveal";
 import Education from "@/components/Education";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-x-visible animate-fade-in">
+    <main className="min-h-screen w-full p-6 md:p-24 overflow-x-hidden animate-fade-in">
       {/* <Presentation /> */}
       <div className="flex flex-col justify-center items-center h-[70vh] md:flex-row gap-6 overflow-visible ">
         <div className="grid  gap-4 place-content-center text-center md:text-left w-1/2">
@@ -28,14 +29,16 @@ export default function Home() {
         </div>
         <div className="relative flex place-items-center ">
           {/* Background blur */}
-          <BackgroundBlur className="h-96 w-96" />
-          <Image
-            src="/Wilson.png"
-            alt="A picture of Wilson"
-            width={200}
-            height={200}
-            className="rounded-full max-w-[200px] max-h-[200px] object-cover relative "
-          />
+          <BackgroundBlur className="h-96 w-96 !absolute" />
+          <ViewTransition name="Wilson-avatar">
+            <Image
+              src="/Wilson.png"
+              alt="A picture of Wilson"
+              width={200}
+              height={200}
+              className="rounded-full max-w-[200px] max-h-[200px] object-cover relative "
+            />
+          </ViewTransition>
         </div>
       </div>
 

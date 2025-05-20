@@ -59,7 +59,6 @@ async function Projects() {
   } catch {
     projectFetchError = "Failed to fetch projects";
   }
-
   return (
     <div className="flex flex-col items-center justify-center my-12 gap-6 px-8 ">
       <h1 className="text-center">Projects</h1>

@@ -33,4 +33,12 @@ const formatDate = (isoDate: string): string => {
   return date.toLocaleString(LOCALE, options);
 };
 
-export { formatDatetime, formatDate };
+const formatTime = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  return date.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
+
+export { formatDatetime, formatDate, formatTime };

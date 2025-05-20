@@ -285,17 +285,8 @@ html {
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
 .with-cursor::after {
-  content: '';
+  content: "";
   display: inline-block;
   width: 0.1em;
   height: 1em;
@@ -303,16 +294,23 @@ html {
   margin-left: 0.2sem;
   vertical-align: -0.1em;
   opacity: 1;
-  animation: blink-cursor 1s cubic-bezier(0.4,0,0.2,1) infinite;
+  animation: blink-cursor 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes blink-cursor {
-  0% { opacity: 1; }
-  40% { opacity: 0; }
-  60% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
-
 
 @keyframes fade-in-up {
   0% {
@@ -327,5 +325,46 @@ html {
 
 .fade-in-up {
   opacity: 0;
-  animation: fade-in-up 0.7s cubic-bezier(0.4,0,0.2,1) forwards;
+  animation: fade-in-up 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* View Transitions for Next.js 15 App Router */
+::view-transition-group(root) {
+  z-index: auto !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 400ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-image-pair(root) {
+  isolation: isolate;
+  will-change: transform, opacity, scale;
+  z-index: 1;
+}
+
+::view-transition-old(root) {
+  animation-name: fade-out;
+  z-index: 1;
+}
+::view-transition-new(root) {
+  animation-name: fade-in-up;
+  z-index: 2;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
