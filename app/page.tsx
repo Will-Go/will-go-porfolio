@@ -10,13 +10,13 @@ import Experience from "@/components/Experience";
 
 export default function Home() {
   return (
-    <main className="min-h-screen  p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-x-visible animate-fade-in">
+    <main className="relative min-h-screen p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-x-hidden animate-fade-in">
       {/* <Presentation /> */}
-      <div className="flex flex-col justify-center items-center h-[70vh] md:flex-row gap-6 overflow-visible ">
+      <div className="flex flex-col justify-center items-center h-[70vh] md:flex-row gap-6  w-full">
         <div className="grid  gap-4 place-content-center text-center md:text-left w-1/2">
           <div>
-            <span className="text-4xl font-bold animate-fade-in with-cursor">
-              Hello, I&apos;m Wilson.
+            <span className="text-2xl lg:text-4xl font-bold animate-fade-in with-cursor">
+              Hi, I&apos;m Wilson.
             </span>
           </div>
           <div className="text-lg ">
@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <div className="relative flex place-items-center ">
           {/* Background blur */}
-          <BackgroundBlur className="h-96 w-96" />
+          <BackgroundBlur className="h-72 w-72" />
           <Image
             src="/Wilson.png"
             alt="A picture of Wilson"
