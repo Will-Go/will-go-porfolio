@@ -8,7 +8,6 @@ import Education from "@/components/Education";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import { unstable_ViewTransition as ViewTransition } from "react";
-
 export default function Home() {
   return (
     <main className="relative min-h-screen p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-x-hidden animate-fade-in">
@@ -29,15 +28,17 @@ export default function Home() {
         </div>
         <div className="relative flex place-items-center ">
           {/* Background blur */}
-          <BackgroundBlur className="h-96 w-96" />
-          <Image
-            src="/Wilson.png"
-            alt="A picture of Wilson"
-            width={200}
-            height={200}
-            className="rounded-full max-w-[200px] max-h-[200px] object-cover relative "
-          />
+          <ViewTransition name="Wilson-avatar">
+            <Image
+              src="/Wilson.png"
+              alt="A picture of Wilson"
+              width={200}
+              height={200}
+              className="rounded-full max-w-[200px] max-h-[200px] object-cover relative "
+            />
+          </ViewTransition>
         </div>
+        <BackgroundBlur className="h-96 w-lg" />
       </div>
 
       <Reveal>

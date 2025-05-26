@@ -1,7 +1,9 @@
+"use client";
+import { useState, useEffect } from "react";
 import "../styles/tiptap.css";
-
 import { Message as IMessage } from "@/interfaces/IMessage";
-import { formatTime } from "@/utils/dateFormatter";
+import { formatTime, formatDatetime } from "@/utils/dateFormatter";
+import Image from "next/image";
 
 import { cn } from "@/utils/cn";
 
@@ -9,7 +11,43 @@ interface MessageProps {
   message: IMessage;
 }
 
+const TYPING_SPEED = 75; // Adjust typing speed here (milliseconds per word)
+
 function Message({ message }: MessageProps) {
+  const [displayedContent, setDisplayedContent] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+
+  useEffect(() => {
+    if (message.sender === "bot") {
+      setIsTyping(true);
+      setDisplayedContent("");
+      //NOTE: This is a workaround for the typing, that is skipping the first word.
+      const words = ["", ...message.content.split(" ")];
+      let currIndx = 0;
+      console.log("currIndx", currIndx);
+      const intervalId = setInterval(() => {
+        if (currIndx < words.length) {
+          setDisplayedContent((prevContent) => {
+            if (currIndx === 0) {
+              return words[currIndx];
+            }
+
+            return prevContent + " " + (words[currIndx] ?? "");
+          });
+          currIndx++;
+        } else {
+          clearInterval(intervalId);
+          setIsTyping(false);
+        }
+      }, TYPING_SPEED);
+
+      return () => clearInterval(intervalId);
+    } else {
+      setDisplayedContent(message.content);
+      setIsTyping(false);
+    }
+  }, [message]);
+
   return (
     <div
       className={cn(
@@ -17,19 +55,35 @@ function Message({ message }: MessageProps) {
         message.sender === "user" ? "items-end" : "items-start"
       )}
     >
+      <div className="rounded-full flex items-center justify-center text-xs w-8 h-8 mb-1 border border-primary-400/30 bg-accent-400/30 shadow-lg  overflow-clip">
+        {message.sender === "bot" ? (
+          <Image
+            src="/Wilson.png"
+            alt="A picture of Wilson"
+            width={50}
+            height={50}
+            className=" object-cover rounded-full mb-1 border border-primary-700/50 shadow-lg "
+          />
+        ) : (
+          <span className="m-2">you</span>
+        )}
+      </div>
       <div
         className={cn(
-          "inline-block p-3 rounded-lg tiptap !text-sm border border-primary-700/50 shadow-lg max-w-[80%]",
+          "inline-block p-3 rounded-lg tiptap !text-xs border border-primary-700/50 shadow-lg max-w-[80%]",
           message.sender === "user"
             ? "bg-primary-700 text-white"
-            : "bg-accent-800 text-primary-100"
+            : "bg-accent-800 text-primary-100",
+          isTyping && "animate-pulse-fast"
         )}
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{ __html: message.content }}
+        dangerouslySetInnerHTML={{ __html: displayedContent }}
       />
-      <div className="text-xs text-primary-400 mt-1 italic">
+      <p
+        title={formatDatetime(message.created_at)}
+        className="text-xs text-primary-400 mt-1 italic"
+      >
         {formatTime(message.created_at)}
-      </div>
+      </p>
     </div>
   );
 }
