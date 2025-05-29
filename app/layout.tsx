@@ -1,9 +1,5 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ParticlesWrapper from "@/wrapper/ParticlesWrapper";
-import ChatBotProvider from "@/context/ChatBotProvider";
-import ChatBubble from "@/components/ChatBubble";
+
 import { Analytics } from "@vercel/analytics/react";
 // import { unstable_ViewTransition as ViewTransition } from "react";
 
@@ -31,17 +27,7 @@ export default function RootLayout({
       <body
         className={`${font.className} selection:text-black selection:bg-slate-300 `}
       >
-        <ParticlesWrapper>
-          <Navbar />
-          <ChatBotProvider>
-            <main className="mt-24 lg:mx-28">
-              {children}
-
-              <ChatBubble />
-            </main>
-          </ChatBotProvider>
-          <Footer />
-        </ParticlesWrapper>
+        {children}
         <Analytics />
       </body>
     </html>

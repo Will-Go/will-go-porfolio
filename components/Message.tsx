@@ -24,7 +24,7 @@ function Message({ message }: MessageProps) {
       //NOTE: This is a workaround for the typing, that is skipping the first word.
       const words = ["", ...message.content.split(" ")];
       let currIndx = 0;
-      console.log("currIndx", currIndx);
+
       const intervalId = setInterval(() => {
         if (currIndx < words.length) {
           setDisplayedContent((prevContent) => {
@@ -55,19 +55,16 @@ function Message({ message }: MessageProps) {
         message.sender === "user" ? "items-end" : "items-start"
       )}
     >
-      <div className="rounded-full flex items-center justify-center text-xs w-8 h-8 mb-1 border border-primary-400/30 bg-accent-400/30 shadow-lg  overflow-clip">
-        {message.sender === "bot" ? (
-          <Image
-            src="/Wilson.png"
-            alt="A picture of Wilson"
-            width={50}
-            height={50}
-            className=" object-cover rounded-full mb-1 border border-primary-700/50 shadow-lg "
-          />
-        ) : (
-          <span className="m-2">you</span>
-        )}
-      </div>
+      {message.sender === "bot" && (
+        <Image
+          src="/Wilson.png"
+          alt="A picture of Wilson"
+          width={50}
+          height={50}
+          className=" object-cover w-8 h-8 rounded-full mb-1 border border-primary-700/50 shadow-lg "
+        />
+      )}
+
       <div
         className={cn(
           "inline-block p-3 rounded-lg tiptap !text-xs border border-primary-700/50 shadow-lg max-w-[80%]",

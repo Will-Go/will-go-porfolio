@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaComments, FaTimes, FaPaperPlane } from "react-icons/fa";
@@ -56,7 +57,7 @@ function ChatBubble() {
         setLoading(true);
         setError("");
         try {
-          const res = await axios.post("/api/chat", { text: cleanInput });
+          const res = await axios.post("/api/chat", { text: inputValue });
           if (res.data && res.data.res) {
             addMessage(res.data.res, "bot");
           } else {
@@ -128,7 +129,7 @@ function ChatBubble() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className={cn(
               "border border-primary-700/60 z-50 backdrop-blur-lg bg-gradient-to-br from-primary-900/50 via-primary-950/50 to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-accent-800/30",
-              isMobile ? "rounded-none" : "rounded-3xl",
+              isMobile ? "rounded-none flex flex-col" : "rounded-3xl",
               error && "border-error ring-error/20 ring-4"
             )}
             style={
@@ -142,13 +143,20 @@ function ChatBubble() {
                     margin: 0,
                     width: "100vw",
                     height: "100vh",
+                    maxHeight: "100vh",
                     zIndex: 100,
                   }
                 : {}
             }
           >
+            {" "}
             {/* Chat Header */}
-            <div className="flex justify-between items-center p-5 border-b border-primary-800/40 bg-gradient-to-br from-primary-900/80 via-primary-950/90  ">
+            <div
+              className={cn(
+                "flex justify-between items-center p-5 border-b border-primary-800/40 bg-gradient-to-br from-primary-900/80 via-primary-950/90",
+                isMobile ? "flex-shrink-0" : ""
+              )}
+            >
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
@@ -168,9 +176,13 @@ function ChatBubble() {
                 <FaTimes size={20} />
               </button>
             </div>
-
             {/* Messages Container */}
-            <div className="p-4 h-80 overflow-y-auto bg-primary-950/20">
+            <div
+              className={cn(
+                "p-4 overflow-y-auto bg-primary-950/20",
+                isMobile ? "flex-1 h-0" : "h-80"
+              )}
+            >
               {messages.length === 0 ? (
                 <div className="text-center text-primary-400 py-8 ">
                   <p className="text-xs">Send a message to start chatting!</p>
@@ -190,12 +202,16 @@ function ChatBubble() {
                 <div className="text-red-400 text-xs py-1">{error}</div>
               )}
               <div ref={messagesEndRef} />
-            </div>
-
+            </div>{" "}
             {/* Input Area */}
-            <div className="p-4 border-t border-primary-800/40 flex items-end bg-gradient-to-t from-primary-950/40 to-primary-900/10">
-              <div className="flex items-center w-full border border-primary-800 rounded-2xl bg-primary-900/80 transition-all duration-500 shadow-inner">
-                <div className="flex-grow">
+            <div
+              className={cn(
+                "p-4 border-t border-primary-800/40 flex flex-col gap-1 bg-gradient-to-t from-primary-950/40 to-primary-900/10",
+                isMobile ? "flex-shrink-0" : ""
+              )}
+            >
+              <div className="flex items-center w-full border border-primary-800 rounded-2xl bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
+                <div className="w-full">
                   {!!error ? (
                     <p className="text-xs italic text-neutral-500 p-4">
                       Chat is disabled due to an error
@@ -205,7 +221,7 @@ function ChatBubble() {
                       value={inputValue}
                       onChange={setInputValue}
                       onKeyDown={handleKeyDown}
-                      className="p-2 bg-transparent text-primary-100"
+                      className="p-2 bg-transparent text-primary-100 "
                       disabled={loading || !!error}
                     />
                   )}
@@ -218,6 +234,14 @@ function ChatBubble() {
                 >
                   <FaPaperPlane />
                 </button>
+              </div>
+              <div className="flex justify-end items-center">
+                <Link
+                  href={"/give-me-the-token"}
+                  className="text-xs text-primary-600 hover:text-accent-400 transition-colors hover:underline"
+                >
+                  if you have the secret code, click here
+                </Link>
               </div>
             </div>
           </motion.div>
