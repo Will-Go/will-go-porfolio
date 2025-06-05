@@ -67,7 +67,9 @@ export default function AuthTokenPage() {
     setCountdown(0);
     try {
       if (code.trim() === "WG{DONT-KNOW-THE-ANSWER-YET-PLZ-HELP}") {
-        setError("We have decided to pursue with other candidates 🙈");
+        setError(
+          "Unfortunately, We have decided to pursue with other candidates 🙈"
+        );
         return;
       }
       const response = await axios.post("/api/auth-token", {

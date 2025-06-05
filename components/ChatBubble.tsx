@@ -129,7 +129,7 @@ function ChatBubble() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className={cn(
               "border border-primary-700/60 z-50 backdrop-blur-lg bg-gradient-to-br from-primary-900/50 via-primary-950/50 to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-accent-800/30",
-              isMobile ? "rounded-none flex flex-col" : "rounded-3xl",
+              isMobile ? "rounded-none flex flex-col h-full" : "rounded-3xl",
               error && "border-error ring-error/20 ring-4"
             )}
             style={
@@ -175,12 +175,12 @@ function ChatBubble() {
               >
                 <FaTimes size={20} />
               </button>
-            </div>
+            </div>{" "}
             {/* Messages Container */}
             <div
               className={cn(
                 "p-4 overflow-y-auto bg-primary-950/20",
-                isMobile ? "flex-1 h-0" : "h-80"
+                isMobile ? "flex-1 min-h-0" : "h-80"
               )}
             >
               {messages.length === 0 ? (
@@ -207,7 +207,7 @@ function ChatBubble() {
             <div
               className={cn(
                 "p-4 border-t border-primary-800/40 flex flex-col gap-1 bg-gradient-to-t from-primary-950/40 to-primary-900/10",
-                isMobile ? "flex-shrink-0" : ""
+                isMobile ? "flex-shrink-0 sticky bottom-0" : ""
               )}
             >
               <div className="flex items-center w-full border border-primary-800 rounded-2xl bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
