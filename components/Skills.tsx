@@ -45,7 +45,7 @@ function Skills() {
       </Reveal>
 
       <Reveal
-        animationType="flipUp"
+        animationType="fadeIn"
         delay={0.3}
         duration={1}
         easing="easeOut"
