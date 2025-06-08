@@ -2,7 +2,12 @@
 import Link from "next/link";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaComments, FaTimes, FaPaperPlane } from "react-icons/fa";
+import {
+  FaComments,
+  FaTimes,
+  FaPaperPlane,
+  FaExclamationTriangle,
+} from "react-icons/fa";
 import { RiLoaderLine } from "react-icons/ri";
 
 import ChatInput from "./inputs/ChatInput";
@@ -23,7 +28,7 @@ const LOADING_MESSAGES = [
 ];
 
 function ChatBubble() {
-  const { messages, addMessage, isOpen, toggleChat } = useChatBot();
+  const { messages, addMessage, isOpen, toggleChat, isChatUp } = useChatBot();
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingMessageIndex, setLoadingMessageIndex] = useState(0);
@@ -126,11 +131,11 @@ function ChatBubble() {
                 ? { opacity: 0, y: "100vh" }
                 : { opacity: 0, y: 50, height: 0, width: 0 }
             }
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "anticipate" }}
             className={cn(
               "border border-primary-700/60 z-50 backdrop-blur-lg bg-gradient-to-br from-primary-900/50 via-primary-950/50 to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-accent-800/30",
               isMobile ? "rounded-none flex flex-col h-full" : "rounded-3xl",
-              error && "border-error ring-error/20 ring-4"
+              (error || !isChatUp) && "border-error ring-error/20 ring-4"
             )}
             style={
               isMobile
@@ -161,7 +166,7 @@ function ChatBubble() {
                 <span
                   className={cn(
                     "w-3 h-3 rounded-full bg-accent-500 animate-pulse",
-                    error && "bg-error animate-none"
+                    (error || !isChatUp) && "bg-error animate-pulse"
                   )}
                 ></span>
                 <h3 className="font-bold text-lg text-primary-100 tracking-wide drop-shadow-sm">
@@ -183,7 +188,13 @@ function ChatBubble() {
                 isMobile ? "flex-1 min-h-0" : "h-80"
               )}
             >
-              {messages.length === 0 ? (
+              {!isChatUp ? (
+                <div className="text-center  py-8 ">
+                  <p className="text-xs text-red-400">
+                    Chat is out of service!
+                  </p>
+                </div>
+              ) : messages.length === 0 ? (
                 <div className="text-center text-primary-400 py-8 ">
                   <p className="text-xs">Send a message to start chatting!</p>
                 </div>
@@ -212,8 +223,8 @@ function ChatBubble() {
             >
               <div className="flex items-center w-full border border-primary-800 rounded-2xl bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
                 <div className="w-full">
-                  {!!error ? (
-                    <p className="text-xs italic text-neutral-500 p-4">
+                  {!!error || !isChatUp ? (
+                    <p className="text-xs italic text-red-300 p-4">
                       Chat is disabled due to an error
                     </p>
                   ) : (
@@ -222,7 +233,7 @@ function ChatBubble() {
                       onChange={setInputValue}
                       onKeyDown={handleKeyDown}
                       className="p-2 bg-transparent text-primary-100 "
-                      disabled={loading || !!error}
+                      disabled={loading || !!error || !isChatUp}
                     />
                   )}
                 </div>
@@ -246,25 +257,38 @@ function ChatBubble() {
             </div>
           </motion.div>
         )}
-      </AnimatePresence>
-
+      </AnimatePresence>{" "}
       {/* Chat Bubble Button */}
       <div className="flex  items-center gap-1">
         <button
           onClick={toggleChat}
-          className="border-2 cursor-pointer border-primary-800 hover:scale-110 rounded-full p-4 bg-linear-to-tl from-primary-950 via-primary-950 bg-primary-800 transition-all duration-500 relative overflow-hidden"
+          className={cn(
+            "border-2 cursor-pointer hover:scale-110 rounded-full p-4 transition-all !z-30 duration-500 relative overflow-hidden",
+            isChatUp
+              ? "border-primary-800 bg-linear-to-tl from-primary-950 via-primary-950 bg-primary-800"
+              : "border-red-600 bg-gradient-to-tl from-red-900 via-red-950 to-red-800"
+          )}
           style={{ width: "64px", height: "64px" }} // Ensure consistent size for animation
         >
           <AnimatePresence initial={false} mode="wait">
             <motion.div
-              key={isOpen ? "times" : "comments"}
+              key={isChatUp ? (isOpen ? "times" : "comments") : "outOfService"}
               initial={{ opacity: 0, rotate: -90, scale: 0.5 }}
               animate={{ opacity: 1, rotate: 0, scale: 1 }}
               exit={{ opacity: 0, rotate: 90, scale: 0.5 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="absolute inset-0 flex items-center justify-center"
+              className={cn(
+                "absolute inset-0 flex items-center justify-center",
+                !isChatUp && "text-red-300"
+              )}
             >
-              {isOpen ? <FaTimes size={30} /> : <FaComments size={30} />}
+              {!isChatUp ? (
+                <FaExclamationTriangle size={30} />
+              ) : isOpen ? (
+                <FaTimes size={30} />
+              ) : (
+                <FaComments size={30} />
+              )}
             </motion.div>
           </AnimatePresence>
         </button>

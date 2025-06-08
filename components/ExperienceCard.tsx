@@ -5,9 +5,13 @@ import Link from "next/link";
 import { MotionProps } from "framer-motion";
 import TextDisplayer from "./TextDisplayer";
 
+//ICONS
+import { FaExternalLinkAlt, FaCalendarAlt, FaTools } from "react-icons/fa";
+
 import Experience from "@/interfaces/IExperience";
 export interface ExperienceCardProps extends Experience, MotionProps {
   index: number;
+  isLeft?: boolean;
 }
 
 export default function ExperienceCard({
@@ -18,61 +22,99 @@ export default function ExperienceCard({
   technologies,
   imageUrl,
   companyUrl,
+  isLeft = true,
   ...motionProps
 }: Readonly<ExperienceCardProps>) {
   return (
     <Card
-      initial={{ y: 10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, delay: 0.25 * index }}
-      className="flex group items-center gap-6  rounded-xl  cursor-default  p-3  transition-all duration-300"
+      className="group hover:border-accent-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 w-full"
       {...motionProps}
     >
-      <div className="flex flex-col gap-2 w-auto">
-        <div className="flex items-center gap-2">
-          <h2>{name}</h2> <span className="text-xs">{date}</span>
-        </div>
-        <div className=" text-justify">
-          <TextDisplayer text={description} />
-        </div>
-        <h3>Tecnologies:</h3>
-        <div className="flex flex-wrap gap-3 ">
-          {technologies.map((technology, i) => (
-            <div
-              key={i}
-              className="rounded-full border-2 border-primary-800 bg-primary-950  hover:-translate-y-1   p-2 text-xs transition-all duration-500"
-            >
-              {technology}
+      <div className="p-6 space-y-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div className="space-y-2 flex-1">
+            <h2 className="text-xl md:text-2xl font-bold text-primary-100 group-hover:text-accent-300 transition-colors duration-300">
+              {name}
+            </h2>
+            <div className="flex items-center gap-2 text-primary-400">
+              <FaCalendarAlt className="text-accent-500 text-sm" />
+              <span className="text-sm font-medium capitalize">{date}</span>
             </div>
-          ))}
+          </div>
+
+          {/* Company Image */}
+          <div className="flex-shrink-0">
+            {companyUrl ? (
+              <Link
+                href={companyUrl}
+                target="_blank"
+                className="relative group/company block"
+              >
+                <div className="relative overflow-hidden rounded-xl">
+                  <Image
+                    alt={`${name} company logo`}
+                    className="w-20 h-20 md:w-24 md:h-24 object-cover transition-all duration-300 group-hover/company:scale-110"
+                    src={imageUrl}
+                    width={96}
+                    height={96}
+                  />
+                  <div className="absolute inset-0 bg-accent-500/20 opacity-0 group-hover/company:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <FaExternalLinkAlt className="text-white text-sm" />
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div className="rounded-xl overflow-hidden">
+                <Image
+                  alt={`${name} company logo`}
+                  className="w-20 h-20 md:w-24 md:h-24 object-cover"
+                  src={imageUrl}
+                  width={96}
+                  height={96}
+                />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="flex items-center justify-center mt-5 w-fit">
-        {companyUrl ? (
-          <Link
-            href={companyUrl}
-            target="_blank"
-            className="relative group/company transition-all duration-300"
-          >
-            <span className="text-xs absolute inset-0 flex items-center justify-center group-hover/company:opacity-100 opacity-0 transition-all duration-300">
-              go to the website
-            </span>
-            <Image
-              alt="Project image"
-              className="group-hover/company:opacity-30 min-h-[120px] min-w-[120px] rounded-xl group-hover:rounded-xs transition-all duration-300"
-              src={imageUrl}
-              width={200}
-              height={200}
-            />
-          </Link>
-        ) : (
-          <Image
-            alt="Project image"
-            className="min-h-[120px] min-w-[120px] rounded-xl group-hover:rounded-xs transition-all duration-300"
-            src={imageUrl}
-            width={200}
-            height={200}
-          />
+
+        {/* Description */}
+        <div className="space-y-3">
+          <div className="text-primary-400 leading-relaxed">
+            <TextDisplayer text={description} />
+          </div>
+        </div>
+
+        {/* Technologies */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-2 text-primary-200">
+            <FaTools className="text-accent-500" />
+            <h3 className="font-semibold">Technologies Used</h3>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {technologies.map((technology, i) => (
+              <span
+                key={i}
+                className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-primary-900/80 to-primary-800/80 border border-primary-700/60 rounded-full text-primary-200 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 cursor-default"
+              >
+                {technology}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Company Link */}
+        {companyUrl && (
+          <div className="pt-4 border-t border-primary-800/30">
+            <Link
+              href={companyUrl}
+              target="_blank"
+              className="inline-flex items-center gap-2 text-sm text-accent-400 hover:text-accent-300 transition-colors duration-300 group/link"
+            >
+              <span>Visit Company Website</span>
+              <FaExternalLinkAlt className="text-xs group-hover/link:translate-x-1 transition-transform duration-300" />
+            </Link>
+          </div>
         )}
       </div>
     </Card>

@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-
+import axios from "axios";
 import { Message } from "@/interfaces/IMessage";
 
 interface ChatBotContextType {
@@ -9,6 +9,7 @@ interface ChatBotContextType {
   clearMessages: () => void;
   isOpen: boolean;
   toggleChat: () => void;
+  isChatUp?: boolean;
 }
 
 export const ChatBotContext = createContext<ChatBotContextType | null>(null);
@@ -27,6 +28,7 @@ function ChatBotProvider({
   children: React.ReactNode;
   className?: string;
 }) {
+  const [isChatUp, setIsChatUp] = useState(true);
   const [messages, setMessages] = useState<Message[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,7 +46,22 @@ function ChatBotProvider({
     setMessages([]);
   };
 
+  const checkChatStatus = async () => {
+    try {
+      const response = await axios.get("/api/chat/health");
+      setIsChatUp(response.data.res);
+    } catch (error) {
+      console.error("Error checking chat status:", error);
+      setIsChatUp(false);
+    }
+  };
+
   const toggleChat = () => {
+    //THIS WILL TRIGGER ONCE, IF THE CHAT IS FALSE THEN DO NOT ENTER IN THE CONDITION
+    if (!isOpen && isChatUp) {
+      checkChatStatus();
+    }
+
     setIsOpen((prev) => !prev);
   };
 
@@ -56,6 +73,7 @@ function ChatBotProvider({
         clearMessages,
         isOpen,
         toggleChat,
+        isChatUp,
       }}
     >
       {children}
