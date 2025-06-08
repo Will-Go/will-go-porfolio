@@ -51,7 +51,7 @@ export default function ExperienceCard({
                 target="_blank"
                 className="relative group/company block"
               >
-                <div className="relative overflow-hidden rounded-xl">
+                <div className="relative overflow-hidden rounded-xl border border-primary-600/30">
                   <Image
                     alt={`${name} company logo`}
                     className="w-20 h-20 md:w-24 md:h-24 object-cover transition-all duration-300 group-hover/company:scale-110"
@@ -59,7 +59,7 @@ export default function ExperienceCard({
                     width={96}
                     height={96}
                   />
-                  <div className="absolute inset-0 bg-accent-500/20 opacity-0 group-hover/company:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="absolute inset-0  group-hover/company:bg-accent-500/20 transition-all duration-300 flex items-center justify-center">
                     <FaExternalLinkAlt className="text-white text-sm" />
                   </div>
                 </div>

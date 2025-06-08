@@ -10,6 +10,8 @@ import {
   FaBookOpen,
 } from "react-icons/fa";
 
+const PERCENTAGE_COMPLETE = 90; // Example percentage of program completion
+
 function Education() {
   return (
     <div
@@ -123,13 +125,13 @@ function Education() {
                   Program Progress
                 </span>
                 <span className="text-sm text-accent-400 font-semibold">
-                  75% Complete
+                  {PERCENTAGE_COMPLETE}% Complete
                 </span>
               </div>
               <div className="w-full bg-primary-900/50 rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-accent-500 to-accent-600 h-2 rounded-full transition-all duration-500"
-                  style={{ width: "75%" }}
+                  style={{ width: `${PERCENTAGE_COMPLETE}%` }}
                 ></div>
               </div>
             </div>
