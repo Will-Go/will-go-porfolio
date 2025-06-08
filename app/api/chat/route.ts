@@ -2,10 +2,20 @@ import { NextResponse, type NextRequest } from "next/server";
 import axios from "axios";
 
 export async function POST(request: NextRequest) {
+  if (!process?.env?.NEXT_PUBLIC_API_URL) {
+    return NextResponse.json(
+      {
+        error: "API URL is not defined",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
   try {
     const { text } = await request.json();
     const { data } = await axios.post(
-      "https://hook.us2.make.com/q6s73of9vp3gprjv74w8b4shs7qewlj9",
+      process?.env?.NEXT_PUBLIC_API_URL,
       { text },
       {
         headers: {
