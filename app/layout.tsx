@@ -1,8 +1,7 @@
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import ParticlesWrapper from "@/wrapper/ParticlesWrapper";
+
 import { Analytics } from "@vercel/analytics/react";
+// import { unstable_ViewTransition as ViewTransition } from "react";
 
 export const metadata = {
   title: "Wilson's Portfolio",
@@ -23,15 +22,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
+    // <ViewTransition>
     <html lang="en">
-      <body className={font.className}>
-        <ParticlesWrapper>
-          <Navbar />
-          <main className="mt-24 lg:mx-28">{children}</main>
-          <Footer />
-        </ParticlesWrapper>
+      <body
+        className={`${font.className} selection:text-black selection:bg-slate-300 `}
+      >
+        {children}
         <Analytics />
       </body>
     </html>
+    // </ViewTransition>
   );
 }

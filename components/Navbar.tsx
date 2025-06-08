@@ -8,27 +8,36 @@ import Typed from "typed.js";
 import { cn } from "@/utils/cn";
 
 //ICONS
-import { FaBars } from "react-icons/fa";
+import {
+  FaBars,
+  FaCode,
+  FaHome,
+  FaUser,
+  FaBriefcase,
+  FaProjectDiagram,
+  FaEnvelope,
+} from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 
-function Navbar() {
+export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const titulo = useRef(null);
   const navRef = useRef(null);
   const links = [
-    { text: "Home", href: "/" },
-    { text: "About", href: "/#about" },
-    { text: "Experience", href: "/#experience" },
-    { text: "Projects", href: "/#projects" },
-    { text: "Contact", href: "/contact" },
+    { text: "Home", href: "/", icon: <FaHome /> },
+    { text: "About", href: "/#about", icon: <FaUser /> },
+    { text: "Experience", href: "/#experience", icon: <FaBriefcase /> },
+    { text: "Projects", href: "/#projects", icon: <FaProjectDiagram /> },
+    { text: "Contact", href: "/contact", icon: <FaEnvelope /> },
   ];
+
   useEffect(() => {
     const typed = new Typed(titulo.current, {
       strings: [
         "Wilson Gong Wu",
         "Software Engineer",
         "Web Developer",
-        "Cibersecurity Enthusiast",
+        "Cybersecurity Enthusiast",
         "AI Enthusiast",
       ],
       typeSpeed: 50,
@@ -62,96 +71,164 @@ function Navbar() {
   return (
     <motion.nav
       ref={navRef}
-      initial={{ opacity: 0, y: 15 }}
+      initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 2 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
       className={cn(
-        ` flex flex-col fixed left-6 right-6 lg:left-24 lg:right-24 py-4 px-6 lg:px-12 border border-primary-800/50  z-50 backdrop-blur-sm bg-accent-900/20 ease-in-out transition-all duration-300`,
+        "fixed left-4 right-4 lg:left-8 lg:right-8 xl:left-16 xl:right-16 z-50 transition-all duration-500 ease-in-out",
         isOpen
-          ? "top-0 m-0 rounded-none !border-none   left-0 right-0 bottom-0 "
-          : "top-1 rounded-2xl m-3 "
+          ? "top-0 bottom-0 left-0 right-0 bg-gradient-to-br from-primary-950/95 via-primary-900/95 to-accent-950/20 backdrop-blur-xl border-none rounded-none"
+          : "top-1 bg-gradient-to-r from-primary-950/80 via-primary-900/90 to-primary-950/80 backdrop-blur-xl border border-primary-800/40 rounded-xl shadow-lg shadow-accent-500/5"
       )}
     >
-      <div className="flex justify-between items-center">
-        <Link className=" min-w-6" onClick={() => setIsOpen(false)} href={"/"}>
-          <span ref={titulo} className="font-bold">
-            Wilson Gong Wu
-          </span>
+      <div className="flex justify-between items-center px-2 py-1.5 lg:px-3 lg:py-2">
+        {/* Brand Logo */}
+        <Link
+          className="group flex items-center gap-3 min-w-fit"
+          onClick={() => setIsOpen(false)}
+          href={"/"}
+        >
+          <div className="relative">
+            <div className="absolute -inset-2 bg-gradient-to-r from-accent-500/20 to-primary-500/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
+            <div className="relative p-2 bg-gradient-to-br from-accent-500/20 to-accent-600/20 rounded-full border border-accent-500/30">
+              <FaCode className="text-accent-400 text-lg" />
+            </div>
+          </div>
+          <div className="hidden sm:block">
+            <span
+              ref={titulo}
+              className="text-lg lg:text-xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent"
+            >
+              Wilson Gong Wu
+            </span>
+          </div>
         </Link>
 
+        {/* Mobile Menu Button */}
         <button
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-          className=" text-white flex items-center p-4 md:hidden relative"
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden relative p-3 rounded-xl bg-primary-900/50 border border-primary-800/60 text-primary-200 hover:border-accent-500/60 hover:text-accent-300 hover:bg-accent-500/10 transition-all duration-300 group"
+          aria-label="Toggle menu"
         >
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className=" absolute"
-              >
-                {" "}
-                <RxCross2 />
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <AnimatePresence>
-            {!isOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                className=" absolute"
-              >
-                {" "}
-                <FaBars />
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="relative w-5 h-5 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ opacity: 0, rotate: -90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 90 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute"
+                >
+                  <RxCross2 className="text-lg" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ opacity: 0, rotate: 90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: -90 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute"
+                >
+                  <FaBars className="text-lg" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </button>
 
-        <div className="items-center gap-5 hidden md:flex text-sm ">
-          {links.map(({ text, href }, i) => (
-            <Link
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-1 lg:gap-2">
+          {links.map(({ text, href, icon }, i) => (
+            <motion.div
               key={i}
-              href={href}
-              onClick={() => setIsOpen(false)}
-              className="hover:-translate-y-0.5 transition-all duration-200"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
             >
-              {text}
-            </Link>
+              <Link
+                href={href}
+                onClick={() => setIsOpen(false)}
+                className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-primary-300 hover:text-accent-300 transition-all duration-300 hover:bg-accent-500/10 hover:shadow-lg hover:shadow-accent-500/20"
+              >
+                <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                  {icon}
+                </span>
+                <span className="relative">
+                  {text}
+                  <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 group-hover:w-full transition-all duration-300"></div>
+                </span>
+              </Link>
+            </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Mobile Navigation Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0, y: -10 }}
-            animate={{ opacity: 1, height: "100vh", y: 0 }}
-            exit={{ opacity: 0, height: 0, y: -10 }}
-            transition={{ duration: 0.25 }}
-            className="flex flex-col gap-2 items-center mt-12 md:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden flex flex-col items-center justify-center min-h-screen px-8"
           >
-            {links.map(({ text, href }, i) => (
-              <Link
-                key={i}
-                href={href}
-                onClick={() => setIsOpen(false)}
-                className="hover:-translate-y-0.5 transition-all duration-200 text-2xl"
+            <div className="space-y-6 text-center">
+              {/* Mobile Brand */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="mb-12"
               >
-                {text}
-              </Link>
-            ))}
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent mb-2">
+                  Wilson Gong Wu
+                </h2>
+                <p className="text-primary-400 text-sm">Software Engineer</p>
+              </motion.div>
+
+              {/* Mobile Navigation Links */}
+              <div className="space-y-4">
+                {links.map(({ text, href, icon }, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 + i * 0.1 }}
+                  >
+                    <Link
+                      href={href}
+                      onClick={() => setIsOpen(false)}
+                      className="group flex items-center justify-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary-900/50 to-primary-800/50 border border-primary-800/40 text-primary-200 hover:border-accent-500/60 hover:text-accent-300 hover:bg-gradient-to-r hover:from-accent-500/10 hover:to-accent-600/10 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/20"
+                    >
+                      <span className="text-accent-400 text-xl">{icon}</span>
+                      <span className="text-xl font-medium">{text}</span>
+                    </Link>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Mobile Footer */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.8 }}
+                className="mt-16 text-center"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/20 rounded-full border border-accent-500/30">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-primary-300 text-xs">
+                    Ready to connect
+                  </span>
+                </div>
+              </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
     </motion.nav>
   );
 }
-
-export default Navbar;

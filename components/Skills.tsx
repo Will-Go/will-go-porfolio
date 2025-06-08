@@ -2,42 +2,104 @@
 import { useRef, useEffect } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import BackgroundBlur from "@/components/BackgroundBlur";
+import Reveal from "@/components/Reveal";
 import techSkills from "@/content/techSkills";
+
+//ICONS
+import { FaCode, FaStar } from "react-icons/fa";
 
 function Skills() {
   const controls = useAnimation();
-  const refSkills = useRef<HTMLOListElement | null>(null);
+  const refSkills = useRef<HTMLHeadingElement | null>(null);
   const isInViewSkills = useInView(refSkills, { once: true });
 
   useEffect(() => {
     if (isInViewSkills) {
       controls.start({ y: 0, opacity: 1 });
     }
-  }, [isInViewSkills]);
+  }, [isInViewSkills, controls]);
 
   return (
     <div
       id="skills"
-      className="relative flex flex-col items-center justify-center my-8 gap-6 "
+      className="relative flex flex-col items-center justify-center my-16 gap-8 px-4"
     >
-      <BackgroundBlur className="h-96 w-96" />
-      <h1 className="text-center">Skills</h1>
-      <ol
-        ref={refSkills}
-        className="grid grid-cols-2 md:flex md:flex-wrap gap-4 justify-evenly  text-center  "
+      <BackgroundBlur className="h-96 w-96 opacity-30" />
+
+      <Reveal animationType="slideDown" duration={1} easing="backOut">
+        <div className="text-center space-y-4 max-w-4xl">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <FaCode className="text-3xl text-accent-500" />
+            <h1
+              className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent"
+              ref={refSkills}
+            >
+              Technical Skills
+            </h1>
+          </div>
+          <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
+            A comprehensive toolkit of technologies and frameworks I use to
+            build modern, scalable applications
+          </p>
+        </div>
+      </Reveal>
+
+      <Reveal
+        animationType="flipUp"
+        delay={0.3}
+        duration={1}
+        easing="easeOut"
+        className="!z-50 "
       >
-        {techSkills.map((techSkill, i) => (
-          <li
-            key={i}
-            className="fade-in-up flex justify-center items-center  border-2 border-primary-800 rounded-xl cursor-default p-3  bg-linear-to-tl hover:bg-accent-400/30 from-primary-950 via-primary-950 bg-primary-800 transition-all duration-500"
-            style={{
-              animationDelay: `${i * 0.25}s`,
-            }}
-          >
-            {techSkill}
-          </li>
-        ))}
-      </ol>
+        <div className="w-full max-w-6xl ">
+          {isInViewSkills && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 justify-items-center">
+              {techSkills.map((techSkill, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: i * 0.1,
+                    ease: "easeOut",
+                  }}
+                  whileHover={{
+                    scale: 1.05,
+                    y: -5,
+                    transition: { duration: 0.2 },
+                  }}
+                  className="group w-full max-w-[140px]"
+                >
+                  <div className="relative flex flex-col rounded-2xl items-center justify-center text-center border-2 border-primary-800/60 cursor-default p-4 bg-gradient-to-br from-primary-950/80 via-primary-900/60 to-primary-950/80 hover:border-accent-500/60 hover:bg-gradient-to-br hover:from-accent-900/20 hover:via-primary-900/60 hover:to-accent-950/20 transition-all duration-300 backdrop-blur-sm  group-hover:shadow-lg group-hover:shadow-accent-500/20">
+                    {/* Skill Name */}
+                    <span className="text-xs font-medium text-primary-200 group-hover:text-accent-300 transition-colors duration-300 text-center leading-tight">
+                      {techSkill}
+                    </span>
+
+                    {/* Floating Stars Effect on Hover */}
+                    <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:scale-110">
+                      <FaStar className="text-accent-400 text-xs animate-pulse" />
+                    </div>
+
+                    {/* Bottom Accent Line */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 group-hover:w-3/4 transition-all duration-300"></div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+      </Reveal>
+
+      {/* Skills Count */}
+      <Reveal animationType="scale" delay={0.6} duration={0.8} easing="backOut">
+        <div className="flex items-center gap-2 text-primary-400 text-sm">
+          <span className="px-3 py-1 bg-accent-500/20 rounded-full border border-accent-500/30">
+            {techSkills.length} + Technologies
+          </span>
+        </div>
+      </Reveal>
     </div>
   );
 }
