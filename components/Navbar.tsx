@@ -1,8 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 //UTILS
 import { cn } from "@/utils/cn";
@@ -23,23 +25,27 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const titulo = useRef(null);
   const navRef = useRef(null);
+  const t = useTranslations("navigation");
+
   const links = [
-    { text: "Home", href: "/", icon: <FaHome /> },
-    { text: "About", href: "/#about", icon: <FaUser /> },
-    { text: "Experience", href: "/#experience", icon: <FaBriefcase /> },
-    { text: "Projects", href: "/#projects", icon: <FaProjectDiagram /> },
-    { text: "Contact", href: "/contact", icon: <FaEnvelope /> },
+    { text: t("home"), href: "/", icon: <FaHome /> },
+    { text: t("about"), href: "/#about", icon: <FaUser /> },
+    { text: t("experience"), href: "/#experience", icon: <FaBriefcase /> },
+    { text: t("projects"), href: "/#projects", icon: <FaProjectDiagram /> },
+    { text: t("contact"), href: "/contact", icon: <FaEnvelope /> },
   ];
 
   useEffect(() => {
+    const titles = [
+      t("titles.0"),
+      t("titles.1"),
+      t("titles.2"),
+      t("titles.3"),
+      t("titles.4"),
+    ];
+
     const typed = new Typed(titulo.current, {
-      strings: [
-        "Wilson Gong Wu",
-        "Software Engineer",
-        "Web Developer",
-        "Cybersecurity Enthusiast",
-        "AI Enthusiast",
-      ],
+      strings: titles,
       typeSpeed: 50,
       backSpeed: 50,
       backDelay: 1000,
@@ -47,22 +53,16 @@ export default function Navbar() {
     });
 
     return () => {
-      // Destroy Typed instance during cleanup to stop animation
       typed.destroy();
     };
-  }, []);
+  }, [t]);
 
-  // Prevent scrolling when menu is open
   useEffect(() => {
     if (isOpen) {
-      // Disable scrolling
       document.body.style.overflow = "hidden";
     } else {
-      // Re-enable scrolling
       document.body.style.overflow = "unset";
     }
-
-    // Cleanup function to ensure scrolling is restored
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -99,10 +99,39 @@ export default function Navbar() {
               ref={titulo}
               className="text-lg lg:text-xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent"
             >
-              Wilson Gong Wu
+              {t("brand.name")}
             </span>
           </div>
         </Link>
+
+        {/* Desktop Navigation and Language Switcher */}
+        <div className="hidden md:flex items-center gap-4">
+          <div className="flex items-center gap-1 lg:gap-2">
+            {links.map(({ text, href, icon }, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
+              >
+                <Link
+                  href={href}
+                  onClick={() => setIsOpen(false)}
+                  className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-primary-300 hover:text-accent-300 transition-all duration-300 hover:bg-accent-500/10 hover:shadow-lg hover:shadow-accent-500/20"
+                >
+                  <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity duration-300">
+                    {icon}
+                  </span>
+                  <span className="relative">
+                    {text}
+                    <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 group-hover:w-full transition-all duration-300"></div>
+                  </span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+          <LanguageSwitcher />
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -138,32 +167,6 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
         </button>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-1 lg:gap-2">
-          {links.map(({ text, href, icon }, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-            >
-              <Link
-                href={href}
-                onClick={() => setIsOpen(false)}
-                className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-primary-300 hover:text-accent-300 transition-all duration-300 hover:bg-accent-500/10 hover:shadow-lg hover:shadow-accent-500/20"
-              >
-                <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-                  {icon}
-                </span>
-                <span className="relative">
-                  {text}
-                  <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 group-hover:w-full transition-all duration-300"></div>
-                </span>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
       </div>
 
       {/* Mobile Navigation Menu */}
@@ -185,9 +188,9 @@ export default function Navbar() {
                 className="mb-12"
               >
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent mb-2">
-                  Wilson Gong Wu
+                  {t("brand.name")}
                 </h2>
-                <p className="text-primary-400 text-sm">Software Engineer</p>
+                <p className="text-primary-400 text-sm">{t("brand.title")}</p>
               </motion.div>
 
               {/* Mobile Navigation Links */}
@@ -211,6 +214,16 @@ export default function Navbar() {
                 ))}
               </div>
 
+              {/* Mobile Language Switcher */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="pt-4"
+              >
+                <LanguageSwitcher />
+              </motion.div>
+
               {/* Mobile Footer */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -221,7 +234,7 @@ export default function Navbar() {
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/20 rounded-full border border-accent-500/30">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span className="text-primary-300 text-xs">
-                    Ready to connect
+                    {t("brand.subtitle")}
                   </span>
                 </div>
               </motion.div>

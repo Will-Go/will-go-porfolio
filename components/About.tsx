@@ -1,5 +1,6 @@
 import Reveal from "@/components/Reveal";
 import Card from "@/components/Card";
+import { useTranslations } from "next-intl";
 
 //ICONS
 import {
@@ -12,26 +13,28 @@ import {
 } from "react-icons/fa";
 
 function About() {
+  const t = useTranslations("about");
+
   const highlights = [
     {
       icon: <FaCode className="text-accent-500" />,
-      title: "2+ Years Experience",
-      description: "Frontend Development",
+      title: t("highlights.experience.title"),
+      description: t("highlights.experience.description"),
     },
     {
       icon: <FaGraduationCap className="text-blue-400" />,
-      title: "Software Engineering",
-      description: "Student at ULACIT",
+      title: t("highlights.education.title"),
+      description: t("highlights.education.description"),
     },
     {
       icon: <FaRocket className="text-green-400" />,
-      title: "Full-Stack Ready",
-      description: "React & Next.js Expert",
+      title: t("highlights.skills.title"),
+      description: t("highlights.skills.description"),
     },
     {
       icon: <FaLightbulb className="text-yellow-400" />,
-      title: "Problem Solver",
-      description: "Innovative Solutions",
+      title: t("highlights.mindset.title"),
+      description: t("highlights.mindset.description"),
     },
   ];
 
@@ -39,14 +42,15 @@ function About() {
     <div className="flex flex-col items-center justify-center my-16 gap-8 px-4">
       <Reveal animationType="slideDown" duration={1} easing="backOut">
         <div className="text-center space-y-4 max-w-4xl">
+          {" "}
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaUser className="text-3xl text-accent-500" />
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
-              About Me
+              {t("title")}
             </h1>
           </div>
           <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
-            Passionate about creating digital experiences that make a difference
+            {t("subtitle")}
           </p>
         </div>
       </Reveal>
@@ -56,38 +60,27 @@ function About() {
           <div className="p-8 space-y-6">
             {/* Main Description */}
             <div className="space-y-4">
+              {" "}
               <div className="flex items-center gap-2 text-primary-200 mb-4">
                 <FaHeart className="text-accent-500" />
-                <span className="font-semibold text-lg">My Story</span>
+                <span className="font-semibold text-lg">{t("myStory")}</span>
               </div>
               <p className="text-primary-400 leading-relaxed text-justify">
-                I&apos;m a highly motivated Software Engineering student with a
-                passion for creating innovative digital solutions. With strong
-                analytical and problem-solving abilities, I thrive on
-                transforming complex challenges into elegant, user-friendly
-                applications.
-              </p>
+                {t("description1")}
+              </p>{" "}
               <p className="text-primary-400 leading-relaxed text-justify">
-                Currently working as a Junior Frontend Developer, I&apos;ve
-                spent the last 2 years building scalable web applications,
-                crafting reusable components, and creating intuitive user
-                interfaces. My expertise spans across React and Next.js
-                ecosystems, with deep knowledge in state management, API
-                integrations, and performance optimization.
-              </p>
+                {t("description2")}
+              </p>{" "}
               <p className="text-primary-400 leading-relaxed text-justify">
-                What drives me is the opportunity to collaborate with
-                cross-functional teams, adapt to emerging technologies, and
-                deliver high-quality solutions that exceed expectations.
-                I&apos;m committed to staying current with industry trends and
-                continuously expanding my technical expertise.
+                {t("description3")}
               </p>
             </div>
 
             {/* Highlights Grid */}
             <div className="pt-6 border-t border-primary-800/30">
+              {" "}
               <h3 className="text-primary-200 font-semibold mb-4 text-center">
-                Key Highlights
+                {t("keyHighlights")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {highlights.map((item, index) => (

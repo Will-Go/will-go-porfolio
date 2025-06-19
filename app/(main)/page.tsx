@@ -9,7 +9,11 @@ import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Link from "next/link";
 import { unstable_ViewTransition as ViewTransition } from "react";
+import { useTranslations } from "next-intl";
+
 export default function Home() {
+  const t = useTranslations();
+
   return (
     <main className="relative min-h-screen p-6 md:p-24 selection:text-black selection:bg-slate-300 overflow-x-hidden animate-fade-in">
       {/* <Presentation /> */}{" "}
@@ -19,10 +23,10 @@ export default function Home() {
           <Reveal animationType="slideDown" duration={1.2} easing="backOut">
             <div className="space-y-2">
               <p className="text-accent-400 text-sm md:text-base font-medium tracking-wider uppercase">
-                Welcome to my portfolio
+                {t("home.welcome")}
               </p>
               <h1 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent leading-tight">
-                Hi, I&apos;m Wilson
+                {t("home.name")}
               </h1>
             </div>
           </Reveal>
@@ -34,7 +38,7 @@ export default function Home() {
             easing="easeOut"
           >
             <h2 className="text-xl sm:text-2xl lg:text-3xl text-primary-300 font-semibold">
-              Full-Stack Software Engineer
+              {t("home.title")}
             </h2>
           </Reveal>
 
@@ -45,10 +49,7 @@ export default function Home() {
             easing="easeOut"
           >
             <p className="text-base sm:text-lg text-primary-400 leading-relaxed max-w-xl">
-              Based in <strong className="text-accent-400">Costa Rica</strong>,
-              I craft exceptional digital experiences through modern web
-              applications. Passionate about clean code, innovative solutions,
-              and turning ideas into reality.
+              {t("home.description", { location: t("home.location") })}
             </p>
           </Reveal>
 
@@ -63,13 +64,13 @@ export default function Home() {
                 href="#projects"
                 className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-xl hover:from-accent-600 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-primary-950 transition-all duration-200 transform hover:scale-105"
               >
-                View My Work
+                {t("home.viewWork")}
               </Link>
               <Link
                 href="#about"
                 className="inline-flex items-center justify-center px-6 py-3 border-2 border-primary-700 text-primary-200 font-semibold rounded-xl hover:border-accent-500 hover:text-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-primary-950 transition-all duration-200"
               >
-                Learn More
+                {t("home.learnMore")}
               </Link>
             </div>
           </Reveal>

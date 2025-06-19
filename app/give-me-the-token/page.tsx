@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import axios from "axios";
 import CopyText from "@/components/CopyText";
+import { useTranslations } from "next-intl";
 import { FaLock, FaEye, FaEyeSlash, FaArrowLeft } from "react-icons/fa";
 
 export default function AuthTokenPage() {
@@ -14,6 +15,7 @@ export default function AuthTokenPage() {
   const [lastSubmitTime, setLastSubmitTime] = useState(0);
   const [countdown, setCountdown] = useState(0);
   const router = useRouter();
+  const t = useTranslations("auth");
   const RATE_LIMIT_SECONDS = 3; // 3 seconds between submissions
 
   // Countdown timer effect
@@ -42,7 +44,7 @@ export default function AuthTokenPage() {
     e.preventDefault();
 
     if (!code.trim()) {
-      setError("Please enter a code");
+      setError(t("enterCode"));
       return;
     }
 
@@ -54,9 +56,10 @@ export default function AuthTokenPage() {
       const remainingTime = Math.ceil(RATE_LIMIT_SECONDS - timeSinceLastSubmit);
       setCountdown(remainingTime);
       setError(
-        `Please wait ${remainingTime} second${
-          remainingTime > 1 ? "s" : ""
-        } before trying again`
+        t("waitMessage", {
+          count: remainingTime,
+          plural: remainingTime > 1 ? "s" : "",
+        })
       );
       return;
     }
@@ -67,9 +70,7 @@ export default function AuthTokenPage() {
     setCountdown(0);
     try {
       if (code.trim() === "WG{DONT-KNOW-THE-ANSWER-YET-PLZ-HELP}") {
-        setError(
-          "Unfortunately, We have decided to pursue with other candidates 🙈"
-        );
+        setError(t("rejectionMessage"));
         return;
       }
       const response = await axios.post("/api/auth-token", {
@@ -82,18 +83,19 @@ export default function AuthTokenPage() {
         // Redirect to protected page
         router.push("/do-not-get-in-here");
       } else {
-        setError(response.data.message || "Invalid code");
+        setError(response.data.message || t("invalidCode"));
       }
     } catch (err) {
       if (axios.isAxiosError(err) && err.response) {
-        setError(err.response.data.message || "Invalid code");
+        setError(err.response.data.message || t("invalidCode"));
       } else {
-        setError("An error occurred. Please try again.");
+        setError(t("error"));
       }
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-950 via-primary-900 to-accent-900/40 flex items-center justify-center p-4 sm:p-6">
       {/* Back Button */}
@@ -105,7 +107,7 @@ export default function AuthTokenPage() {
         className="fixed top-4 left-4 sm:top-6 sm:left-6 z-10 flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 bg-primary-900/80 hover:bg-primary-800/80 border border-primary-700/60 rounded-xl text-primary-200 hover:text-accent-400 transition-all duration-200 backdrop-blur-sm"
       >
         <FaArrowLeft className="text-xs sm:text-sm" />
-        <span className="text-xs sm:text-sm font-medium">Back</span>
+        <span className="text-xs sm:text-sm font-medium">{t("back")}</span>
       </motion.button>{" "}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -125,10 +127,10 @@ export default function AuthTokenPage() {
               <FaLock className="text-accent-400 text-xl sm:text-2xl" />
             </motion.div>
             <h1 className="text-xl sm:text-2xl font-bold text-primary-100 mb-2">
-              Access Required
+              {t("title")}
             </h1>
             <p className="text-primary-400 text-xs sm:text-sm">
-              Enter the access code to continue
+              {t("description")}
             </p>
           </div>{" "}
           {/* Error Message */}
@@ -148,7 +150,7 @@ export default function AuthTokenPage() {
                 htmlFor="code"
                 className="block text-xs sm:text-sm font-medium text-primary-200 mb-2"
               >
-                Access Code
+                {t("accessCode")}
               </label>
               <div className="relative">
                 <input
@@ -157,7 +159,7 @@ export default function AuthTokenPage() {
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
                   className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-primary-900/50 border border-primary-800 rounded-lg sm:rounded-xl text-primary-100 placeholder-primary-500 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
-                  placeholder="Enter your access code"
+                  placeholder={t("placeholder")}
                   disabled={loading}
                 />
                 <button
@@ -181,23 +183,24 @@ export default function AuthTokenPage() {
               {loading ? (
                 <div className="flex items-center justify-center">
                   <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                  <span className="text-sm sm:text-base">Verifying...</span>
+                  <span className="text-sm sm:text-base">{t("verifying")}</span>
                 </div>
               ) : countdown > 0 ? (
                 <span className="text-sm sm:text-base">
-                  Wait {countdown} second{countdown > 1 ? "s" : ""}...
+                  {t("wait", {
+                    count: countdown,
+                    plural: countdown > 1 ? "s" : "",
+                  })}
                 </span>
               ) : (
-                <span className="text-sm sm:text-base">
-                  Access Protected Area
-                </span>
+                <span className="text-sm sm:text-base">{t("submit")}</span>
               )}
             </motion.button>
           </form>
           {/* Footer */}
           <div className="mt-6 sm:mt-8 text-center">
             <div className="text-primary-500 text-xs">
-              try this
+              {t("tryThis")}
               <span className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-1">
                 <span className="text-nowrap">
                   &quot;WG&#123;DONT-KNOW-THE-ANSWER-YET-PLZ-HELP&#125;&quot;

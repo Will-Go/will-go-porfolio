@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { MotionProps } from "framer-motion";
 import TextDisplayer from "./TextDisplayer";
+import { useTranslations } from "next-intl";
 
 //ICONS
 import { FaExternalLinkAlt, FaCalendarAlt, FaTools } from "react-icons/fa";
@@ -25,6 +26,8 @@ export default function ExperienceCard({
   isLeft = true,
   ...motionProps
 }: Readonly<ExperienceCardProps>) {
+  const t = useTranslations("common");
+
   return (
     <Card
       className="group hover:border-accent-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 w-full"
@@ -89,7 +92,7 @@ export default function ExperienceCard({
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-primary-200">
             <FaTools className="text-accent-500" />
-            <h3 className="font-semibold">Technologies Used</h3>
+            <h3 className="font-semibold">{t("technologiesUsed")}</h3>
           </div>
           <div className="flex flex-wrap gap-2">
             {technologies.map((technology, i) => (
@@ -111,7 +114,7 @@ export default function ExperienceCard({
               target="_blank"
               className="inline-flex items-center gap-2 text-sm text-accent-400 hover:text-accent-300 transition-colors duration-300 group/link"
             >
-              <span>Visit Company Website</span>
+              <span>{t("visitCompany")} Website</span>
               <FaExternalLinkAlt className="text-xs group-hover/link:translate-x-1 transition-transform duration-300" />
             </Link>
           </div>

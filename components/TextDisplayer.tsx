@@ -2,6 +2,7 @@
 //NOTE: This component is used to display text with a "see more" button if the text is too long
 //NOTE: The text will be displayed with a maximum of 3 lines, if the text is longer than that, a "see more" button will be displayed
 import React, { useRef, useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 //UTILS
 import { cn } from "../utils/cn";
@@ -17,6 +18,7 @@ export default function TextDisplayer({
   className,
   numClamp = 3,
 }: TextDisplayerProps) {
+  const t = useTranslations();
   const typographyRef = useRef<HTMLParagraphElement | null>(null);
 
   const [seeMore, setSeeMore] = useState(false);
@@ -57,7 +59,7 @@ export default function TextDisplayer({
             font: "inherit",
           }}
         >
-          {seeMore ? "see less..." : "see more..."}
+          {seeMore ? t("common.seeLess") : t("common.seeMore")}
         </button>
       )}
     </>

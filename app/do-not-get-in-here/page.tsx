@@ -2,11 +2,13 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { FaSignOutAlt, FaCrown, FaLinkedin } from "react-icons/fa";
 import axios from "axios";
 
 export default function ProtectedPage() {
   const router = useRouter();
+  const t = useTranslations("protected");
 
   const handleLogout = async () => {
     await axios.post("/api/logout");
@@ -14,6 +16,7 @@ export default function ProtectedPage() {
     // Redirect to the auth page
     router.replace("/give-me-the-token");
   };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-950 via-primary-900 to-accent-900/40 flex items-center justify-center p-4 sm:p-6">
       <motion.div
@@ -34,12 +37,13 @@ export default function ProtectedPage() {
               <FaCrown className="text-accent-400 text-2xl sm:text-3xl" />
             </motion.div>
             <h1 className="text-2xl sm:text-3xl font-bold text-primary-100 mb-2">
-              🎉 Congratulations!
+              {t("congratulations")}
             </h1>
             <p className="text-primary-400 text-sm sm:text-base">
-              Welcome! You&#39;ve successfully made it to the secret area.
+              {t("welcome")}
             </p>
           </div>
+
           {/* Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -50,25 +54,20 @@ export default function ProtectedPage() {
             {/* Welcome Message */}
             <div className="bg-primary-900/40 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-primary-800/40 text-center">
               <h2 className="text-lg sm:text-xl font-semibold text-primary-100 mb-3">
-                Thank you for exploring my portfolio!
+                {t("thankYou")}
               </h2>
               <p className="text-primary-300 leading-relaxed text-sm sm:text-base">
-                I appreciate you taking the time to discover this hidden
-                section. Your curiosity and attention to detail are exactly the
-                kind of qualities I value in collaboration and problem-solving.
+                {t("appreciation")}
               </p>
             </div>
 
             {/* Connect Section */}
             <div className="bg-accent-900/20 rounded-xl p-4 sm:p-6 border border-accent-800/30 text-center">
-              {" "}
               <h3 className="text-lg sm:text-xl font-medium text-accent-200 mb-4">
-                Let&#39;s Connect!
+                {t("letsConnect")}
               </h3>
               <p className="text-primary-400 text-sm sm:text-base mb-6">
-                I&#39;d love to connect with you and discuss potential
-                opportunities, collaborations, or just chat about technology and
-                development.
+                {t("connectDescription")}
               </p>
               <motion.a
                 href="https://www.linkedin.com/in/wilsongw60/"
@@ -79,10 +78,11 @@ export default function ProtectedPage() {
                 className="inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-blue-500/80 to-blue-600/80 text-white font-semibold rounded-xl hover:from-blue-600/80 hover:to-blue-700/80 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-primary-900 transition-all duration-200"
               >
                 <FaLinkedin className="text-xl" />
-                Connect on LinkedIn
+                {t("connectLinkedIn")}
               </motion.a>
             </div>
-          </motion.div>{" "}
+          </motion.div>
+
           {/* Actions */}
           <div className="flex justify-end mt-6 sm:mt-8">
             <motion.button
@@ -92,7 +92,7 @@ export default function ProtectedPage() {
               className="flex items-center gap-2 px-4 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white font-semibold rounded-lg sm:rounded-xl hover:from-red-600/80 hover:to-red-700/80 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-primary-900 transition-all duration-200 text-sm sm:text-base"
             >
               <FaSignOutAlt className="text-sm sm:text-base" />
-              Logout & Exit
+              {t("logoutExit")}
             </motion.button>
           </div>
         </div>

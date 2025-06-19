@@ -1,0 +1,223 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "experience": "Experience",
+    "projects": "Projects",
+    "contact": "Contact",
+    "brand": {
+      "name": "Wilson Gong Wu",
+      "title": "Software Engineer",
+      "subtitle": "Ready to connect"
+    },
+    "titles": [
+      "Wilson Gong Wu",
+      "Software Engineer",
+      "Web Developer",
+      "Cybersecurity Enthusiast",
+      "AI Enthusiast"
+    ]
+  },
+  "home": {
+    "welcome": "Welcome to my portfolio",
+    "name": "Hi, I'm Wilson",
+    "title": "Full-Stack Software Engineer",
+    "description": "Based in {location}, I craft exceptional digital experiences through modern web applications. Passionate about clean code, innovative solutions, and turning ideas into reality.",
+    "location": "Costa Rica",
+    "viewWork": "View My Work",
+    "learnMore": "Learn More"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Passionate about creating digital experiences that make a difference",
+    "myStory": "My Story",
+    "description1": "I'm a highly motivated Software Engineering student with a passion for creating innovative digital solutions. With strong analytical and problem-solving abilities, I thrive on transforming complex challenges into elegant, user-friendly applications.",
+    "description2": "Currently working as a Junior Frontend Developer, I've spent the last 2 years building scalable web applications, crafting reusable components, and creating intuitive user interfaces. My expertise spans across React and Next.js ecosystems, with deep knowledge in state management, API integrations, and performance optimization.",
+    "description3": "What drives me is the opportunity to collaborate with cross-functional teams, adapt to emerging technologies, and deliver high-quality solutions that exceed expectations. I'm committed to staying current with industry trends and continuously expanding my technical expertise.",
+    "keyHighlights": "Key Highlights",
+    "highlights": {
+      "experience": {
+        "title": "2+ Years Experience",
+        "description": "Frontend Development"
+      },
+      "education": {
+        "title": "Software Engineering",
+        "description": "Student at ULACIT"
+      },
+      "skills": {
+        "title": "Full-Stack Ready",
+        "description": "React & Next.js Expert"
+      },
+      "mindset": {
+        "title": "Problem Solver",
+        "description": "Innovative Solutions"
+      }
+    }
+  },
+  "skills": {
+    "title": "Technical Skills",
+    "subtitle": "A comprehensive toolkit of technologies and frameworks I use to build modern, scalable applications",
+    "technologies": "{count} + Technologies"
+  },
+  "education": {
+    "title": "Education",
+    "subtitle": "Currently pursuing my passion for technology through formal education in Software Engineering",
+    "university": "Universidad Latinoamericana de Ciencia y Tecnología",
+    "degree": "Bachelor's Degree in Software Engineering",
+    "period": "2021 - Present ({percentage}% Complete)",
+    "location": "San José, Barrio Tournon, Costa Rica",
+    "description": "Comprehensive program focusing on modern software development methodologies, algorithms, data structures, and full-stack web development.",
+    "achievements": {
+      "title": "Key Achievements",
+      "items": {
+        "gpa": "Maintaining strong academic performance",
+        "projects": "Completed 15+ practical projects"
+      }
+    },
+    "progress": {
+      "title": "Program Progress",
+      "description": "Currently in final year with focus on advanced topics"
+    }
+  },
+  "experience": {
+    "title": "Professional Experience",
+    "subtitle": "My journey in software development and the companies that have shaped my career",
+    "experiences": {
+      "newstreet": {
+        "name": "New Street Development",
+        "date": "Nov. 2024",
+        "description": "Responsible for developing and maintaining the front-end of web applications while supporting back-end integration. Tasks include designing responsive, intuitive user interfaces, ensuring cross-platform optimization, and collaborating with designers to create seamless user experiences. Works with modern frameworks and APIs to deliver high-performance, visually appealing applications."
+      },
+      "dwoof": {
+        "name": "D'woof",
+        "date": "Nov. 2023",
+        "description": "I work as a fullstack web developer for a startup. My main responsibility involves contributing to the development of a comprehensive social media web application. Our goal is to connect dog enthusiasts through a dedicated platform. This platform allows users to review various businesses that offer services related to dogs and their owners. We also have plans to launch a mobile app in the near future to expand our reach and accessibility."
+      }
+    }
+  },
+  "projects": {
+    "title": "Featured Projects",
+    "subtitle": "Explore my latest work and contributions to the open-source community",
+    "loading": "Loading projects...",
+    "count": "{count} project{plural} from GitHub",
+    "noProjects": "No projects found",
+    "noProjectsSubtitle": "Projects will appear here once they're available",
+    "error": "Unable to load projects",
+    "created": "Created {date}",
+    "categories": "Categor{plural}",
+    "technologies": "Technolog{plural}",
+    "projectCard": {
+      "created": "Created",
+      "category": "Category",
+      "categories": "Categories",
+      "technology": "Technology",
+      "technologies": "Technologies"
+    }
+  },
+  "contact": {
+    "title": "Let's Connect",
+    "subtitle": "Ready to start your next project or just want to chat?",
+    "description": "I'm always excited to collaborate on new projects, discuss innovative ideas, or simply connect with fellow developers. Whether you have a specific project in mind or just want to say hello, I'd love to hear from you!",
+    "availability": "Currently available for new opportunities and freelance projects",
+    "getInTouch": "Get in Touch",
+    "contactInfo": {
+      "description": "Choose your preferred way to reach out. I typically respond within 24 hours."
+    },
+    "email": {
+      "label": "Email",
+      "description": "Drop me a line anytime"
+    },
+    "linkedin": {
+      "label": "LinkedIn",
+      "description": "Let's connect professionally"
+    },
+    "phone": {
+      "label": "Phone",
+      "description": "Call me directly"
+    },
+    "location": {
+      "label": "Location",
+      "description": "Central Time Zone (UTC-6)"
+    },
+    "cta": {
+      "title": "Ready to Start a Conversation?",
+      "description": "Whether you're looking to build something amazing, discuss opportunities, or just want to say hello, I'm here and ready to listen.",
+      "connectLinkedIn": "Connect on LinkedIn"
+    }
+  },
+  "footer": {
+    "brand": "Wilson Gong Wu",
+    "tagline": "Software Engineer crafting digital experiences",
+    "madeWith": "Made with",
+    "poweredBy": "Powered by",
+    "quickLinks": "Quick Links",
+    "connect": "Let's Connect",
+    "socialDescription": "Find me on social media",
+    "copyright": "© {year} Wilson Gong Wu. All rights reserved.",
+    "builtWith": "Built with Next.js, TypeScript & Tailwind CSS"
+  },
+  "common": {
+    "seeMore": "see more...",
+    "seeLess": "see less...",
+    "visitCompany": "Visit Company",
+    "technologiesUsed": "Technologies Used",
+    "keyAchievements": "Key Achievements",
+    "programProgress": "Program Progress",
+    "viewMyWork": "View My Work",
+    "learnMore": "Learn More"
+  },
+  "chat": {
+    "title": "Chat with Wilson",
+    "closeButton": "Close chat",
+    "outOfService": "Chat is out of service!",
+    "startChat": "Send a message to start chatting!",
+    "technicalIssue": "Sorry, I think there are technical issues.",
+    "connectionError": "There was a problem connecting to the chat service.",
+    "connectionErrorMessage": "Sorry, there was a problem connecting to the chat service.",
+    "loadingMessages": {
+      "typing": "Wilson is typing",
+      "thinking": "Wilson is thinking",
+      "checking": "Wilson is checking messages",
+      "remembering": "Wilson is remembering",
+      "pondering": "Wilson is pondering",
+      "contemplating": "Wilson is contemplating"
+    },
+    "sendButton": "Send message",
+    "input": {
+      "placeholder": "Type a message...",
+      "secretCode": "if you have the secret code, click here"
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Page Not Found",
+    "description": "Sorry, the page you are looking for does not exist.",
+    "goHome": "Go back home"
+  },
+  "auth": {
+    "title": "Access Required",
+    "description": "Enter the access code to continue",
+    "accessCode": "Access Code",
+    "placeholder": "Enter your access code",
+    "submit": "Access Protected Area",
+    "verifying": "Verifying...",
+    "wait": "Wait {count} second{plural}...",
+    "enterCode": "Please enter a code",
+    "waitMessage": "Please wait {count} second{plural} before trying again",
+    "rejectionMessage": "Unfortunately, We have decided to pursue with other candidates 🙈",
+    "invalidCode": "Invalid code",
+    "error": "An error occurred. Please try again.",
+    "tryThis": "try this",
+    "back": "Back"
+  },
+  "protected": {
+    "congratulations": "🎉 Congratulations!",
+    "welcome": "Welcome! You've successfully made it to the secret area.",
+    "thankYou": "Thank you for exploring my portfolio!",
+    "appreciation": "I appreciate you taking the time to discover this hidden section. Your curiosity and attention to detail are exactly the kind of qualities I value in collaboration and problem-solving.",
+    "letsConnect": "Let's Connect!",
+    "connectDescription": "I'd love to connect with you and discuss potential opportunities, collaborations, or just chat about technology and development.",
+    "connectLinkedIn": "Connect on LinkedIn",
+    "logoutExit": "Logout & Exit"
+  }
+}

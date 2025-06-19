@@ -1,0 +1,223 @@
+{
+  "navigation": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "experience": "Experiencia",
+    "projects": "Proyectos",
+    "contact": "Contacto",
+    "brand": {
+      "name": "Wilson Gong Wu",
+      "title": "Ingeniero de Software",
+      "subtitle": "Listo para conectar"
+    },
+    "titles": [
+      "Wilson Gong Wu",
+      "Ingeniero de Software",
+      "Desarrollador Web",
+      "Entusiasta de Ciberseguridad",
+      "Entusiasta de IA"
+    ]
+  },
+  "home": {
+    "welcome": "Bienvenido a mi portafolio",
+    "name": "Hola, soy Wilson",
+    "title": "Ingeniero de Software Full-Stack",
+    "description": "Con base en {location}, creo experiencias digitales excepcionales a través de aplicaciones web modernas. Apasionado por el código limpio, soluciones innovadoras y convertir ideas en realidad.",
+    "location": "Costa Rica",
+    "viewWork": "Ver Mi Trabajo",
+    "learnMore": "Conocer Más"
+  },
+  "about": {
+    "title": "Acerca de Mí",
+    "subtitle": "Apasionado por crear experiencias digitales que marquen la diferencia",
+    "myStory": "Mi Historia",
+    "description1": "Soy un estudiante de Ingeniería de Software altamente motivado con pasión por crear soluciones digitales innovadoras. Con fuertes habilidades analíticas y de resolución de problemas, prospero transformando desafíos complejos en aplicaciones elegantes y fáciles de usar.",
+    "description2": "Actualmente trabajando como Desarrollador Frontend Junior, he pasado los últimos 2 años construyendo aplicaciones web escalables, creando componentes reutilizables y desarrollando interfaces de usuario intuitivas. Mi experiencia abarca los ecosistemas de React y Next.js, con conocimiento profundo en gestión de estado, integraciones de API y optimización de rendimiento.",
+    "description3": "Lo que me impulsa es la oportunidad de colaborar con equipos multidisciplinarios, adaptarme a las tecnologías emergentes y entregar soluciones de alta calidad que excedan las expectativas. Estoy comprometido a mantenerme actualizado con las tendencias de la industria y expandir continuamente mi experiencia técnica.",
+    "keyHighlights": "Puntos Destacados",
+    "highlights": {
+      "experience": {
+        "title": "2+ Años de Experiencia",
+        "description": "Desarrollo Frontend"
+      },
+      "education": {
+        "title": "Ingeniería de Software",
+        "description": "Estudiante en ULACIT"
+      },
+      "skills": {
+        "title": "Listo para Full-Stack",
+        "description": "Experto en React y Next.js"
+      },
+      "mindset": {
+        "title": "Solucionador de Problemas",
+        "description": "Soluciones Innovadoras"
+      }
+    }
+  },
+  "skills": {
+    "title": "Habilidades Técnicas",
+    "subtitle": "Un conjunto completo de tecnologías y frameworks que uso para construir aplicaciones modernas y escalables",
+    "technologies": "{count} + Tecnologías"
+  },
+  "education": {
+    "title": "Educación",
+    "subtitle": "Actualmente persiguiendo mi pasión por la tecnología a través de educación formal en Ingeniería de Software",
+    "university": "Universidad Latinoamericana de Ciencia y Tecnología",
+    "degree": "Licenciatura en Ingeniería de Software",
+    "period": "2021 - Presente ({percentage}% Completado)",
+    "location": "San José, Barrio Tournon, Costa Rica",
+    "description": "Programa integral enfocado en metodologías modernas de desarrollo de software, algoritmos, estructuras de datos y desarrollo web full-stack.",
+    "achievements": {
+      "title": "Logros Clave",
+      "items": {
+        "gpa": "Manteniendo un fuerte rendimiento académico",
+        "projects": "Completados 15+ proyectos prácticos"
+      }
+    },
+    "progress": {
+      "title": "Progreso del Programa",
+      "description": "Actualmente en el año final con enfoque en temas avanzados"
+    }
+  },
+  "experience": {
+    "title": "Experiencia Profesional",
+    "subtitle": "Mi viaje en el desarrollo de software y las empresas que han moldeado mi carrera",
+    "experiences": {
+      "newstreet": {
+        "name": "New Street Development",
+        "date": "Nov. 2024",
+        "description": "Responsable de desarrollar y mantener el front-end de aplicaciones web mientras apoyo la integración del back-end. Las tareas incluyen diseñar interfaces de usuario responsivas e intuitivas, asegurar la optimización multiplataforma y colaborar con diseñadores para crear experiencias de usuario fluidas. Trabajo con frameworks modernos y APIs para entregar aplicaciones de alto rendimiento y visualmente atractivas."
+      },
+      "dwoof": {
+        "name": "D'woof",
+        "date": "Nov. 2023",
+        "description": "Trabajo como desarrollador web fullstack para una startup. Mi responsabilidad principal involucra contribuir al desarrollo de una aplicación web de redes sociales integral. Nuestro objetivo es conectar a los entusiastas de los perros a través de una plataforma dedicada. Esta plataforma permite a los usuarios reseñar varios negocios que ofrecen servicios relacionados con perros y sus dueños. También tenemos planes de lanzar una aplicación móvil en el futuro cercano para expandir nuestro alcance y accesibilidad."
+      }
+    }
+  },
+  "projects": {
+    "title": "Proyectos Destacados",
+    "subtitle": "Explora mi trabajo más reciente y contribuciones a la comunidad de código abierto",
+    "loading": "Cargando proyectos...",
+    "count": "{count} proyecto{plural} de GitHub",
+    "noProjects": "No se encontraron proyectos",
+    "noProjectsSubtitle": "Los proyectos aparecerán aquí una vez que estén disponibles",
+    "error": "No se pudieron cargar los proyectos",
+    "created": "Creado {date}",
+    "categories": "Categoría{plural}",
+    "technologies": "Tecnología{plural}",
+    "projectCard": {
+      "created": "Creado",
+      "category": "Categoría",
+      "categories": "Categorías",
+      "technology": "Tecnología",
+      "technologies": "Tecnologías"
+    }
+  },
+  "contact": {
+    "title": "Conectemos",
+    "subtitle": "¿Listo para comenzar tu próximo proyecto o simplemente quieres conversar?",
+    "description": "Siempre estoy emocionado de colaborar en nuevos proyectos, discutir ideas innovadoras o simplemente conectar con otros desarrolladores. Ya sea que tengas un proyecto específico en mente o simplemente quieras saludar, ¡me encantaría saber de ti!",
+    "availability": "Actualmente disponible para nuevas oportunidades y proyectos freelance",
+    "getInTouch": "Ponte en Contacto",
+    "contactInfo": {
+      "description": "Elige tu forma preferida de contactarme. Suelo responder dentro de las 24 horas."
+    },
+    "email": {
+      "label": "Correo",
+      "description": "Envíame un mensaje cuando quieras"
+    },
+    "linkedin": {
+      "label": "LinkedIn",
+      "description": "Conectemos profesionalmente"
+    },
+    "phone": {
+      "label": "Teléfono",
+      "description": "Llámame directamente"
+    },
+    "location": {
+      "label": "Ubicación",
+      "description": "Zona Horaria Central (UTC-6)"
+    },
+    "cta": {
+      "title": "¿Listo para Iniciar una Conversación?",
+      "description": "Ya sea que quieras construir algo increíble, discutir oportunidades o simplemente saludar, estoy aquí y listo para escucharte.",
+      "connectLinkedIn": "Conectar en LinkedIn"
+    }
+  },
+  "footer": {
+    "brand": "Wilson Gong Wu",
+    "tagline": "Ingeniero de Software creando experiencias digitales",
+    "madeWith": "Hecho con",
+    "poweredBy": "Potenciado por",
+    "quickLinks": "Enlaces Rápidos",
+    "connect": "Conectemos",
+    "socialDescription": "Encuéntrame en redes sociales",
+    "copyright": "© {year} Wilson Gong Wu. Todos los derechos reservados.",
+    "builtWith": "Construido con Next.js, TypeScript y Tailwind CSS"
+  },
+  "common": {
+    "seeMore": "ver más...",
+    "seeLess": "ver menos...",
+    "visitCompany": "Visitar Empresa",
+    "technologiesUsed": "Tecnologías Utilizadas",
+    "keyAchievements": "Logros Clave",
+    "programProgress": "Progreso del Programa",
+    "viewMyWork": "Ver Mi Trabajo",
+    "learnMore": "Conocer Más"
+  },
+  "chat": {
+    "title": "Chatear con Wilson",
+    "closeButton": "Cerrar chat",
+    "outOfService": "¡El chat está fuera de servicio!",
+    "startChat": "¡Envía un mensaje para comenzar a chatear!",
+    "technicalIssue": "Lo siento, parece que hay problemas técnicos.",
+    "connectionError": "Hubo un problema al conectar con el servicio de chat.",
+    "connectionErrorMessage": "Lo siento, hubo un problema al conectar con el servicio de chat.",
+    "loadingMessages": {
+      "typing": "Wilson está escribiendo",
+      "thinking": "Wilson está pensando",
+      "checking": "Wilson está revisando mensajes",
+      "remembering": "Wilson está recordando",
+      "pondering": "Wilson está reflexionando",
+      "contemplating": "Wilson está contemplando"
+    },
+    "sendButton": "Enviar mensaje",
+    "input": {
+      "placeholder": "Escribe un mensaje...",
+      "secretCode": "si tienes el código secreto, haz clic aquí"
+    }
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Página No Encontrada",
+    "description": "Lo siento, la página que buscas no existe.",
+    "goHome": "Volver al inicio"
+  },
+  "auth": {
+    "title": "Acceso Requerido",
+    "description": "Ingresa el código de acceso para continuar",
+    "accessCode": "Código de Acceso",
+    "placeholder": "Ingresa tu código de acceso",
+    "submit": "Acceder al Área Protegida",
+    "verifying": "Verificando...",
+    "wait": "Espera {count} segundo{plural}...",
+    "enterCode": "Por favor ingresa un código",
+    "waitMessage": "Por favor espera {count} segundo{plural} antes de intentar de nuevo",
+    "rejectionMessage": "Desafortunadamente, hemos decidido continuar con otros candidatos 🙈",
+    "invalidCode": "Código inválido",
+    "error": "Ocurrió un error. Por favor intenta de nuevo.",
+    "tryThis": "prueba esto",
+    "back": "Atrás"
+  },
+  "protected": {
+    "congratulations": "🎉 ¡Felicitaciones!",
+    "welcome": "¡Bienvenido! Has llegado exitosamente al área secreta.",
+    "thankYou": "¡Gracias por explorar mi portafolio!",
+    "appreciation": "Aprecio que te hayas tomado el tiempo de descubrir esta sección oculta. Tu curiosidad y atención al detalle son exactamente el tipo de cualidades que valoro en la colaboración y resolución de problemas.",
+    "letsConnect": "¡Conectemos!",
+    "connectDescription": "Me encantaría conectar contigo y discutir oportunidades potenciales, colaboraciones, o simplemente charlar sobre tecnología y desarrollo.",
+    "connectLinkedIn": "Conectar en LinkedIn",
+    "logoutExit": "Cerrar Sesión y Salir"
+  }
+}

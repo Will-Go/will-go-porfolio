@@ -5,6 +5,7 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import { Extension } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import Placeholder from "@tiptap/extension-placeholder";
+import { useTranslations } from "next-intl";
 
 //UTILS
 import { cn } from "@/utils/cn";
@@ -16,6 +17,7 @@ interface ChatInputProps {
   onKeyDown?: (e: React.KeyboardEvent<HTMLDivElement>) => void;
   className?: string;
   disabled?: boolean;
+  placeholder?: string;
 }
 
 const DisableEnter = Extension.create({
@@ -32,7 +34,9 @@ function ChatInput({
   onKeyDown,
   className,
   disabled,
+  placeholder,
 }: ChatInputProps) {
+  const t = useTranslations("chat");
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -42,7 +46,7 @@ function ChatInput({
         },
       }),
       Placeholder.configure({
-        placeholder: "Type a message...",
+        placeholder: placeholder,
       }),
       DisableEnter,
     ],

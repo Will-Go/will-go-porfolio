@@ -9,6 +9,7 @@ import {
   FaExclamationTriangle,
 } from "react-icons/fa";
 import { RiLoaderLine } from "react-icons/ri";
+import { useTranslations } from "next-intl";
 
 import ChatInput from "./inputs/ChatInput";
 import { useChatBot } from "@/context/ChatBotProvider";
@@ -18,16 +19,8 @@ import axios from "axios";
 
 import { removeHTMLtags } from "@/utils/removeHTMLtags";
 
-const LOADING_MESSAGES = [
-  "Wilson is typing",
-  "Wilson is thinking",
-  "Wilson is checking messages",
-  "Wilson is remembering",
-  "Wilson is pondering",
-  "Wilson is contemplating",
-];
-
 function ChatBubble() {
+  const t = useTranslations("chat");
   const { messages, addMessage, isOpen, toggleChat, isChatUp } = useChatBot();
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
@@ -35,6 +28,15 @@ function ChatBubble() {
   const [error, setError] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  const LOADING_MESSAGES = [
+    t("loadingMessages.typing"),
+    t("loadingMessages.thinking"),
+    t("loadingMessages.checking"),
+    t("loadingMessages.remembering"),
+    t("loadingMessages.pondering"),
+    t("loadingMessages.contemplating"),
+  ];
 
   const checkMobile = useCallback(() => {
     setIsMobile(window.innerWidth < 768);
@@ -66,14 +68,11 @@ function ChatBubble() {
           if (res.data && res.data.res) {
             addMessage(res.data.res, "bot");
           } else {
-            addMessage("Sorry, I think there are technical issues.", "bot");
+            addMessage(t("technicalIssue"), "bot");
           }
         } catch (err) {
-          setError("There was a problem connecting to the chat service.");
-          addMessage(
-            "Sorry, there was a problem connecting to the chat service.",
-            "bot"
-          );
+          setError(t("connectionError"));
+          addMessage(t("connectionErrorMessage"), "bot");
         } finally {
           setLoading(false);
         }
@@ -87,7 +86,6 @@ function ChatBubble() {
       handleSendMessage();
     }
   };
-
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
     if (loading) {
@@ -100,7 +98,7 @@ function ChatBubble() {
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [loading]);
+  }, [loading, LOADING_MESSAGES.length]);
 
   return (
     <div className="flex flex-col items-end fixed bottom-6 right-6 z-50">
@@ -168,15 +166,15 @@ function ChatBubble() {
                     "w-3 h-3 rounded-full bg-accent-500 animate-pulse",
                     (error || !isChatUp) && "bg-error animate-pulse"
                   )}
-                ></span>
+                ></span>{" "}
                 <h3 className="font-bold text-lg text-primary-100 tracking-wide drop-shadow-sm">
-                  Chat with Wilson
+                  {t("title")}
                 </h3>
               </div>
               <button
                 onClick={toggleChat}
                 className="text-primary-400 cursor-pointer hover:text-accent-400 transition-colors p-1 rounded-full hover:bg-primary-900/40"
-                aria-label="Close chat"
+                aria-label={t("closeButton")}
               >
                 <FaTimes size={20} />
               </button>
@@ -190,13 +188,11 @@ function ChatBubble() {
             >
               {!isChatUp ? (
                 <div className="text-center  py-8 ">
-                  <p className="text-xs text-red-400">
-                    Chat is out of service!
-                  </p>
+                  <p className="text-xs text-red-400">{t("outOfService")}</p>
                 </div>
               ) : messages.length === 0 ? (
                 <div className="text-center text-primary-400 py-8 ">
-                  <p className="text-xs">Send a message to start chatting!</p>
+                  <p className="text-xs">{t("startChat")}</p>
                 </div>
               ) : (
                 messages.map((message, idx) => (
@@ -225,7 +221,7 @@ function ChatBubble() {
                 <div className="w-full">
                   {!!error || !isChatUp ? (
                     <p className="text-xs italic text-red-300 p-4">
-                      Chat is disabled due to an error
+                      {t("outOfService")}
                     </p>
                   ) : (
                     <ChatInput
@@ -234,24 +230,26 @@ function ChatBubble() {
                       onKeyDown={handleKeyDown}
                       className="p-2 bg-transparent text-primary-100 "
                       disabled={loading || !!error || !isChatUp}
+                      placeholder={t("input.placeholder")}
                     />
                   )}
                 </div>
                 <button
                   onClick={handleSendMessage}
                   className="cursor-pointer p-3 text-accent-400 hover:text-accent-200 transition-colors disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-transparent disabled:shadow-none disabled:text-primary-400"
-                  aria-label="Send message"
+                  aria-label={t("sendButton")}
                   disabled={loading || !removeHTMLtags(inputValue) || !!error}
                 >
                   <FaPaperPlane />
                 </button>
               </div>
               <div className="flex justify-end items-center">
+                {" "}
                 <Link
                   href={"/give-me-the-token"}
                   className="text-xs text-primary-600 hover:text-accent-400 transition-colors hover:underline"
                 >
-                  if you have the secret code, click here
+                  {t("input.secretCode")}
                 </Link>
               </div>
             </div>

@@ -4,11 +4,13 @@ import { motion, useInView, useAnimation } from "framer-motion";
 import BackgroundBlur from "@/components/BackgroundBlur";
 import Reveal from "@/components/Reveal";
 import techSkills from "@/content/techSkills";
+import { useTranslations } from "next-intl";
 
 //ICONS
 import { FaCode, FaStar } from "react-icons/fa";
 
 function Skills() {
+  const t = useTranslations();
   const controls = useAnimation();
   const refSkills = useRef<HTMLHeadingElement | null>(null);
   const isInViewSkills = useInView(refSkills, { once: true });
@@ -34,12 +36,11 @@ function Skills() {
               className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent"
               ref={refSkills}
             >
-              Technical Skills
+              {t("skills.title")}
             </h1>
           </div>
           <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
-            A comprehensive toolkit of technologies and frameworks I use to
-            build modern, scalable applications
+            {t("skills.subtitle")}
           </p>
         </div>
       </Reveal>
@@ -96,7 +97,7 @@ function Skills() {
       <Reveal animationType="scale" delay={0.6} duration={0.8} easing="backOut">
         <div className="flex items-center gap-2 text-primary-400 text-sm">
           <span className="px-3 py-1 bg-accent-500/20 rounded-full border border-accent-500/30">
-            {techSkills.length} + Technologies
+            {t("skills.technologies", { count: techSkills.length })}
           </span>
         </div>
       </Reveal>

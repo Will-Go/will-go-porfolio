@@ -1,5 +1,6 @@
 import "./globals.css";
-
+import { NextIntlClientProvider } from "next-intl";
+import { getLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
 // import { unstable_ViewTransition as ViewTransition } from "react";
 
@@ -16,18 +17,19 @@ const font = Encode_Sans_Expanded({
   weight: ["300", "600"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getLocale();
   return (
     // <ViewTransition>
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${font.className} selection:text-black selection:bg-slate-300 `}
       >
-        {children}
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
         <Analytics />
       </body>
     </html>

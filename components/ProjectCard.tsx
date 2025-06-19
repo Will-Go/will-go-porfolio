@@ -6,6 +6,7 @@ import { MotionProps } from "framer-motion";
 import { formatDate } from "@/utils/dateFormatter";
 import Project from "@/interfaces/IProject";
 import { firstLetterCap } from "@/utils/firstLetterCap";
+import { useTranslations } from "next-intl";
 
 //ICONS
 import {
@@ -31,16 +32,16 @@ export default function ProjectCard({
   created_at,
   ...motionProps
 }: Readonly<ProjectCardProps>) {
+  const t = useTranslations();
+
   return (
     <Card
       className="group hover:border-accent-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-accent-500/10 h-full flex flex-col"
       {...motionProps}
     >
-      {" "}
       <div className="p-3 sm:p-4 lg:p-6 flex flex-col h-full">
         {/* Header Section */}
         <div className="space-y-2 sm:space-y-3 lg:space-y-4 mb-3 sm:mb-4 lg:mb-6">
-          {" "}
           {/* Project Title with GitHub Link */}
           <div className="space-y-2 sm:space-y-3">
             <Link
@@ -55,22 +56,22 @@ export default function ProjectCard({
                 </h2>
               </div>
               <FaExternalLinkAlt className="text-xs sm:text-sm opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all duration-300 flex-shrink-0" />
-            </Link>{" "}
+            </Link>
             {/* Creation Date */}
             {created_at && (
               <div className="flex items-center gap-1.5 sm:gap-2 text-primary-400 text-xs sm:text-sm">
                 <FaCalendarAlt className="text-accent-500 text-xs flex-shrink-0" />
                 <span className="truncate">
-                  Created {formatDate(created_at)}
+                  {t("projects.projectCard.created")} {formatDate(created_at)}
                 </span>
               </div>
             )}
-          </div>{" "}
+          </div>
           {/* Description */}
           <div className="text-primary-400 leading-relaxed text-xs sm:text-sm flex-1">
             <TextDisplayer text={description} numClamp={3} />
           </div>
-        </div>{" "}
+        </div>
         {/* Footer Section */}
         <div className="space-y-3 sm:space-y-4 mt-auto">
           {/* Categories */}
@@ -79,7 +80,9 @@ export default function ProjectCard({
               <div className="flex items-center gap-1.5 sm:gap-2 text-primary-200 text-xs sm:text-sm">
                 <FaTags className="text-accent-500 flex-shrink-0" />
                 <span className="font-medium truncate">
-                  Categor{categories.length === 1 ? "y" : "ies"}
+                  {categories.length === 1
+                    ? t("projects.projectCard.category")
+                    : t("projects.projectCard.categories")}
                 </span>
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -100,7 +103,9 @@ export default function ProjectCard({
               <div className="flex items-center gap-1.5 sm:gap-2 text-primary-200 text-xs sm:text-sm">
                 <FaCode className="text-accent-500 flex-shrink-0" />
                 <span className="font-medium truncate">
-                  Technolog{technologies.length === 1 ? "y" : "ies"}
+                  {technologies.length === 1
+                    ? t("projects.projectCard.technology")
+                    : t("projects.projectCard.technologies")}
                 </span>
               </div>
               <div className="flex flex-wrap gap-1.5 sm:gap-2">

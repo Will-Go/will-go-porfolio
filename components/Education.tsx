@@ -1,6 +1,7 @@
 //COMPONENTS
 import Card from "@/components/Card";
 import Reveal from "@/components/Reveal";
+import { useTranslations } from "next-intl";
 
 //ICONS
 import {
@@ -13,6 +14,8 @@ import {
 const PERCENTAGE_COMPLETE = 90; // Example percentage of program completion
 
 function Education() {
+  const t = useTranslations("education");
+
   return (
     <div
       id="education"
@@ -23,12 +26,11 @@ function Education() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaGraduationCap className="text-3xl text-accent-500" />
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
-              Education
+              {t("title")}
             </h1>
           </div>
           <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
-            Currently pursuing my passion for technology through formal
-            education in Software Engineering
+            {t("subtitle")}
           </p>
         </div>
       </Reveal>
@@ -40,22 +42,24 @@ function Education() {
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
               <div className="space-y-2">
                 <h2 className="text-2xl md:text-3xl font-bold text-primary-100 leading-tight">
-                  Universidad Latinoamericana de Ciencia y Tecnología
+                  {t("university")}
                 </h2>
                 <h3 className="text-lg font-semibold text-accent-400">
-                  Bachelor&apos;s Degree in Software Engineering
+                  {t("degree")}
                 </h3>
               </div>
               <div className="flex items-center gap-2 text-primary-400">
                 <FaCalendarAlt className="text-accent-500" />
-                <span className="font-medium">2022 - 2026</span>
+                <span className="font-medium">
+                  {t("period", { percentage: PERCENTAGE_COMPLETE })}
+                </span>
               </div>
             </div>
 
             {/* Location */}
             <div className="flex items-center gap-2 text-primary-300">
               <FaMapMarkerAlt className="text-accent-500" />
-              <span>San José, Barrio Tournon, Costa Rica</span>
+              <span>{t("location")}</span>
             </div>
 
             {/* Description */}
@@ -65,14 +69,7 @@ function Education() {
                 <span className="font-semibold">Program Overview</span>
               </div>
               <p className="text-primary-400 leading-relaxed text-justify">
-                Currently pursuing a comprehensive four-year Bachelor&apos;s
-                degree program in Software Engineering. The curriculum covers
-                fundamental and advanced concepts in software development,
-                including programming languages, database management, software
-                architecture, project management, and modern development
-                methodologies. This program provides both theoretical knowledge
-                and practical experience through hands-on projects and
-                real-world applications.
+                {t("description")}
               </p>
             </div>
 
@@ -122,7 +119,7 @@ function Education() {
             <div className="pt-6 border-t border-primary-800/30">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-primary-300">
-                  Program Progress
+                  {t("progress.title")}
                 </span>
                 <span className="text-sm text-accent-400 font-semibold">
                   {PERCENTAGE_COMPLETE}% Complete

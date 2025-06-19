@@ -15,36 +15,47 @@ import {
   FaMapMarkerAlt,
   FaArrowRight,
 } from "react-icons/fa";
+import { useTranslations } from "next-intl";
 
-function page() {
+export default function Page() {
+  const t = useTranslations();
+
   const contacts = [
     {
       icon: <BiLogoGmail className="text-red-400" />,
       text: "wilsongongwu1@gmail.com",
       label: "Email",
       href: "mailto:wilsongongwu1@gmail.com",
-      description: "Drop me a line anytime",
+      description: t("contact.email.description", {
+        defaultMessage: "Drop me a line anytime",
+      }),
     },
     {
       icon: <FaLinkedin className="text-blue-400" />,
       text: "linkedin.com/in/wilsongw60/",
       label: "LinkedIn",
       href: "https://linkedin.com/in/wilsongw60/",
-      description: "Let's connect professionally",
+      description: t("contact.linkedin.description", {
+        defaultMessage: "Let's connect professionally",
+      }),
     },
     {
       icon: <FaPhone className="text-green-400" />,
       text: "+506 8735-7137",
-      label: "Phone",
+      label: t("contact.phone.label", { defaultMessage: "Phone" }),
       href: "tel:+50687357137",
-      description: "Call me directly",
+      description: t("contact.phone.description", {
+        defaultMessage: "Call me directly",
+      }),
     },
     {
       icon: <FaMapMarkerAlt className="text-yellow-400" />,
-      text: "San José, Costa Rica",
-      label: "Location",
+      text: t("home.location"),
+      label: t("contact.location.label", { defaultMessage: "Location" }),
       href: "https://maps.google.com/?q=San+José,+Costa+Rica",
-      description: "Central Time Zone (UTC-6)",
+      description: t("contact.location.description", {
+        defaultMessage: "Central Time Zone (UTC-6)",
+      }),
     },
   ];
 
@@ -68,7 +79,11 @@ function page() {
                   <div className="absolute -inset-4 bg-gradient-to-r from-accent-500/20 to-primary-500/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                   <Image
                     src="/Wilson.png"
-                    alt="Wilson - Software Engineer"
+                    alt={
+                      t("navigation.brand.name") +
+                      " - " +
+                      t("navigation.brand.title")
+                    }
                     width={280}
                     height={280}
                     className="relative rounded-full w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-cover border-4 border-primary-800/50 shadow-2xl group-hover:scale-105 transition-transform duration-300"
@@ -87,10 +102,10 @@ function page() {
           <Reveal animationType="slideDown" duration={1.2} easing="backOut">
             <div className="space-y-2">
               <p className="text-accent-400 text-sm md:text-base font-medium tracking-wider uppercase">
-                Let&apos;s work together
+                {t("contact.subtitle")}
               </p>
               <h1 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent leading-tight">
-                Contact Me
+                {t("contact.title")}
               </h1>
             </div>
           </Reveal>{" "}
@@ -101,17 +116,14 @@ function page() {
             easing="easeOut"
           >
             <h2 className="text-xl sm:text-2xl lg:text-3xl text-primary-300 font-semibold">
-              Ready to bring your ideas to life
+              {t("contact.availability")}
             </h2>
           </Reveal>
           <Reveal delay={0.5}>
             <p className="text-sm sm:text-lg text-primary-400 leading-relaxed max-w-xl">
-              {" "}
-              I&apos;m always excited to discuss new opportunities and
-              innovative projects. Whether you have a specific project in mind
-              or just want to connect, I&apos;d love to hear from you.
+              {t("contact.description")}
             </p>
-          </Reveal>{" "}
+          </Reveal>
           <Reveal
             animationType="scale"
             delay={0.7}
@@ -123,7 +135,7 @@ function page() {
                 href="mailto:wilsongongwu1@gmail.com"
                 className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-xl hover:from-accent-600 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-primary-950 transition-all duration-200 transform hover:scale-105 group"
               >
-                Send Email
+                {t("contact.getInTouch")}
                 <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
             </div>
@@ -134,15 +146,16 @@ function page() {
       </section>
       {/* Contact Information Section */}
       <section className="relative w-full max-w-7xl mx-auto py-16">
-        {" "}
         <Reveal animationType="flipUp" duration={0.5} easing="backOut">
           <div className="text-center mb-12">
             <h3 className="text-2xl md:text-3xl font-bold text-primary-200 mb-4">
-              Get In Touch
+              {t("contact.getInTouch")}
             </h3>
             <p className="text-primary-400 max-w-2xl mx-auto">
-              Choose your preferred way to reach out. I typically respond within
-              24 hours.
+              {t("contact.contactInfo.description", {
+                defaultMessage:
+                  "Choose your preferred way to reach out. I typically respond within 24 hours.",
+              })}
             </p>
           </div>
         </Reveal>{" "}
@@ -203,13 +216,10 @@ function page() {
           <Card className="backdrop-blur-sm bg-primary-900/40 border-accent-500/30">
             <div className="p-8 md:p-12 space-y-6">
               <h3 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
-                Ready to Start a Conversation?
+                {t("contact.cta.title")}
               </h3>
               <p className="text-primary-400 text-lg max-w-2xl mx-auto">
-                {" "}
-                Whether you&apos;re looking to build something amazing, discuss
-                opportunities, or just want to say hello, I&apos;m here and
-                ready to listen.
+                {t("contact.cta.description")}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                 <Link
@@ -219,7 +229,7 @@ function page() {
                   className="inline-flex items-center justify-center px-8 py-4 border-2 border-primary-700 text-primary-200 font-semibold rounded-xl hover:border-accent-500 hover:text-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-primary-950 transition-all duration-200"
                 >
                   <FaLinkedin className="mr-2" />
-                  Connect on LinkedIn
+                  {t("contact.cta.connectLinkedIn")}
                 </Link>
               </div>
             </div>
@@ -229,5 +239,3 @@ function page() {
     </main>
   );
 }
-
-export default page;

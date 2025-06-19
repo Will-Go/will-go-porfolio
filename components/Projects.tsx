@@ -1,4 +1,5 @@
-import { Suspense } from "react";
+"use client";
+import { Suspense, useEffect, useState } from "react";
 import {
   Carousel,
   CarouselContent,
@@ -7,6 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Reveal from "@/components/Reveal";
+import { useTranslations } from "next-intl";
 
 //COMPONENTS
 import ProjectCard from "@/components/ProjectCard";
@@ -18,59 +20,70 @@ import { FaGithub, FaExclamationTriangle, FaSpinner } from "react-icons/fa";
 import Project, { IncomingProject } from "@/interfaces/IProject";
 
 export default function WrappedProjects() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex flex-col items-center justify-center my-16 gap-8 px-4">
-          <div className="flex items-center gap-3">
-            <FaSpinner className="text-2xl text-accent-500 animate-spin" />
-            <span className="text-primary-300">Loading projects...</span>
-          </div>
-        </div>
-      }
-    >
-      <Projects />
-    </Suspense>
-  );
+  return <Projects />;
 }
 
-async function Projects() {
-  let projects: Project[] = [];
-  let projectFetchError = "";
-  try {
-    const res = await fetch(
-      "https://api.github.com/search/repositories?q=user%3AWill-Go%20topic%3Aporfolio&sort=updated&direction=desc"
-    );
+function Projects() {
+  const t = useTranslations();
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [projectFetchError, setProjectFetchError] = useState("");
+  const [loading, setLoading] = useState(true);
 
-    if (!res.ok) {
-      projectFetchError = "Failed to fetch projects";
-    } else {
-      const data = await res.json();
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const res = await fetch(
+          "https://api.github.com/search/repositories?q=user%3AWill-Go%20topic%3Aporfolio&sort=updated&direction=desc"
+        );
 
-      projects = data.items.map((item: IncomingProject) => {
-        let tech: string[] = [];
-        let cat: string[] = [];
+        if (!res.ok) {
+          setProjectFetchError(t("projects.error"));
+        } else {
+          const data = await res.json();
 
-        item.topics.forEach((topic: string) => {
-          if (topic.startsWith("c-")) {
-            cat.push(topic.replace("c-", ""));
-          } else if (topic.startsWith("t-")) {
-            tech.push(topic.replace("t-", ""));
-          }
-        });
+          const fetchedProjects = data.items.map((item: IncomingProject) => {
+            let tech: string[] = [];
+            let cat: string[] = [];
 
-        return {
-          name: item.name,
-          description: item.description,
-          categories: cat,
-          technologies: tech,
-          repoUrl: item.html_url,
-          created_at: item.created_at,
-        };
-      });
+            item.topics.forEach((topic: string) => {
+              if (topic.startsWith("c-")) {
+                cat.push(topic.replace("c-", ""));
+              } else if (topic.startsWith("t-")) {
+                tech.push(topic.replace("t-", ""));
+              }
+            });
+
+            return {
+              name: item.name,
+              description: item.description,
+              categories: cat,
+              technologies: tech,
+              repoUrl: item.html_url,
+              created_at: item.created_at,
+            };
+          });
+
+          setProjects(fetchedProjects);
+        }
+      } catch {
+        setProjectFetchError(t("projects.error"));
+      } finally {
+        setLoading(false);
+      }
     }
-  } catch {
-    projectFetchError = "Failed to fetch projects";
+
+    fetchProjects();
+  }, [t]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center my-16 gap-8 px-4">
+        <div className="flex items-center gap-3">
+          <FaSpinner className="text-2xl text-accent-500 animate-spin" />
+          <span className="text-primary-300">{t("projects.loading")}</span>
+        </div>
+      </div>
+    );
   }
   return (
     <div className="flex flex-col items-center justify-center my-16 gap-8 w-full">
@@ -79,12 +92,11 @@ async function Projects() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaGithub className="text-3xl text-accent-500" />
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
-              Featured Projects
+              {t("projects.title")}
             </h1>
           </div>
           <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
-            Explore my latest work and contributions to the open-source
-            community
+            {t("projects.subtitle")}
           </p>
         </div>
       </Reveal>
@@ -97,10 +109,12 @@ async function Projects() {
         >
           <div className="text-center mt-4">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/20 rounded-full border border-accent-500/30">
-              <FaGithub className="text-accent-400" />{" "}
+              <FaGithub className="text-accent-400" />
               <span className="text-primary-300 text-sm">
-                {projects.length} project{projects.length !== 1 ? "s" : ""} from
-                GitHub
+                {t("projects.count", {
+                  count: projects.length,
+                  plural: projects.length !== 1 ? "s" : "",
+                })}
               </span>
             </div>
           </div>
@@ -115,9 +129,11 @@ async function Projects() {
       >
         {projects.length === 0 && !projectFetchError && (
           <div className="text-center py-12">
-            <p className="text-primary-400 text-lg">No projects found</p>{" "}
+            <p className="text-primary-400 text-lg">
+              {t("projects.noProjects")}
+            </p>
             <p className="text-primary-500 text-sm mt-2">
-              Projects will appear here once they&apos;re available
+              {t("projects.noProjectsSubtitle")}
             </p>
           </div>
         )}
@@ -126,7 +142,7 @@ async function Projects() {
             <FaExclamationTriangle className="text-red-400 text-xl" />
             <div className="text-center">
               <p className="text-red-400 font-semibold">
-                Unable to load projects
+                {t("projects.error")}
               </p>
               <p className="text-red-300 text-sm mt-1">{projectFetchError}</p>
             </div>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import { useTranslations } from "next-intl";
 import {
   FaGithub,
   FaLinkedin,
@@ -9,6 +10,8 @@ import {
 } from "react-icons/fa";
 
 function Footer() {
+  const t = useTranslations();
+
   const socials = [
     {
       icon: <FaGithub className="text-xl" />,
@@ -22,6 +25,13 @@ function Footer() {
       label: "LinkedIn",
       hoverColor: "hover:text-[#0b66c2]",
     },
+  ];
+
+  const quickLinks = [
+    { label: t("navigation.about"), href: "/#about" },
+    { label: t("navigation.experience"), href: "/#experience" },
+    { label: t("navigation.projects"), href: "/#projects" },
+    { label: t("navigation.contact"), href: "/contact" },
   ];
 
   const currentDate = new Date();
@@ -40,14 +50,14 @@ function Footer() {
               <div className="flex items-center justify-center md:justify-start gap-2 mb-3">
                 <FaCode className="text-accent-500 text-lg" />
                 <h3 className="text-xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
-                  Wilson Gong Wu
+                  {t("footer.brand")}
                 </h3>
               </div>
               <p className="text-primary-400 text-sm leading-relaxed">
-                Software Engineer crafting digital experiences
+                {t("footer.tagline")}
               </p>
               <div className="flex items-center justify-center md:justify-start gap-1 text-primary-500 text-xs">
-                <span>Made with</span>
+                <span>{t("footer.madeWith")}</span>
                 <FaHeart className="text-red-500 text-xs animate-pulse" />
                 <span>and</span>
                 <FaRocket className="text-accent-500 text-xs" />
@@ -64,15 +74,10 @@ function Footer() {
           >
             <div className="text-center space-y-3">
               <h4 className="text-primary-200 font-semibold text-sm uppercase tracking-wider">
-                Quick Links
+                {t("footer.quickLinks")}
               </h4>
               <div className="flex flex-wrap justify-center gap-4 text-sm">
-                {[
-                  { label: "About", href: "/#about" },
-                  { label: "Experience", href: "/#experience" },
-                  { label: "Projects", href: "/#projects" },
-                  { label: "Contact", href: "/contact" },
-                ].map((link, i) => (
+                {quickLinks.map((link, i) => (
                   <Link
                     key={i}
                     href={link.href}
@@ -94,7 +99,7 @@ function Footer() {
           >
             <div className="text-center md:text-right space-y-4">
               <h4 className="text-primary-200 font-semibold text-sm uppercase tracking-wider">
-                Connect
+                {t("footer.connect")}
               </h4>
               <div className="flex justify-center md:justify-end gap-4">
                 {socials.map(({ icon, link, label, hoverColor }, i) => (
@@ -133,12 +138,12 @@ function Footer() {
           <div className="mt-12 pt-8 border-t border-primary-800/30">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-500">
               <div className="flex items-center gap-4">
-                <span>© {currentDate.getFullYear()} Wilson Gong Wu</span>
-                <span className="hidden md:inline">•</span>
-                <span className="text-xs">All rights reserved</span>
+                <span>
+                  {t("footer.copyright", { year: currentDate.getFullYear() })}
+                </span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <span>Built with Next.js & TypeScript</span>
+                <span>{t("footer.builtWith")}</span>
                 <div className="w-2 h-2 rounded-full bg-accent-500 animate-pulse"></div>
               </div>
             </div>
