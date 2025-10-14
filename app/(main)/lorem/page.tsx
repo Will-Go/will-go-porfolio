@@ -7,6 +7,12 @@ import CopyText from "@/components/CopyText";
 import Reveal from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/cn";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Lorem Ipsum Generator",
+  description: "Generate random placeholder text for your designs and mockups",
+};
 
 // Initialize lorem ipsum generator with configuration
 const lorem = new LoremIpsum({
