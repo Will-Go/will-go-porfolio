@@ -1,10 +1,16 @@
 import React from "react";
 import type { Metadata } from "next";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "Lorem Ipsum Generator",
   description: "Generate random placeholder text for your designs and mockups",
 };
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  return (
+    <>
+      {children}
+      <Footer />
+    </>
+  );
 }
