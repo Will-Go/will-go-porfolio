@@ -258,7 +258,7 @@ export default function JsonFormatterPage() {
 												Formatted JSON will appear here
 												<br />
 												<span className="text-sm">
-													Click "Format JSON" to validate and format
+													Click &quot;Format JSON&quot; to validate and format
 												</span>
 											</p>
 										</div>
