@@ -11,7 +11,7 @@ import {
   FaBookOpen,
 } from "react-icons/fa";
 
-const PERCENTAGE_COMPLETE = 90; // Example percentage of program completion
+const PERCENTAGE_COMPLETE = 100; // Example percentage of program completion
 
 function Education() {
   const t = useTranslations("education");
