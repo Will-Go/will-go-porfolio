@@ -2,6 +2,8 @@ const techSkills = [
   "React.js",
   "Next.js",
   "Typescript",
+  "PostgreSQL",
+  "Supabase",
   "Firebase",
   "Tailwind CSS",
   "Express.js",
