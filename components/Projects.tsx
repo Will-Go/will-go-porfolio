@@ -19,6 +19,9 @@ import { FaGithub, FaExclamationTriangle, FaSpinner } from "react-icons/fa";
 //INTERFACE
 import Project, { IncomingProject } from "@/interfaces/IProject";
 
+//LOCAL DATA
+import localProjects from "@/content/projects";
+
 export default function WrappedProjects() {
   return <Projects />;
 }
@@ -37,6 +40,7 @@ function Projects() {
         );
 
         if (!res.ok) {
+          setProjects(localProjects);
           setProjectFetchError(t("projects.error"));
         } else {
           const data = await res.json();
@@ -63,9 +67,16 @@ function Projects() {
             };
           });
 
-          setProjects(fetchedProjects);
+          const allProjects = [...localProjects, ...fetchedProjects].sort(
+            (a, b) =>
+              new Date(b.created_at ?? 0).getTime() -
+              new Date(a.created_at ?? 0).getTime()
+          );
+
+          setProjects(allProjects);
         }
       } catch {
+        setProjects(localProjects);
         setProjectFetchError(t("projects.error"));
       } finally {
         setLoading(false);

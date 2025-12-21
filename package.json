@@ -29,6 +29,7 @@
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dayjs": "^1.11.19",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^11.18.2",
     "jose": "^6.0.11",

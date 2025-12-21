@@ -109,7 +109,8 @@ export default interface Project {
   description: string;
   categories: string[];
   technologies: string[];
-  repoUrl: string;
+  repoUrl?: string;
+  url?: string;
   imageUrl?: string;
   exampleURL?: string;
   created_at?: string;

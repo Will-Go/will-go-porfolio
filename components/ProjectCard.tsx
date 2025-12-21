@@ -29,6 +29,7 @@ export default function ProjectCard({
   categories,
   technologies,
   repoUrl,
+  url,
   created_at,
   ...motionProps
 }: Readonly<ProjectCardProps>) {
@@ -44,19 +45,42 @@ export default function ProjectCard({
         <div className="space-y-2 sm:space-y-3 lg:space-y-4 mb-3 sm:mb-4 lg:mb-6">
           {/* Project Title with GitHub Link */}
           <div className="space-y-2 sm:space-y-3">
-            <Link
-              href={repoUrl}
-              target="_blank"
-              className="group/link inline-flex items-center gap-2 sm:gap-3 hover:text-accent-300 transition-colors duration-300"
-            >
-              <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
-                <FaGithub className="text-accent-500 text-sm sm:text-base lg:text-lg flex-shrink-0" />
-                <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
-                  {name}
-                </h2>
-              </div>
-              <FaExternalLinkAlt className="text-xs sm:text-sm opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all duration-300 flex-shrink-0" />
-            </Link>
+            {repoUrl ? (
+              <Link
+                href={repoUrl}
+                target="_blank"
+                className="group/link inline-flex items-center gap-2 sm:gap-3 hover:text-accent-300 transition-colors duration-300"
+              >
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+                  <FaGithub className="text-accent-500 text-sm sm:text-base lg:text-lg flex-shrink-0" />
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
+                    {name}
+                  </h2>
+                </div>
+                <FaExternalLinkAlt className="text-xs sm:text-sm opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all duration-300 flex-shrink-0" />
+              </Link>
+            ) : url ? (
+              <Link
+                href={url}
+                target="_blank"
+                className="group/link inline-flex items-center gap-2 sm:gap-3 hover:text-accent-300 transition-colors duration-300"
+              >
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
+                    {name}
+                  </h2>
+                </div>
+                <FaExternalLinkAlt className="text-xs sm:text-sm opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all duration-300 flex-shrink-0" />
+              </Link>
+            ) : (
+              <p className="group/link inline-flex items-center gap-2 sm:gap-3 hover:text-accent-300 transition-colors duration-300">
+                <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
+                    {name}
+                  </h2>
+                </div>
+              </p>
+            )}
             {/* Creation Date */}
             {created_at && (
               <div className="flex items-center gap-1.5 sm:gap-2 text-primary-400 text-xs sm:text-sm">
