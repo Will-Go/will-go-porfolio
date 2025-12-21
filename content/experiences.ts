@@ -13,6 +13,9 @@ const experiences: Experience[] = [
       "TailwindCSS",
       "Express.Js",
       "MSSQL",
+      "PostgreSQL",
+      "Supabase",
+      "git",
     ],
     imageUrl: "/newstreet.jpeg",
     companyUrl: "https://www.newstreetdev.com/",
@@ -21,8 +24,16 @@ const experiences: Experience[] = [
     name: "experience.experiences.dwoof.name",
     date: "experience.experiences.dwoof.date",
     description: "experience.experiences.dwoof.description",
-    technologies: ["Next.js", "React.js", "Firebase", "TailwindCSS"],
+    technologies: [
+      "Next.js",
+      "React.js",
+      "Supabase",
+      "TailwindCSS",
+      "PostgreSQL",
+      "git",
+    ],
     imageUrl: "/dwoof.png",
+    companyUrl: "https://www.dwoof.com/",
   },
 ];
 
