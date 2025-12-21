@@ -6,7 +6,7 @@ import { MotionProps } from "framer-motion";
 import { formatDate } from "@/utils/dateFormatter";
 import Project from "@/interfaces/IProject";
 import { firstLetterCap } from "@/utils/firstLetterCap";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 //ICONS
 import {
@@ -34,6 +34,7 @@ export default function ProjectCard({
   ...motionProps
 }: Readonly<ProjectCardProps>) {
   const t = useTranslations();
+  const locale = useLocale();
 
   return (
     <Card
@@ -86,7 +87,8 @@ export default function ProjectCard({
               <div className="flex items-center gap-1.5 sm:gap-2 text-primary-400 text-xs sm:text-sm">
                 <FaCalendarAlt className="text-accent-500 text-xs flex-shrink-0" />
                 <span className="truncate">
-                  {t("projects.projectCard.created")} {formatDate(created_at)}
+                  {t("projects.projectCard.created")}{" "}
+                  {formatDate(created_at, locale)}
                 </span>
               </div>
             )}

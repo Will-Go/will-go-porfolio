@@ -1,44 +1,46 @@
-const LOCALE = "en-US";
+import dayjs from "dayjs";
+import "dayjs/locale/es";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 
-// Función para formatear la fecha a un formato más legible y compacto
+dayjs.extend(localizedFormat);
+
+/**
+ * Formats a date string to a readable date and time based on locale
+ * @param isoDate ISO date string
+ * @param locale Locale string (e.g., 'en', 'es')
+ * @param showSeconds whether to show seconds
+ * @param hour12 whether to use 12-hour format
+ */
 const formatDatetime = (
   isoDate: string,
+  locale = "en",
   showSeconds = false,
   hour12 = true
 ): string => {
-  const date = new Date(isoDate);
+  const d = dayjs(isoDate).locale(locale);
 
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: showSeconds ? "2-digit" : undefined,
-    hour12: hour12,
-  };
-
-  return date.toLocaleString(LOCALE, options);
+  if (showSeconds) {
+    return d.format(hour12 ? "LLL:ss A" : "LLL:ss");
+  }
+  return d.format(hour12 ? "LLL A" : "LLL");
 };
 
-const formatDate = (isoDate: string): string => {
-  const date = new Date(isoDate);
-
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "short",
-    day: "2-digit",
-  };
-
-  return date.toLocaleString(LOCALE, options);
+/**
+ * Formats a date string to a readable date based on locale
+ * @param isoDate ISO date string
+ * @param locale Locale string (e.g., 'en', 'es')
+ */
+const formatDate = (isoDate: string, locale = "en"): string => {
+  return dayjs(isoDate).locale(locale).format("LL");
 };
 
-const formatTime = (isoDate: string): string => {
-  const date = new Date(isoDate);
-  return date.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+/**
+ * Formats a date string to a readable time based on locale
+ * @param isoDate ISO date string
+ * @param locale Locale string (e.g., 'en', 'es')
+ */
+const formatTime = (isoDate: string, locale = "en"): string => {
+  return dayjs(isoDate).locale(locale).format("LT");
 };
 
 export { formatDatetime, formatDate, formatTime };

@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useLocale } from "next-intl";
 import "../styles/tiptap.css";
 import { Message as IMessage } from "@/interfaces/IMessage";
 import { formatTime, formatDatetime } from "@/utils/dateFormatter";
@@ -16,6 +17,7 @@ const TYPING_SPEED = 75; // Adjust typing speed here (milliseconds per word)
 function Message({ message }: MessageProps) {
   const [displayedContent, setDisplayedContent] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const locale = useLocale();
 
   useEffect(() => {
     if (message.sender === "bot") {
@@ -76,10 +78,10 @@ function Message({ message }: MessageProps) {
         dangerouslySetInnerHTML={{ __html: displayedContent }}
       />
       <p
-        title={formatDatetime(message.created_at)}
+        title={formatDatetime(message.created_at, locale)}
         className="text-xs text-primary-400 mt-1 italic"
       >
-        {formatTime(message.created_at)}
+        {formatTime(message.created_at, locale)}
       </p>
     </div>
   );
