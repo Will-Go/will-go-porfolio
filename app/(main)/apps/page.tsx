@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Card from "@/components/Card";
 import Reveal from "@/components/Reveal";
-import { FaCode, FaFileAlt } from "react-icons/fa";
+import { FaCode, FaFileAlt, FaFingerprint } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 
 export default function AppsPage() {
@@ -23,6 +23,13 @@ export default function AppsPage() {
       href: "/json/formatter",
       icon: <FaCode className="text-4xl text-purple-400 mb-4" />,
       color: "from-purple-500 to-pink-500",
+    },
+    {
+      title: t("uuid.title"),
+      description: t("uuid.description"),
+      href: "/uuid-generator",
+      icon: <FaFingerprint className="text-4xl text-green-400 mb-4" />,
+      color: "from-green-500 to-emerald-500",
     },
   ];
 

@@ -233,6 +233,10 @@
       "title": "Formateador JSON",
       "description": "Valida, formatea, embellece y minifica tus datos JSON con una vista de árbol interactiva."
     },
+    "uuid": {
+      "title": "Generador UUID",
+      "description": "Genera UUIDs versión 4 aleatorios instantáneamente con soporte de generación masiva."
+    },
     "openTool": "Abrir Herramienta"
   }
 }

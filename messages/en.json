@@ -233,6 +233,10 @@
       "title": "JSON Formatter",
       "description": "Validate, format, beautiful, and minify your JSON data with an interactive tree view."
     },
+    "uuid": {
+      "title": "UUID Generator",
+      "description": "Generate random version 4 UUIDs instantly with bulk generation support."
+    },
     "openTool": "Open Tool"
   }
 }
