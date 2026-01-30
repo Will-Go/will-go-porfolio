@@ -18,6 +18,7 @@ import {
   FaBriefcase,
   FaProjectDiagram,
   FaEnvelope,
+  FaRocket,
 } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 
@@ -33,6 +34,7 @@ export default function Navbar() {
     { text: t("experience"), href: "/#experience", icon: <FaBriefcase /> },
     { text: t("projects"), href: "/#projects", icon: <FaProjectDiagram /> },
     { text: t("contact"), href: "/contact", icon: <FaEnvelope /> },
+    { text: t("apps"), href: "/apps", icon: <FaRocket /> },
   ];
 
   useEffect(() => {
@@ -78,7 +80,7 @@ export default function Navbar() {
         "fixed left-4 right-4 lg:left-8 lg:right-8 xl:left-16 xl:right-16 z-50 transition-all duration-500 ease-in-out",
         isOpen
           ? "top-0 bottom-0 left-0 right-0 bg-gradient-to-br from-primary-950/95 via-primary-900/95 to-accent-950/20 backdrop-blur-xl border-none rounded-none"
-          : "top-1 bg-gradient-to-r from-primary-950/80 via-primary-900/90 to-primary-950/80 backdrop-blur-xl border border-primary-800/40 rounded-xl shadow-lg shadow-accent-500/5"
+          : "top-1 bg-gradient-to-r from-primary-950/80 via-primary-900/90 to-primary-950/80 backdrop-blur-xl border border-primary-800/40 rounded-xl shadow-lg shadow-accent-500/5",
       )}
     >
       <div className="flex justify-between items-center px-2 py-1.5 lg:px-3 lg:py-2">

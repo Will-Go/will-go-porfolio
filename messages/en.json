@@ -4,6 +4,8 @@
     "about": "About",
     "experience": "Experience",
     "projects": "Projects",
+    "apps": "Apps",
+
     "contact": "Contact",
     "brand": {
       "name": "Wilson Gong Wu",
@@ -219,5 +221,18 @@
     "connectDescription": "I'd love to connect with you and discuss potential opportunities, collaborations, or just chat about technology and development.",
     "connectLinkedIn": "Connect on LinkedIn",
     "logoutExit": "Logout & Exit"
+  },
+  "appsContent": {
+    "title": "Utility Apps",
+    "subtitle": "A collection of useful developer tools and utilities to boost your productivity.",
+    "lorem": {
+      "title": "Lorem Ipsum Generator",
+      "description": "Generate random placeholder text for your designs and mockups with customizable settings."
+    },
+    "json": {
+      "title": "JSON Formatter",
+      "description": "Validate, format, beautiful, and minify your JSON data with an interactive tree view."
+    },
+    "openTool": "Open Tool"
   }
 }

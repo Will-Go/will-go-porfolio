@@ -4,6 +4,8 @@
     "about": "Acerca de",
     "experience": "Experiencia",
     "projects": "Proyectos",
+    "apps": "Apps",
+
     "contact": "Contacto",
     "brand": {
       "name": "Wilson Gong Wu",
@@ -219,5 +221,18 @@
     "connectDescription": "Me encantaría conectar contigo y discutir oportunidades potenciales, colaboraciones, o simplemente charlar sobre tecnología y desarrollo.",
     "connectLinkedIn": "Conectar en LinkedIn",
     "logoutExit": "Cerrar Sesión y Salir"
+  },
+  "appsContent": {
+    "title": "Apps de Utilidad",
+    "subtitle": "Una colección de herramientas útiles para desarrolladores para mejorar tu productividad.",
+    "lorem": {
+      "title": "Generador Lorem Ipsum",
+      "description": "Genera texto de relleno aleatorio para tus diseños y maquetas con configuraciones personalizables."
+    },
+    "json": {
+      "title": "Formateador JSON",
+      "description": "Valida, formatea, embellece y minifica tus datos JSON con una vista de árbol interactiva."
+    },
+    "openTool": "Abrir Herramienta"
   }
 }
