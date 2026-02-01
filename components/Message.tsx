@@ -54,7 +54,7 @@ function Message({ message }: MessageProps) {
     <div
       className={cn(
         "flex flex-col mb-4  ",
-        message.sender === "user" ? "items-end" : "items-start"
+        message.sender === "user" ? "items-end" : "items-start",
       )}
     >
       {message.sender === "bot" && (
@@ -71,15 +71,15 @@ function Message({ message }: MessageProps) {
         className={cn(
           "inline-block p-3 rounded-lg tiptap !text-xs border border-primary-700/50 shadow-lg max-w-[80%]",
           message.sender === "user"
-            ? "bg-primary-700 text-white"
-            : "bg-accent-800 text-primary-100",
-          isTyping && "animate-pulse-fast"
+            ? "bg-blue-600 text-white dark:bg-primary-700"
+            : "bg-gray-200 text-gray-900 dark:bg-accent-800 dark:text-primary-100",
+          isTyping && "animate-pulse-fast",
         )}
         dangerouslySetInnerHTML={{ __html: displayedContent }}
       />
       <p
         title={formatDatetime(message.created_at, locale)}
-        className="text-xs text-primary-400 mt-1 italic"
+        className="text-xs text-gray-500 dark:text-primary-400 mt-1 italic"
       >
         {formatTime(message.created_at, locale)}
       </p>

@@ -45,11 +45,11 @@ function About() {
           {" "}
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaUser className="text-3xl text-accent-500" />
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("title")}
             </h1>
           </div>
-          <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-primary-300 leading-relaxed max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
         </div>
@@ -61,25 +61,25 @@ function About() {
             {/* Main Description */}
             <div className="space-y-4">
               {" "}
-              <div className="flex items-center gap-2 text-primary-200 mb-4">
+              <div className="flex items-center gap-2 text-gray-800 dark:text-primary-200 mb-4">
                 <FaHeart className="text-accent-500" />
                 <span className="font-semibold text-lg">{t("myStory")}</span>
               </div>
-              <p className="text-primary-400 leading-relaxed text-justify">
+              <p className="text-gray-600 dark:text-primary-400 leading-relaxed text-justify">
                 {t("description1")}
               </p>{" "}
-              <p className="text-primary-400 leading-relaxed text-justify">
+              <p className="text-gray-600 dark:text-primary-400 leading-relaxed text-justify">
                 {t("description2")}
               </p>{" "}
-              <p className="text-primary-400 leading-relaxed text-justify">
+              <p className="text-gray-600 dark:text-primary-400 leading-relaxed text-justify">
                 {t("description3")}
               </p>
             </div>
 
             {/* Highlights Grid */}
-            <div className="pt-6 border-t border-primary-800/30">
+            <div className="pt-6 border-t border-gray-200 dark:border-primary-800/30">
               {" "}
-              <h3 className="text-primary-200 font-semibold mb-4 text-center">
+              <h3 className="text-gray-800 dark:text-primary-200 font-semibold mb-4 text-center">
                 {t("keyHighlights")}
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -91,14 +91,14 @@ function About() {
                     duration={0.6}
                     easing="backOut"
                   >
-                    <div className="text-center p-4 rounded-lg bg-primary-900/30 border-2 border-primary-800/40 hover:border-accent-500/50 transition-colors duration-300 group/card">
+                    <div className="text-center p-4 rounded-lg bg-gray-50 dark:bg-primary-900/30 border-2 border-gray-200 dark:border-primary-800/40 hover:border-accent-500/50 transition-colors duration-300 group/card">
                       <div className="text-2xl mb-2 group-hover/card:scale-110 transition-transform duration-300">
                         {item.icon}
                       </div>
-                      <h4 className="font-semibold text-primary-200 text-sm mb-1">
+                      <h4 className="font-semibold text-gray-800 dark:text-primary-200 text-sm mb-1">
                         {item.title}
                       </h4>
-                      <p className="text-xs text-primary-400">
+                      <p className="text-xs text-gray-500 dark:text-primary-400">
                         {item.description}
                       </p>
                     </div>

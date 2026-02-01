@@ -54,7 +54,7 @@ function ChatInput({
     editorProps: {
       attributes: {
         class:
-          "w-full  focus:outline-none placeholder-primary-400! text-sm leading-6 focus:shadow-none! max-h-[200px] overflow-y-auto whitespace-pre-wrap break-words break-all word-break p-2",
+          "w-full  focus:outline-none placeholder-gray-400 dark:placeholder-primary-400! text-sm leading-6 focus:shadow-none! max-h-[200px] overflow-y-auto whitespace-pre-wrap break-words break-all word-break p-2",
         style:
           "white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;",
       },

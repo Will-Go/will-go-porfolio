@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 //UTILS
 import { cn } from "@/utils/cn";
@@ -79,8 +80,8 @@ export default function Navbar() {
       className={cn(
         "fixed left-4 right-4 lg:left-8 lg:right-8 xl:left-16 xl:right-16 z-50 transition-all duration-500 ease-in-out",
         isOpen
-          ? "top-0 bottom-0 left-0 right-0 bg-gradient-to-br from-primary-950/95 via-primary-900/95 to-accent-950/20 backdrop-blur-xl border-none rounded-none"
-          : "top-1 bg-gradient-to-r from-primary-950/80 via-primary-900/90 to-primary-950/80 backdrop-blur-xl border border-primary-800/40 rounded-xl shadow-lg shadow-accent-500/5",
+          ? "top-0 bottom-0 left-0 right-0 bg-white/95 dark:bg-gradient-to-br dark:from-primary-950/95 dark:via-primary-900/95 dark:to-accent-950/20 backdrop-blur-xl border-none rounded-none"
+          : "top-1 bg-white/80 dark:bg-gradient-to-r dark:from-primary-950/80 dark:via-primary-900/90 dark:to-primary-950/80 backdrop-blur-xl border border-gray-200 dark:border-primary-800/40 rounded-xl shadow-lg shadow-gray-200/50 dark:shadow-accent-500/5",
       )}
     >
       <div className="flex justify-between items-center px-2 py-1.5 lg:px-3 lg:py-2">
@@ -99,7 +100,7 @@ export default function Navbar() {
           <div className="hidden sm:block">
             <span
               ref={titulo}
-              className="text-lg lg:text-xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent"
+              className="text-lg lg:text-xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent"
             >
               {t("brand.name")}
             </span>
@@ -119,7 +120,7 @@ export default function Navbar() {
                 <Link
                   href={href}
                   onClick={() => setIsOpen(false)}
-                  className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-primary-300 hover:text-accent-300 transition-all duration-300 hover:bg-accent-500/10 hover:shadow-lg hover:shadow-accent-500/20"
+                  className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-primary-300 hover:text-accent-600 dark:hover:text-accent-300 transition-all duration-300 hover:bg-accent-500/10 hover:shadow-lg hover:shadow-accent-500/20"
                 >
                   <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity duration-300">
                     {icon}
@@ -132,13 +133,17 @@ export default function Navbar() {
               </motion.div>
             ))}
           </div>
-          <LanguageSwitcher />
+
+          <div className="flex items-center gap-2">
+            <LanguageSwitcher />
+            <ThemeToggle />
+          </div>
         </div>
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden relative p-3 rounded-xl bg-primary-900/50 border border-primary-800/60 text-primary-200 hover:border-accent-500/60 hover:text-accent-300 hover:bg-accent-500/10 transition-all duration-300 group"
+          className="md:hidden relative p-3 rounded-xl bg-gray-100/50 dark:bg-primary-900/50 border border-gray-200 dark:border-primary-800/60 text-gray-700 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-accent-500/10 transition-all duration-300 group"
           aria-label="Toggle menu"
         >
           <div className="relative w-5 h-5 flex items-center justify-center">
@@ -189,10 +194,12 @@ export default function Navbar() {
                 transition={{ delay: 0.1 }}
                 className="mb-12"
               >
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent mb-2">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent mb-2">
                   {t("brand.name")}
                 </h2>
-                <p className="text-primary-400 text-sm">{t("brand.title")}</p>
+                <p className="text-gray-500 dark:text-primary-400 text-sm">
+                  {t("brand.title")}
+                </p>
               </motion.div>
 
               {/* Mobile Navigation Links */}
@@ -207,7 +214,7 @@ export default function Navbar() {
                     <Link
                       href={href}
                       onClick={() => setIsOpen(false)}
-                      className="group flex items-center justify-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-primary-900/50 to-primary-800/50 border border-primary-800/40 text-primary-200 hover:border-accent-500/60 hover:text-accent-300 hover:bg-gradient-to-r hover:from-accent-500/10 hover:to-accent-600/10 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/20"
+                      className="group flex items-center justify-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-gradient-to-r dark:from-primary-900/50 dark:to-primary-800/50 border border-gray-200 dark:border-primary-800/40 text-gray-700 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-gradient-to-r hover:from-accent-500/10 hover:to-accent-600/10 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/20"
                     >
                       <span className="text-accent-400 text-xl">{icon}</span>
                       <span className="text-xl font-medium">{text}</span>
@@ -223,7 +230,10 @@ export default function Navbar() {
                 transition={{ delay: 0.6 }}
                 className="pt-4"
               >
-                <LanguageSwitcher />
+                <div className="flex items-center justify-center gap-4">
+                  <LanguageSwitcher />
+                  <ThemeToggle />
+                </div>
               </motion.div>
 
               {/* Mobile Footer */}
@@ -233,9 +243,9 @@ export default function Navbar() {
                 transition={{ delay: 0.8 }}
                 className="mt-16 text-center"
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/20 rounded-full border border-accent-500/30">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/10 dark:bg-accent-500/20 rounded-full border border-accent-500/20 dark:border-accent-500/30">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-primary-300 text-xs">
+                  <span className="text-gray-600 dark:text-primary-300 text-xs">
                     {t("brand.subtitle")}
                   </span>
                 </div>

@@ -1,4 +1,5 @@
 import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { Analytics } from "@vercel/analytics/react";
@@ -27,13 +28,20 @@ export default async function RootLayout({
   const locale = await getLocale();
   return (
     // <ViewTransition>
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`${font.className} selection:text-black selection:bg-slate-300 `}
       >
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
-        <Analytics />
-        <SpeedInsights />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <Analytics />
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
     // </ViewTransition>

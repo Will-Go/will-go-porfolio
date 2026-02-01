@@ -18,7 +18,7 @@ export default function ProtectedPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-950 via-primary-900 to-accent-900/40 flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br bg-primary from-primary-950 via-primary-900 to-accent-900/40 flex items-center justify-center p-4 sm:p-6">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

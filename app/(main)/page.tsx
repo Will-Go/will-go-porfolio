@@ -22,10 +22,10 @@ export default function Home() {
         <div className="flex-1 max-w-2xl text-center md:text-left space-y-6">
           <Reveal animationType="slideDown" duration={1.2} easing="backOut">
             <div className="space-y-2">
-              <p className="text-accent-400 text-sm md:text-base font-medium tracking-wider uppercase">
+              <p className="text-accent-600 dark:text-accent-400 text-sm md:text-base font-medium tracking-wider uppercase">
                 {t("home.welcome")}
               </p>
-              <h1 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl xl:text-7xl font-bold bg-gradient-to-r from-gray-900 via-accent-500 to-gray-800 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent leading-tight">
                 {t("home.name")}
               </h1>
             </div>
@@ -37,7 +37,7 @@ export default function Home() {
             duration={1}
             easing="easeOut"
           >
-            <h2 className="text-xl sm:text-2xl lg:text-3xl text-primary-300 font-semibold">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl text-gray-700 dark:text-primary-300 font-semibold">
               {t("home.title")}
             </h2>
           </Reveal>
@@ -48,7 +48,7 @@ export default function Home() {
             duration={0.8}
             easing="easeOut"
           >
-            <p className="text-base sm:text-lg text-primary-400 leading-relaxed max-w-xl">
+            <p className="text-base sm:text-lg text-gray-600 dark:text-primary-400 leading-relaxed max-w-xl">
               {t("home.description", { location: t("home.location") })}
             </p>
           </Reveal>
@@ -62,13 +62,13 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row sm:justify-center md:justify-start gap-4 pt-4">
               <Link
                 href="#projects"
-                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-xl hover:from-accent-600 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-primary-950 transition-all duration-200 transform hover:scale-105"
+                className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-xl hover:from-accent-600 hover:to-accent-700 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-primary-950 transition-all duration-200 transform hover:scale-105"
               >
                 {t("home.viewWork")}
               </Link>
               <Link
                 href="#about"
-                className="inline-flex items-center justify-center px-6 py-3 border-2 border-primary-700 text-primary-200 font-semibold rounded-xl hover:border-accent-500 hover:text-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-primary-950 transition-all duration-200"
+                className="inline-flex items-center justify-center px-6 py-3 border-2 border-gray-300 dark:border-primary-700 text-gray-700 dark:text-primary-200 font-semibold rounded-xl hover:border-accent-500 hover:text-accent-600 dark:hover:text-accent-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-primary-950 transition-all duration-200"
               >
                 {t("home.learnMore")}
               </Link>
@@ -91,7 +91,7 @@ export default function Home() {
                     alt="Wilson - Software Engineer"
                     width={280}
                     height={280}
-                    className="relative rounded-full w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-cover border-4 border-primary-800/50 shadow-2xl group-hover:scale-105 transition-transform duration-300"
+                    className="relative rounded-full w-48 h-48 sm:w-64 sm:h-64 lg:w-72 lg:h-72 object-cover border-4 border-gray-200 dark:border-primary-800/50 shadow-2xl group-hover:scale-105 transition-transform duration-300"
                     priority
                   />
                   <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-accent-500/10 to-transparent"></div>

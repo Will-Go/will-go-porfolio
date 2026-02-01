@@ -11,8 +11,8 @@ function Card({ children, className, ...motionProps }: Readonly<CardProps>) {
     <motion.div
       {...motionProps}
       className={cn(
-        "cursor-default group relative overflow-hidden border-2 border-primary-700/30 p-3 rounded-md  w-full bg-linear-to-tl hover:bg-primary-800 from-primary-950 bg-primary-900/60 !transition-all ease-in-out duration-500",
-        className
+        "cursor-default group relative overflow-hidden border-2 border-gray-200 dark:border-primary-700/30 p-3 rounded-md  w-full bg-linear-to-tl hover:bg-white dark:hover:bg-primary-800 from-gray-50 dark:from-primary-950 bg-white dark:bg-primary-900/60 !transition-all ease-in-out duration-500 shadow-sm hover:shadow-md dark:shadow-none",
+        className,
       )}
     >
       {children}

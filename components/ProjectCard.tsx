@@ -54,7 +54,7 @@ export default function ProjectCard({
               >
                 <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
                   <FaGithub className="text-accent-500 text-sm sm:text-base lg:text-lg flex-shrink-0" />
-                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
                     {name}
                   </h2>
                 </div>
@@ -67,7 +67,7 @@ export default function ProjectCard({
                 className="group/link inline-flex items-center gap-2 sm:gap-3 hover:text-accent-300 transition-colors duration-300"
               >
                 <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
-                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
                     {name}
                   </h2>
                 </div>
@@ -76,7 +76,7 @@ export default function ProjectCard({
             ) : (
               <p className="group/link inline-flex items-center gap-2 sm:gap-3 hover:text-accent-300 transition-colors duration-300">
                 <div className="flex items-center gap-1.5 sm:gap-2 flex-1 min-w-0">
-                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
+                  <h2 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-primary-100 group-hover/link:underline group-hover/link:text-accent-300 transition-colors duration-300 line-clamp-2 break-words">
                     {name}
                   </h2>
                 </div>
@@ -84,7 +84,7 @@ export default function ProjectCard({
             )}
             {/* Creation Date */}
             {created_at && (
-              <div className="flex items-center gap-1.5 sm:gap-2 text-primary-400 text-xs sm:text-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-gray-500 dark:text-primary-400 text-xs sm:text-sm">
                 <FaCalendarAlt className="text-accent-500 text-xs flex-shrink-0" />
                 <span className="truncate">
                   {t("projects.projectCard.created")}{" "}
@@ -94,7 +94,7 @@ export default function ProjectCard({
             )}
           </div>
           {/* Description */}
-          <div className="text-primary-400 leading-relaxed text-xs sm:text-sm flex-1">
+          <div className="text-gray-600 dark:text-primary-400 leading-relaxed text-xs sm:text-sm flex-1">
             <TextDisplayer text={description} numClamp={3} />
           </div>
         </div>
@@ -103,7 +103,7 @@ export default function ProjectCard({
           {/* Categories */}
           {categories.length > 0 && (
             <div className="space-y-2 sm:space-y-3">
-              <div className="flex items-center gap-1.5 sm:gap-2 text-primary-200 text-xs sm:text-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-gray-700 dark:text-primary-200 text-xs sm:text-sm">
                 <FaTags className="text-accent-500 flex-shrink-0" />
                 <span className="font-medium truncate">
                   {categories.length === 1
@@ -115,7 +115,7 @@ export default function ProjectCard({
                 {categories.map((category, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium bg-gradient-to-r from-blue-900/40 to-blue-800/40 border border-blue-700/60 rounded-full text-blue-300 hover:border-blue-500/60 hover:text-blue-200 transition-all duration-300 cursor-default group/tag"
+                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/40 dark:to-blue-800/40 border border-blue-200 dark:border-blue-700/60 rounded-full text-blue-900! dark:text-blue-300 hover:border-blue-500/60 hover:text-blue-500 dark:hover:text-blue-200 transition-all duration-300 cursor-default group/tag"
                   >
                     <span className="truncate">{firstLetterCap(category)}</span>
                   </span>
@@ -126,7 +126,7 @@ export default function ProjectCard({
           {/* Technologies */}
           {technologies.length > 0 && (
             <div className="space-y-2 sm:space-y-3">
-              <div className="flex items-center gap-1.5 sm:gap-2 text-primary-200 text-xs sm:text-sm">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-gray-700 dark:text-primary-200 text-xs sm:text-sm">
                 <FaCode className="text-accent-500 flex-shrink-0" />
                 <span className="font-medium truncate">
                   {technologies.length === 1
@@ -138,7 +138,7 @@ export default function ProjectCard({
                 {technologies.map((technology, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium bg-gradient-to-r from-primary-900/80 to-primary-800/80 border border-primary-700/60 rounded-full text-primary-200 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 cursor-default group/tech"
+                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 text-xs font-medium bg-gradient-to-r from-gray-100/80 to-gray-50/80 dark:from-primary-900/80 dark:to-primary-800/80 border border-gray-200 dark:border-primary-700/60 rounded-full text-gray-700 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 cursor-default group/tech"
                   >
                     <span className="truncate">
                       {firstLetterCap(technology)}

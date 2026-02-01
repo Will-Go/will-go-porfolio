@@ -131,9 +131,9 @@ function ChatBubble() {
             }
             transition={{ duration: 0.4, ease: "anticipate" }}
             className={cn(
-              "border border-primary-700/60 z-50 backdrop-blur-lg bg-gradient-to-br from-primary-900/50 via-primary-950/50 to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-accent-800/30",
+              "border border-gray-200 dark:border-primary-700/60 z-50 backdrop-blur-lg bg-white dark:bg-gradient-to-br dark:from-primary-900/50 dark:via-primary-950/50 dark:to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-gray-100 dark:ring-accent-800/30",
               isMobile ? "rounded-none flex flex-col h-full" : "rounded-3xl",
-              (error || !isChatUp) && "border-error ring-error/20 ring-4"
+              (error || !isChatUp) && "border-error ring-error/20 ring-4",
             )}
             style={
               isMobile
@@ -156,24 +156,24 @@ function ChatBubble() {
             {/* Chat Header */}
             <div
               className={cn(
-                "flex justify-between items-center p-5 border-b border-primary-800/40 bg-gradient-to-br from-primary-900/80 via-primary-950/90",
-                isMobile ? "flex-shrink-0" : ""
+                "flex justify-between items-center p-5 border-b border-gray-200 dark:border-primary-800/40 bg-gray-50 dark:bg-gradient-to-br dark:from-primary-900/80 dark:via-primary-950/90",
+                isMobile ? "flex-shrink-0" : "",
               )}
             >
               <div className="flex items-center gap-2">
                 <span
                   className={cn(
                     "w-3 h-3 rounded-full bg-accent-500 animate-pulse",
-                    (error || !isChatUp) && "bg-error animate-pulse"
+                    (error || !isChatUp) && "bg-error animate-pulse",
                   )}
                 ></span>{" "}
-                <h3 className="font-bold text-lg text-primary-100 tracking-wide drop-shadow-sm">
+                <h3 className="font-bold text-lg text-gray-800 dark:text-primary-100 tracking-wide drop-shadow-sm">
                   {t("title")}
                 </h3>
               </div>
               <button
                 onClick={toggleChat}
-                className="text-primary-400 cursor-pointer hover:text-accent-400 transition-colors p-1 rounded-full hover:bg-primary-900/40"
+                className="text-gray-500 dark:text-primary-400 cursor-pointer hover:text-accent-400 transition-colors p-1 rounded-full hover:bg-gray-100 dark:hover:bg-primary-900/40"
                 aria-label={t("closeButton")}
               >
                 <FaTimes size={20} />
@@ -182,8 +182,8 @@ function ChatBubble() {
             {/* Messages Container */}
             <div
               className={cn(
-                "p-4 overflow-y-auto bg-primary-950/20",
-                isMobile ? "flex-1 min-h-0" : "h-80"
+                "p-4 overflow-y-auto bg-gray-50/50 dark:bg-primary-950/20",
+                isMobile ? "flex-1 min-h-0" : "h-80",
               )}
             >
               {!isChatUp ? (
@@ -191,7 +191,7 @@ function ChatBubble() {
                   <p className="text-xs text-red-400">{t("outOfService")}</p>
                 </div>
               ) : messages.length === 0 ? (
-                <div className="text-center text-primary-400 py-8 ">
+                <div className="text-center text-gray-500 dark:text-primary-400 py-8 ">
                   <p className="text-xs">{t("startChat")}</p>
                 </div>
               ) : (
@@ -213,11 +213,11 @@ function ChatBubble() {
             {/* Input Area */}
             <div
               className={cn(
-                "p-4 border-t border-primary-800/40 flex flex-col gap-1 bg-gradient-to-t from-primary-950/40 to-primary-900/10",
-                isMobile ? "flex-shrink-0 sticky bottom-0" : ""
+                "p-4 border-t border-gray-200 dark:border-primary-800/40 flex flex-col gap-1 bg-white dark:bg-gradient-to-t dark:from-primary-950/40 dark:to-primary-900/10",
+                isMobile ? "flex-shrink-0 sticky bottom-0" : "",
               )}
             >
-              <div className="flex items-center w-full border border-primary-800 rounded-2xl bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
+              <div className="flex items-center w-full border border-gray-300 dark:border-primary-800 rounded-2xl bg-gray-100 dark:bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
                 <div className="w-full">
                   {!!error || !isChatUp ? (
                     <p className="text-xs italic text-red-300 p-4">
@@ -228,7 +228,7 @@ function ChatBubble() {
                       value={inputValue}
                       onChange={setInputValue}
                       onKeyDown={handleKeyDown}
-                      className="p-2 bg-transparent text-primary-100 "
+                      className="p-2 bg-transparent text-gray-800 dark:text-primary-100 "
                       disabled={loading || !!error || !isChatUp}
                       placeholder={t("input.placeholder")}
                     />
@@ -261,10 +261,10 @@ function ChatBubble() {
         <button
           onClick={toggleChat}
           className={cn(
-            "border-2 cursor-pointer hover:scale-110 rounded-full p-4 transition-all !z-30 duration-500 relative overflow-hidden",
+            "border-2 cursor-pointer hover:scale-110 rounded-full p-4 transition-all !z-30 duration-500 relative overflow-hidden shadow-lg",
             isChatUp
-              ? "border-primary-800 bg-linear-to-tl from-primary-950 via-primary-950 bg-primary-800"
-              : "border-red-600 bg-gradient-to-tl from-red-900 via-red-950 to-red-800"
+              ? "border-gray-200 dark:border-primary-800 bg-white dark:bg-primary-800 text-accent-500"
+              : "border-red-600 bg-gradient-to-tl from-red-900 via-red-950 to-red-800 text-white",
           )}
           style={{ width: "64px", height: "64px" }} // Ensure consistent size for animation
         >
@@ -277,7 +277,7 @@ function ChatBubble() {
               transition={{ duration: 0.3, ease: "easeInOut" }}
               className={cn(
                 "absolute inset-0 flex items-center justify-center",
-                !isChatUp && "text-red-300"
+                !isChatUp && "text-red-300",
               )}
             >
               {!isChatUp ? (

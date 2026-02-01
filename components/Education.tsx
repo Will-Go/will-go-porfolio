@@ -25,11 +25,11 @@ function Education() {
         <div className="text-center space-y-4 max-w-4xl">
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaGraduationCap className="text-3xl text-accent-500" />
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("title")}
             </h1>
           </div>
-          <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-primary-300 leading-relaxed max-w-2xl mx-auto">
             {t("subtitle")}
           </p>
         </div>
@@ -41,14 +41,14 @@ function Education() {
             {/* University Header */}
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
               <div className="space-y-2">
-                <h2 className="text-2xl md:text-3xl font-bold text-primary-100 leading-tight">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-primary-100 leading-tight">
                   {t("university")}
                 </h2>
                 <h3 className="text-lg font-semibold text-accent-400">
                   {t("degree")}
                 </h3>
               </div>
-              <div className="flex items-center gap-2 text-primary-400">
+              <div className="flex items-center gap-2 text-gray-500 dark:text-primary-400">
                 <FaCalendarAlt className="text-accent-500" />
                 <span className="font-medium">
                   {t("period", { percentage: PERCENTAGE_COMPLETE })}
@@ -57,18 +57,18 @@ function Education() {
             </div>
 
             {/* Location */}
-            <div className="flex items-center gap-2 text-primary-300">
+            <div className="flex items-center gap-2 text-gray-600 dark:text-primary-300">
               <FaMapMarkerAlt className="text-accent-500" />
               <span>{t("location")}</span>
             </div>
 
             {/* Description */}
             <div className="space-y-4">
-              <div className="flex items-center gap-2 text-primary-200">
+              <div className="flex items-center gap-2 text-gray-800 dark:text-primary-200">
                 <FaBookOpen className="text-accent-500" />
                 <span className="font-semibold">Program Overview</span>
               </div>
-              <p className="text-primary-400 leading-relaxed text-justify">
+              <p className="text-gray-600 dark:text-primary-400 leading-relaxed text-justify">
                 {t("description")}
               </p>
             </div>
@@ -76,10 +76,10 @@ function Education() {
             {/* Key Areas */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
               <div className="space-y-2">
-                <h4 className="font-semibold text-primary-200">
+                <h4 className="font-semibold text-gray-800 dark:text-primary-200">
                   Key Focus Areas:
                 </h4>
-                <ul className="text-sm text-primary-400 space-y-1">
+                <ul className="text-sm text-gray-600 dark:text-primary-400 space-y-1">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
                     Software Development & Engineering
@@ -95,10 +95,10 @@ function Education() {
                 </ul>
               </div>
               <div className="space-y-2">
-                <h4 className="font-semibold text-primary-200">
+                <h4 className="font-semibold text-gray-800 dark:text-primary-200">
                   Technical Skills:
                 </h4>
-                <ul className="text-sm text-primary-400 space-y-1">
+                <ul className="text-sm text-gray-600 dark:text-primary-400 space-y-1">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
                     Object-Oriented Programming
@@ -116,16 +116,16 @@ function Education() {
             </div>
 
             {/* Progress Indicator */}
-            <div className="pt-6 border-t border-primary-800/30">
+            <div className="pt-6 border-t border-gray-200 dark:border-primary-800/30">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-primary-300">
+                <span className="text-sm font-medium text-gray-600 dark:text-primary-300">
                   {t("progress.title")}
                 </span>
                 <span className="text-sm text-accent-400 font-semibold">
                   {PERCENTAGE_COMPLETE}% Complete
                 </span>
               </div>
-              <div className="w-full bg-primary-900/50 rounded-full h-2">
+              <div className="w-full bg-gray-200 dark:bg-primary-900/50 rounded-full h-2">
                 <div
                   className="bg-gradient-to-r from-accent-500 to-accent-600 h-2 rounded-full transition-all duration-500"
                   style={{ width: `${PERCENTAGE_COMPLETE}%` }}

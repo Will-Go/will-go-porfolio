@@ -19,7 +19,7 @@ export default function CopyText({
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = async (
-    e: React.MouseEvent<HTMLButtonElement>
+    e: React.MouseEvent<HTMLButtonElement>,
   ): Promise<void> => {
     e.preventDefault();
     e.stopPropagation();
@@ -39,9 +39,9 @@ export default function CopyText({
         className={cn(
           "transition-colors duration-200 !p-1",
           isCopied
-            ? "text-green-500 hover:text-green-600"
-            : "text-muted-foreground hover:text-primary-500 ",
-          className
+            ? "text-green-500 hover:text-green-600 dark:text-green-400 dark:hover:text-green-500"
+            : "text-gray-500 dark:text-primary-400 hover:text-accent-600 dark:hover:text-accent-400",
+          className,
         )}
       >
         {isCopied ? (

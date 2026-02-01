@@ -16,11 +16,11 @@ function Experience() {
         <div className="text-center space-y-4 max-w-4xl">
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaBriefcase className="text-3xl text-accent-500" />
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t_experience("title")}
             </h1>
           </div>
-          <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-primary-300 leading-relaxed max-w-2xl mx-auto">
             {t_experience("subtitle")}
           </p>
         </div>
@@ -33,7 +33,7 @@ function Experience() {
             {/* Timeline Line */}
             <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-accent-500 via-accent-600 to-transparent"></div>
             {/* Timeline Dot at Top */}
-            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 -translate-y-2 w-4 h-4 bg-accent-500 rounded-full border-4 border-primary-950 z-10"></div>{" "}
+            <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 -translate-y-2 w-4 h-4 bg-accent-500 rounded-full border-4 border-gray-50 dark:border-primary-950 z-10"></div>{" "}
             <div className="flex flex-col gap-12">
               {" "}
               {experiences.map((experience, i) => {
@@ -48,7 +48,7 @@ function Experience() {
                 return (
                   <div key={i} className="relative">
                     {/* Timeline Dot */}
-                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-8 w-4 h-4 bg-accent-400 rounded-full border-4 border-primary-950 z-20 shadow-lg"></div>
+                    <div className="hidden md:block absolute left-1/2 transform -translate-x-1/2 top-8 w-4 h-4 bg-accent-400 rounded-full border-4 border-gray-50 dark:border-primary-950 z-20 shadow-lg"></div>
 
                     <div className="md:grid md:grid-cols-2 md:gap-8 md:items-center">
                       {/* Left Side Card (even indexes) */}
@@ -95,7 +95,7 @@ function Experience() {
               })}
             </div>
             {/* Timeline End */}
-            <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 bottom-0 translate-y-8 items-center justify-center w-8 h-8 bg-primary-900 rounded-full border-2 border-accent-500">
+            <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 bottom-0 translate-y-8 items-center justify-center w-8 h-8 bg-gray-50 dark:bg-primary-900 rounded-full border-2 border-accent-500">
               <FaRoad className="text-accent-500 text-sm" />
             </div>
           </div>

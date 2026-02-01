@@ -11,8 +11,8 @@ export default function BackgroundBlur({
   return (
     <div
       className={cn(
-        `absolute blur-[100px] rounded-full bg-accent-500/30 animate-pulse z-[-1]`,
-        className
+        `absolute blur-[100px] rounded-full bg-accent-500/20 dark:bg-accent-500/30 animate-pulse z-[-1]`,
+        className,
       )}
     ></div>
   );

@@ -62,10 +62,10 @@ export default function UuidGeneratorPage() {
         {/* Header Section */}
         <Reveal animationType="slideDown" duration={0.8} easing="backOut">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-accent-500 to-gray-800 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               UUID Generator
             </h1>
-            <p className="text-lg text-primary-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-primary-400 max-w-2xl mx-auto">
               Generate version 4 UUIDs (Universally Unique Identifier)
               instantly.
             </p>
@@ -85,7 +85,7 @@ export default function UuidGeneratorPage() {
                 <div className="flex-1 w-full">
                   <label
                     htmlFor="uuid-count"
-                    className="block text-sm font-medium text-primary-300 mb-2"
+                    className="block text-sm font-medium text-gray-700 dark:text-primary-300 mb-2"
                   >
                     Number of UUIDs
                   </label>
@@ -97,16 +97,18 @@ export default function UuidGeneratorPage() {
                     value={count}
                     onChange={handleInputChange}
                     className={cn(
-                      "w-full px-4 py-3 bg-primary-900/50 border rounded-lg text-primary-100 placeholder-primary-500",
+                      "w-full px-4 py-3 bg-gray-50 dark:bg-primary-900/50 border rounded-lg text-gray-900 dark:text-primary-100 placeholder-gray-400 dark:placeholder-primary-500",
                       "focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent",
                       "transition-all duration-200",
                       inputError
                         ? "border-red-500 focus:ring-red-500"
-                        : "border-primary-700",
+                        : "border-gray-200 dark:border-primary-700",
                     )}
                   />
                   {inputError && (
-                    <p className="text-red-400 text-sm mt-2">{inputError}</p>
+                    <p className="text-red-500 dark:text-red-400 text-sm mt-2">
+                      {inputError}
+                    </p>
                   )}
                 </div>
                 <Button
@@ -130,12 +132,12 @@ export default function UuidGeneratorPage() {
           <Card className="p-6 md:p-8">
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-primary-200">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-primary-200">
                   Generated UUIDs
                 </h2>
                 {uuids.length > 0 && (
                   <div className="flex items-center gap-2">
-                    <span className="text-sm text-primary-400 mr-2">
+                    <span className="text-sm text-gray-600 dark:text-primary-400 mr-2">
                       Copy All
                     </span>
                     <CopyText
@@ -146,25 +148,25 @@ export default function UuidGeneratorPage() {
                 )}
               </div>
 
-              <div className="bg-primary-900/30 border border-primary-800 rounded-lg divide-y divide-primary-800/50 max-h-[500px] overflow-y-auto">
+              <div className="bg-gray-50 dark:bg-primary-900/30 border border-gray-100 dark:border-primary-800 rounded-lg divide-y divide-gray-200 dark:divide-primary-800/50 max-h-[500px] overflow-y-auto">
                 {uuids.map((uuid, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-4 hover:bg-primary-800/20 transition-colors"
+                    className="flex items-center justify-between p-4 hover:bg-gray-100 dark:hover:bg-primary-800/20 transition-colors"
                   >
-                    <span className="font-mono text-primary-100 break-all">
+                    <span className="font-mono text-gray-800 dark:text-primary-100 break-all">
                       {uuid}
                     </span>
                     <CopyText text={uuid} tooltipText="Copy UUID" />
                   </div>
                 ))}
                 {uuids.length === 0 && (
-                  <div className="p-8 text-center text-primary-500">
+                  <div className="p-8 text-center text-gray-500 dark:text-primary-500">
                     Click Generate to create UUIDs
                   </div>
                 )}
               </div>
-              <div className="text-right text-sm text-primary-500">
+              <div className="text-right text-sm text-gray-500 dark:text-primary-500">
                 Total: {uuids.length}
               </div>
             </div>

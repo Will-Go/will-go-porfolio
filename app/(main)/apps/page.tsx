@@ -39,10 +39,10 @@ export default function AppsPage() {
         {/* Header Section */}
         <Reveal animationType="slideDown" duration={0.8} easing="backOut">
           <div className="text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-accent-500 to-gray-800 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("title")}
             </h1>
-            <p className="text-lg text-primary-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-primary-400 max-w-2xl mx-auto">
               {t("subtitle")}
             </p>
           </div>
@@ -58,17 +58,17 @@ export default function AppsPage() {
               duration={0.8}
             >
               <Link href={app.href} className="block h-full group">
-                <Card className="h-full p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-accent-500/10 border-primary-800/50 group-hover:border-accent-500/30">
+                <Card className="h-full p-8 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-accent-500/10 border-gray-200 dark:border-primary-800/50 group-hover:border-accent-500/30">
                   <div className="flex flex-col h-full">
-                    <div className="mb-6 bg-primary-900/50 w-16 h-16 rounded-2xl flex items-center justify-center border border-primary-800 group-hover:border-accent-500/30 transition-colors duration-300">
+                    <div className="mb-6 bg-gray-100 dark:bg-primary-900/50 w-16 h-16 rounded-2xl flex items-center justify-center border border-gray-200 dark:border-primary-800 group-hover:border-accent-500/30 transition-colors duration-300">
                       {app.icon}
                     </div>
 
-                    <h2 className="text-2xl font-bold text-primary-100 mb-3 group-hover:text-accent-300 transition-colors duration-300">
+                    <h2 className="text-2xl font-bold text-gray-800 dark:text-primary-100 mb-3 group-hover:text-accent-300 transition-colors duration-300">
                       {app.title}
                     </h2>
 
-                    <p className="text-primary-400 mb-6 flex-grow leading-relaxed">
+                    <p className="text-gray-600 dark:text-primary-400 mb-6 flex-grow leading-relaxed">
                       {app.description}
                     </p>
 

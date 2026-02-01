@@ -36,7 +36,7 @@ function Projects() {
     async function fetchProjects() {
       try {
         const res = await fetch(
-          "https://api.github.com/search/repositories?q=user%3AWill-Go%20topic%3Aporfolio&sort=updated&direction=desc"
+          "https://api.github.com/search/repositories?q=user%3AWill-Go%20topic%3Aporfolio&sort=updated&direction=desc",
         );
 
         if (!res.ok) {
@@ -70,7 +70,7 @@ function Projects() {
           const allProjects = [...localProjects, ...fetchedProjects].sort(
             (a, b) =>
               new Date(b.created_at ?? 0).getTime() -
-              new Date(a.created_at ?? 0).getTime()
+              new Date(a.created_at ?? 0).getTime(),
           );
 
           setProjects(allProjects);
@@ -102,11 +102,11 @@ function Projects() {
         <div className="text-center space-y-4 max-w-4xl">
           <div className="flex items-center justify-center gap-3 mb-6">
             <FaGithub className="text-3xl text-accent-500" />
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-100 via-accent-400 to-primary-200 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("projects.title")}
             </h1>
           </div>
-          <p className="text-lg text-primary-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 dark:text-primary-300 leading-relaxed max-w-2xl mx-auto">
             {t("projects.subtitle")}
           </p>
         </div>
@@ -119,9 +119,9 @@ function Projects() {
           easing="easeOut"
         >
           <div className="text-center mt-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/20 rounded-full border border-accent-500/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/10 dark:bg-accent-500/20 rounded-full border border-accent-500/30">
               <FaGithub className="text-accent-400" />
-              <span className="text-primary-300 text-sm">
+              <span className="text-gray-600 dark:text-primary-300 text-sm">
                 {t("projects.count", {
                   count: projects.length,
                   plural: projects.length !== 1 ? "s" : "",
@@ -140,10 +140,10 @@ function Projects() {
       >
         {projects.length === 0 && !projectFetchError && (
           <div className="text-center py-12">
-            <p className="text-primary-400 text-lg">
+            <p className="text-gray-500 dark:text-primary-400 text-lg">
               {t("projects.noProjects")}
             </p>
-            <p className="text-primary-500 text-sm mt-2">
+            <p className="text-gray-400 dark:text-primary-500 text-sm mt-2">
               {t("projects.noProjectsSubtitle")}
             </p>
           </div>
@@ -178,8 +178,8 @@ function Projects() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="bg-primary-900/80 border-primary-700/60 text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
-            <CarouselNext className="bg-primary-900/80 border-primary-700/60 text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
+            <CarouselPrevious className="bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
+            <CarouselNext className="bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
           </Carousel>
         )}
       </Reveal>
