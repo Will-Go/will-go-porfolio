@@ -30,7 +30,7 @@ function generateLoremText(wordCount: number): string {
 }
 
 export default function LoremPage() {
-  const t = useTranslations();
+  const t = useTranslations("loremTool");
   const [wordCount, setWordCount] = useState<number>(40);
   const [inputValue, setInputValue] = useState<string>("40");
   const [generatedText, setGeneratedText] = useState<string>("");
@@ -46,17 +46,17 @@ export default function LoremPage() {
     const num = parseInt(inputValue, 10);
 
     if (isNaN(num)) {
-      setInputError("Please enter a valid number");
+      setInputError(t("inputErrorValidNumber"));
       return;
     }
 
     if (num < 1) {
-      setInputError("Minimum 1 word required");
+      setInputError(t("inputErrorMinWords"));
       return;
     }
 
     if (num > 10000) {
-      setInputError("Maximum 10,000 words allowed");
+      setInputError(t("inputErrorMaxWords"));
       return;
     }
 
@@ -88,13 +88,10 @@ export default function LoremPage() {
         <Reveal animationType="slideDown" duration={0.8} easing="backOut">
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-accent-500 to-gray-800 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
-              {t("title", { defaultMessage: "Lorem Ipsum Generator" })}
+              {t("title")}
             </h1>
             <p className="text-lg text-gray-600 dark:text-primary-400 max-w-2xl mx-auto">
-              {t("subtitle", {
-                defaultMessage:
-                  "Generate random placeholder text for your designs and mockups",
-              })}
+              {t("subtitle")}
             </p>
           </div>
         </Reveal>
@@ -114,7 +111,7 @@ export default function LoremPage() {
                     htmlFor="word-count"
                     className="block text-sm font-medium text-gray-700 dark:text-primary-300 mb-2"
                   >
-                    {t("wordCountLabel", { defaultMessage: "Number of Words" })}
+                    {t("wordCountLabel")}
                   </label>
                   <input
                     id="word-count"
@@ -132,9 +129,7 @@ export default function LoremPage() {
                         ? "border-red-500 focus:ring-red-500"
                         : "border-gray-200 dark:border-primary-700",
                     )}
-                    placeholder={t("wordCountPlaceholder", {
-                      defaultMessage: "Enter word count (1-10,000)",
-                    })}
+                    placeholder={t("wordCountPlaceholder")}
                   />
                   {inputError && (
                     <p className="text-red-500 dark:text-red-400 text-sm mt-2">
@@ -146,17 +141,17 @@ export default function LoremPage() {
                   onClick={handleGenerate}
                   className="w-full h-full sm:w-auto px-8 py-3 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-lg hover:from-accent-600 hover:to-accent-700 transition-all duration-200 transform hover:scale-105"
                 >
-                  {t("generateButton", { defaultMessage: "Generate" })}
+                  {t("generateButton")}
                 </Button>
               </div>
 
               <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-primary-800">
                 <p className="text-sm text-gray-500 dark:text-primary-400">
-                  {t("currentCount", { defaultMessage: "Current:" })}{" "}
+                  {t("currentCount")}{" "}
                   <span className="font-semibold text-accent-600 dark:text-accent-400">
                     {wordCount}
                   </span>{" "}
-                  {t("words", { defaultMessage: "words" })}
+                  {t("words")}
                 </p>
               </div>
             </div>
@@ -174,20 +169,18 @@ export default function LoremPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-primary-200">
-                  {t("generatedTitle", { defaultMessage: "Generated Text" })}
+                  {t("generatedTitle")}
                 </h2>
                 <div className="flex items-center gap-3">
                   {showCopiedMessage && (
                     <span className="text-green-600 dark:text-green-400 text-sm font-medium animate-fade-in">
-                      {t("copied", { defaultMessage: "Copied!" })}
+                      {t("copied")}
                     </span>
                   )}
                   <div onClick={handleCopySuccess}>
                     <CopyText
                       text={generatedText}
-                      tooltipText={t("copyTooltip", {
-                        defaultMessage: "Copy to clipboard",
-                      })}
+                      tooltipText={t("copyTooltip")}
                       className="!p-2"
                     />
                   </div>
@@ -196,11 +189,7 @@ export default function LoremPage() {
 
               <div className="min-h-[200px] p-4 bg-gray-50 dark:bg-primary-900/30 border border-gray-100 dark:border-primary-800 rounded-lg">
                 <p className="text-gray-700 dark:text-primary-300 leading-relaxed whitespace-pre-wrap break-words">
-                  {generatedText ||
-                    t("placeholderText", {
-                      defaultMessage:
-                        "Click Generate to create lorem ipsum text...",
-                    })}
+                  {generatedText || t("placeholderText")}
                 </p>
               </div>
 
@@ -208,13 +197,11 @@ export default function LoremPage() {
                 <span>
                   {t("characterCount", {
                     count: generatedText.length,
-                    defaultMessage: `${generatedText.length} characters`,
                   })}
                 </span>
                 <span>
                   {t("wordCountResult", {
                     count: wordCount,
-                    defaultMessage: `${wordCount} words`,
                   })}
                 </span>
               </div>
@@ -232,13 +219,10 @@ export default function LoremPage() {
           <Card className="p-6 md:p-8 bg-white/40 dark:bg-primary-900/40 border-accent-500/10 dark:border-accent-500/20 shadow-sm">
             <div className="text-center space-y-3">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-primary-200">
-                {t("whatIsTitle", { defaultMessage: "What is Lorem Ipsum?" })}
+                {t("whatIsTitle")}
               </h3>
               <p className="text-gray-600 dark:text-primary-400 text-sm leading-relaxed max-w-2xl mx-auto">
-                {t("whatIsDescription", {
-                  defaultMessage:
-                    "Lorem Ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual mockups. It helps designers focus on design elements without being distracted by meaningful content.",
-                })}
+                {t("whatIsDescription")}
               </p>
             </div>
           </Card>

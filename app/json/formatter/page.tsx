@@ -16,10 +16,12 @@ import { Switch } from "@/components/ui/switch";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { useTranslations } from "next-intl";
 import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
 import "react-json-view-lite/dist/index.css";
 
 export default function JsonFormatterPage() {
+  const t = useTranslations("jsonTool");
   const [input, setInput] = useState("");
   const [formatted, setFormatted] = useState<object | null>(null);
   const [error, setError] = useState("");
@@ -32,7 +34,7 @@ export default function JsonFormatterPage() {
       setFormatted(parsed);
       setError("");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Invalid JSON");
+      setError(e instanceof Error ? e.message : t("invalidJson"));
       setFormatted(null);
     }
   };
@@ -77,10 +79,10 @@ export default function JsonFormatterPage() {
       <Reveal>
         <div className="max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center bg-gradient-to-r from-gray-900 via-accent-500 to-gray-800 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
-            JSON Formatter
+            {t("title")}
           </h1>
           <p className="text-center text-gray-600 dark:text-primary-400 mb-8">
-            Format, validate, and beautify your JSON data
+            {t("subtitle")}
           </p>
 
           {/* Controls */}
@@ -90,32 +92,38 @@ export default function JsonFormatterPage() {
                 onClick={handleFormat}
                 className="bg-accent-600 hover:bg-accent-700 text-white"
               >
-                Format JSON
+                {t("formatButton")}
               </Button>
               <Button onClick={handleBeautify} variant="outline">
-                Beautify
+                {t("beautifyButton")}
               </Button>
               <Button onClick={handleMinify} variant="outline">
-                Minify
+                {t("minifyButton")}
               </Button>
               <Button onClick={handleClear} variant="outline">
-                Clear
+                {t("clearButton")}
               </Button>
               <div className="flex items-center gap-2">
                 <label className="text-sm font-medium text-gray-700 dark:text-primary-300">
-                  Indent:
+                  {t("indentLabel")}
                 </label>
                 <Select
                   value={indent.toString()}
                   onValueChange={(value) => setIndent(Number(value))}
                 >
                   <SelectTrigger className="w-[130px]">
-                    <SelectValue placeholder="Select indent" />
+                    <SelectValue placeholder={t("indentPlaceholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="2">2 spaces</SelectItem>
-                    <SelectItem value="4">4 spaces</SelectItem>
-                    <SelectItem value="8">8 spaces</SelectItem>
+                    <SelectItem value="2">
+                      {t("spaces", { count: 2 })}
+                    </SelectItem>
+                    <SelectItem value="4">
+                      {t("spaces", { count: 4 })}
+                    </SelectItem>
+                    <SelectItem value="8">
+                      {t("spaces", { count: 8 })}
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -138,10 +146,8 @@ export default function JsonFormatterPage() {
             <Reveal>
               <Alert className="mb-6 border-green-500 text-green-700 dark:text-green-400">
                 <CheckCircle2 className="h-4 w-4 text-green-500" />
-                <AlertTitle>Valid JSON</AlertTitle>
-                <AlertDescription>
-                  Your JSON has been successfully formatted and validated.
-                </AlertDescription>
+                <AlertTitle>{t("validJson")}</AlertTitle>
+                <AlertDescription>{t("successMessage")}</AlertDescription>
               </Alert>
             </Reveal>
           )}
@@ -153,10 +159,10 @@ export default function JsonFormatterPage() {
               <Card className="flex flex-col h-[600px]">
                 <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-primary-800">
                   <h2 className="text-xl font-semibold text-gray-800 dark:text-primary-100">
-                    Input
+                    {t("inputTitle")}
                   </h2>
                   <span className="text-sm text-gray-500 dark:text-primary-400">
-                    {input.length} characters
+                    {t("characters", { count: input.length })}
                   </span>
                 </div>
                 <textarea
@@ -178,13 +184,13 @@ export default function JsonFormatterPage() {
               <Card className="flex flex-col h-[600px]">
                 <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-primary-800">
                   <h2 className="text-xl font-semibold text-gray-800 dark:text-primary-100">
-                    Output
+                    {t("outputTitle")}
                   </h2>
                   <div className="flex items-center gap-3">
                     {formatted && (
                       <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-600 dark:text-primary-400">
-                          {showTreeView ? "Tree View" : "Text View"}
+                          {showTreeView ? t("treeView") : t("textView")}
                         </span>
                         <Switch
                           checked={showTreeView}
@@ -195,7 +201,7 @@ export default function JsonFormatterPage() {
                     {formatted && (
                       <CopyText
                         text={getFormattedOutput()}
-                        tooltipText="Copy formatted JSON"
+                        tooltipText={t("copyTooltip")}
                       />
                     )}
                   </div>
@@ -207,7 +213,7 @@ export default function JsonFormatterPage() {
                         /* Interactive Tree View */
                         <div>
                           <h3 className="text-sm font-semibold mb-2 text-gray-700 dark:text-primary-300">
-                            Interactive Tree View:
+                            {t("interactiveTitle")}
                           </h3>
                           <div className="p-3 bg-white dark:bg-primary-900/50 rounded-md border border-gray-100 dark:border-primary-800 overflow-x-auto text-sm font-mono">
                             <div className="flex">
@@ -237,7 +243,7 @@ export default function JsonFormatterPage() {
                         /* Formatted Text View */
                         <div>
                           <h3 className="text-sm font-semibold mb-2 text-gray-700 dark:text-primary-300">
-                            Formatted Text:
+                            {t("formattedTitle")}
                           </h3>
                           <div className="p-3 bg-white text-gray-900 dark:bg-primary-900/50 dark:text-primary-100 rounded-md overflow-x-auto text-sm font-mono border border-gray-100 dark:border-primary-800">
                             <div className="flex">
@@ -261,11 +267,9 @@ export default function JsonFormatterPage() {
                   ) : (
                     <div className="h-full flex items-center justify-center text-gray-400 dark:text-primary-500">
                       <p className="text-center">
-                        Formatted JSON will appear here
+                        {t("placeholder")}
                         <br />
-                        <span className="text-sm">
-                          Click &quot;Format JSON&quot; to validate and format
-                        </span>
+                        <span className="text-sm">{t("clickPrompt")}</span>
                       </p>
                     </div>
                   )}
@@ -278,32 +282,32 @@ export default function JsonFormatterPage() {
           <Reveal delay={0.4}>
             <Card className="mt-6 p-6">
               <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-primary-200">
-                Features:
+                {t("featuresTitle")}
               </h3>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-gray-600 dark:text-primary-400">
                 <li className="flex items-center gap-2">
                   <span className="text-green-500 dark:text-green-400">✓</span>
-                  Real-time JSON validation
+                  {t("features.validation")}
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  Beautify with custom indentation
+                  <span className="text-green-500 dark:text-green-400">✓</span>
+                  {t("features.beautify")}
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  Minify JSON to single line
+                  <span className="text-green-500 dark:text-green-400">✓</span>
+                  {t("features.minify")}
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  Interactive tree view
+                  <span className="text-green-500 dark:text-green-400">✓</span>
+                  {t("features.tree")}
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  Copy formatted output
+                  <span className="text-green-500 dark:text-green-400">✓</span>
+                  {t("features.copy")}
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span>
-                  Character count display
+                  <span className="text-green-500 dark:text-green-400">✓</span>
+                  {t("features.stats")}
                 </li>
               </ul>
             </Card>

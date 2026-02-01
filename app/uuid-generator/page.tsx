@@ -6,9 +6,11 @@ import CopyText from "@/components/CopyText";
 import Reveal from "@/components/Reveal";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/utils/cn";
+import { useTranslations } from "next-intl";
 import { FaFingerprint } from "react-icons/fa";
 
 export default function UuidGeneratorPage() {
+  const t = useTranslations("uuidTool");
   const [count, setCount] = useState<number>(1);
   const [uuids, setUuids] = useState<string[]>([]);
   const [inputError, setInputError] = useState<string>("");
@@ -63,11 +65,10 @@ export default function UuidGeneratorPage() {
         <Reveal animationType="slideDown" duration={0.8} easing="backOut">
           <div className="text-center space-y-4">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-gray-900 via-accent-500 to-gray-800 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
-              UUID Generator
+              {t("title")}
             </h1>
             <p className="text-lg text-gray-600 dark:text-primary-400 max-w-2xl mx-auto">
-              Generate version 4 UUIDs (Universally Unique Identifier)
-              instantly.
+              {t("subtitle")}
             </p>
           </div>
         </Reveal>
@@ -87,7 +88,7 @@ export default function UuidGeneratorPage() {
                     htmlFor="uuid-count"
                     className="block text-sm font-medium text-gray-700 dark:text-primary-300 mb-2"
                   >
-                    Number of UUIDs
+                    {t("countLabel")}
                   </label>
                   <input
                     id="uuid-count"
@@ -115,7 +116,7 @@ export default function UuidGeneratorPage() {
                   onClick={handleGenerate}
                   className="w-full sm:w-auto px-8 py-3 h-[50px] bg-gradient-to-r from-accent-500 to-accent-600 text-white font-semibold rounded-lg hover:from-accent-600 hover:to-accent-700 transition-all duration-200 transform hover:scale-105"
                 >
-                  Generate UUIDs
+                  {t("generateButton")}
                 </Button>
               </div>
             </div>
@@ -133,16 +134,16 @@ export default function UuidGeneratorPage() {
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold text-gray-800 dark:text-primary-200">
-                  Generated UUIDs
+                  {t("generatedTitle")}
                 </h2>
                 {uuids.length > 0 && (
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-600 dark:text-primary-400 mr-2">
-                      Copy All
+                      {t("copyAll")}
                     </span>
                     <CopyText
                       text={uuids.join("\n")}
-                      tooltipText="Copy all UUIDs"
+                      tooltipText={t("copyAllTooltip")}
                     />
                   </div>
                 )}
@@ -157,17 +158,17 @@ export default function UuidGeneratorPage() {
                     <span className="font-mono text-gray-800 dark:text-primary-100 break-all">
                       {uuid}
                     </span>
-                    <CopyText text={uuid} tooltipText="Copy UUID" />
+                    <CopyText text={uuid} tooltipText={t("copyTooltip")} />
                   </div>
                 ))}
                 {uuids.length === 0 && (
                   <div className="p-8 text-center text-gray-500 dark:text-primary-500">
-                    Click Generate to create UUIDs
+                    {t("placeholder")}
                   </div>
                 )}
               </div>
               <div className="text-right text-sm text-gray-500 dark:text-primary-500">
-                Total: {uuids.length}
+                {t("total", { count: uuids.length })}
               </div>
             </div>
           </Card>
