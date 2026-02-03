@@ -106,6 +106,10 @@ export default function Home() {
         <hr id="about" />
         <About />
       </Reveal>
+      <Reveal animationType="scale" duration={1} easing="backOut" scale={0.9}>
+        <hr id="projects" />
+        <Projects />
+      </Reveal>
       <Reveal
         animationType="slideLeft"
         duration={0.8}
@@ -132,10 +136,6 @@ export default function Home() {
       >
         <hr id="experience" />
         <Experience />
-      </Reveal>
-      <Reveal animationType="scale" duration={1} easing="backOut" scale={0.9}>
-        <hr id="projects" />
-        <Projects />
       </Reveal>
     </main>
   );
