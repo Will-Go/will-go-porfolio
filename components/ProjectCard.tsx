@@ -115,7 +115,7 @@ export default function ProjectCard({
                 {categories.map((category, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/40 dark:to-blue-800/40 border border-blue-200 dark:border-blue-700/60 rounded-full text-accent-700! dark:text-blue-200 hover:border-blue-500/60 hover:text-blue-600 dark:hover:text-blue-100 transition-all duration-300 cursor-default group/tag"
+                    className="inline-flex items-center px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/40 dark:to-blue-800/40 border border-blue-200 dark:border-blue-700/60 rounded-full text-accent-700 dark:text-blue-200 hover:border-blue-500/60 hover:text-blue-600 dark:hover:text-blue-100 transition-all duration-300 cursor-default group/tag"
                   >
                     <span className="truncate">{firstLetterCap(category)}</span>
                   </span>
