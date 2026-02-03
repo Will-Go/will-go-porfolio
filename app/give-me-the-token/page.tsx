@@ -97,7 +97,7 @@ export default function AuthTokenPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br bg-primary from-primary-950 via-primary-900 to-accent-900/40 flex items-center justify-center p-4 sm:p-6">
+    <div className="min-h-screen bg-gradient-to-br bg-primary dark:bg-transparent! from-primary-950 via-primary-900 to-accent-900/40 flex items-center justify-center p-4 sm:p-6">
       {/* Back Button */}
       <motion.button
         onClick={handleBack}

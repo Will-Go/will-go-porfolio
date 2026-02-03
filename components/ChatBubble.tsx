@@ -131,7 +131,7 @@ function ChatBubble() {
             }
             transition={{ duration: 0.4, ease: "anticipate" }}
             className={cn(
-              "border border-gray-200 dark:border-primary-700/60 z-50 backdrop-blur-lg bg-white dark:bg-gradient-to-br dark:from-primary-900/50 dark:via-primary-950/50 dark:to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-gray-100 dark:ring-accent-800/30",
+              "border border-gray-200 dark:bg-transparent! dark:border-primary-700/60 z-50 backdrop-blur-lg bg-white dark:bg-gradient-to-br dark:from-primary-900/50 dark:via-primary-950/50 dark:to-accent-900/40 shadow-2xl mb-6 overflow-hidden ring-4 ring-gray-100 dark:ring-accent-800/30",
               isMobile ? "rounded-none flex flex-col h-full" : "rounded-3xl",
               (error || !isChatUp) && "border-error ring-error/20 ring-4",
             )}
@@ -156,7 +156,7 @@ function ChatBubble() {
             {/* Chat Header */}
             <div
               className={cn(
-                "flex justify-between items-center p-5 border-b border-gray-200 dark:border-primary-800/40 bg-gray-50 dark:bg-gradient-to-br dark:from-primary-900/80 dark:via-primary-950/90",
+                "flex justify-between items-center dark:bg-transparent! p-5 border-b border-gray-200 dark:border-primary-800/40 bg-gray-50 dark:bg-gradient-to-br dark:from-primary-900/80 dark:via-primary-950/90",
                 isMobile ? "flex-shrink-0" : "",
               )}
             >
@@ -182,7 +182,7 @@ function ChatBubble() {
             {/* Messages Container */}
             <div
               className={cn(
-                "p-4 overflow-y-auto bg-gray-50/50 dark:bg-primary-950/20",
+                "p-4 overflow-y-auto  bg-gray-50/50 dark:bg-primary-950/20",
                 isMobile ? "flex-1 min-h-0" : "h-80",
               )}
             >
@@ -213,11 +213,11 @@ function ChatBubble() {
             {/* Input Area */}
             <div
               className={cn(
-                "p-4 border-t border-gray-200 dark:border-primary-800/40 flex flex-col gap-1 bg-white dark:bg-gradient-to-t dark:from-primary-950/40 dark:to-primary-900/10",
+                "p-4 border-t border-gray-200 dark:bg-transparent! dark:border-primary-800/40 flex flex-col gap-1 bg-white dark:bg-gradient-to-t dark:from-primary-950/40 dark:to-primary-900/10",
                 isMobile ? "flex-shrink-0 sticky bottom-0" : "",
               )}
             >
-              <div className="flex items-center w-full border border-gray-300 dark:border-primary-800 rounded-2xl bg-gray-100 dark:bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
+              <div className="flex items-center w-full border  border-gray-300 dark:border-primary-800 rounded-2xl bg-gray-100 dark:bg-primary-900/80 transition-all duration-500  shadow-inner overflow-hidden">
                 <div className="w-full">
                   {!!error || !isChatUp ? (
                     <p className="text-xs italic text-red-300 p-4">
