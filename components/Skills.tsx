@@ -95,8 +95,8 @@ function Skills() {
 
       {/* Skills Count */}
       <Reveal animationType="scale" delay={0.6} duration={0.8} easing="backOut">
-        <div className="flex items-center gap-2 text-black dark:text-primary-400 text-sm">
-          <span className="px-3 py-1 bg-accent-500/10 dark:bg-accent-500/20 rounded-full border border-accent-500/30 text-black! dark:text-gray-300">
+        <div className="flex items-center gap-2 text-sm">
+          <span className="px-3 py-1 bg-accent-500/70 dark:bg-accent-500/20 rounded-full border border-accent-500/30 text-black! dark:text-blue-200!">
             {t("skills.technologies", { count: techSkills.length })}
           </span>
         </div>
