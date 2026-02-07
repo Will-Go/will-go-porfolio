@@ -59,7 +59,10 @@
   "skills": {
     "title": "Habilidades Técnicas",
     "subtitle": "Un conjunto completo de tecnologías y frameworks que uso para construir aplicaciones modernas y escalables",
-    "technologies": "{count} + Tecnologías"
+    "technologies": "{count} + Tecnologías",
+    "searchPlaceholder": "Buscar habilidades...",
+    "noSkills": "No se encontraron habilidades",
+    "seeMore": "Ver más"
   },
   "education": {
     "title": "Educación",

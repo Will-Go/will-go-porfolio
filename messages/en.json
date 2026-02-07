@@ -59,7 +59,10 @@
   "skills": {
     "title": "Technical Skills",
     "subtitle": "A comprehensive toolkit of technologies and frameworks I use to build modern, scalable applications",
-    "technologies": "{count} + Technologies"
+    "technologies": "{count} + Technologies",
+    "searchPlaceholder": "Search skills...",
+    "noSkills": "No skills found",
+    "seeMore": "See more"
   },
   "education": {
     "title": "Education",
