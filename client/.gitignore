@@ -38,3 +38,6 @@ next-env.d.ts
 
 .trae/
 */reveal-demo/*
+# Supabase
+.branches
+.temp
