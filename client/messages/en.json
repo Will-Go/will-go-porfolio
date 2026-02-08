@@ -169,7 +169,12 @@
     "keyAchievements": "Key Achievements",
     "programProgress": "Program Progress",
     "viewMyWork": "View My Work",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "dateUtils": {
+      "years": "{count} year{plural}",
+      "months": "{count} month{plural}",
+      "days": "{count} day{plural}"
+    }
   },
   "chat": {
     "title": "Chat with Wilson",

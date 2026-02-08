@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <ParticlesWrapper>
       <Navbar />
       <ChatBotProvider>
-        <main className="mt-24 lg:mx-28">
+        <main className="mt-24 lg:mx-28 overflow-x-hidden">
           {children}
 
           <ChatBubble />

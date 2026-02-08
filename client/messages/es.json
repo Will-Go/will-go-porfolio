@@ -169,7 +169,12 @@
     "keyAchievements": "Logros Clave",
     "programProgress": "Progreso del Programa",
     "viewMyWork": "Ver Mi Trabajo",
-    "learnMore": "Conocer Más"
+    "learnMore": "Conocer Más",
+    "dateUtils": {
+      "years": "{count} año{plural}",
+      "months": "{count} mes{plural}",
+      "days": "{count} día{plural}"
+    }
   },
   "chat": {
     "title": "Chatear con Wilson",
