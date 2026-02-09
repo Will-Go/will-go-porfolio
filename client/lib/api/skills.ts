@@ -10,8 +10,17 @@ export interface TechSkill {
   modified_at: string;
 }
 
-export async function getSkills(): Promise<TechSkill[]> {
-  const { data, error } = await supabase.from("skills").select("*");
+export async function getSkills(orderBy?: {
+  column: string;
+  ascending: boolean;
+}): Promise<TechSkill[]> {
+  let query = supabase.from("skills").select("*");
+
+  if (orderBy) {
+    query = query.order(orderBy.column, { ascending: orderBy.ascending });
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     throw new Error(error.message);

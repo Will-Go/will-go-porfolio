@@ -4,7 +4,7 @@ import { motion, useInView, useAnimation } from "framer-motion";
 import BackgroundBlur from "@/components/BackgroundBlur";
 import Reveal from "@/components/Reveal";
 import { useQuery } from "@tanstack/react-query";
-import { getSkills } from "@/lib/api/skills";
+import { getSkills, TechSkill } from "@/lib/api/skills";
 import { useTranslations } from "next-intl";
 import SkillsDialog from "@/components/SkillsDialog";
 
@@ -13,6 +13,8 @@ import { FaCode } from "react-icons/fa";
 import SearchInput from "@/components/inputs/SearchInput";
 import { HiOutlineEmojiSad } from "react-icons/hi";
 import SkillChip from "@/components/SkillChip";
+import { Select } from "@/components/inputs/Select";
+import SkillChipSkeleton from "@/components/skeletons/SkillChipSkeleton";
 
 function Skills() {
   const t = useTranslations();
@@ -21,10 +23,19 @@ function Skills() {
   const isInViewSkills = useInView(refSkills, { once: true });
   const [searchQuery, setSearchQuery] = useState("");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState("default");
 
-  const { data: skills = [] } = useQuery({
-    queryKey: ["skills"],
-    queryFn: getSkills,
+  const { data: skills = [], isLoading } = useQuery<TechSkill[]>({
+    queryKey: ["skills", sortOrder],
+    queryFn: () => {
+      let orderBy: { column: string; ascending: boolean } | undefined;
+      if (sortOrder === "newest") {
+        orderBy = { column: "started_at", ascending: false };
+      } else if (sortOrder === "oldest") {
+        orderBy = { column: "started_at", ascending: true };
+      }
+      return getSkills(orderBy);
+    },
   });
 
   const filteredSkills = skills.filter((skill) =>
@@ -69,7 +80,7 @@ function Skills() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="relative w-full max-w-md mx-auto mb-8 z-50"
+        className="relative w-full max-w-md mx-auto mb-8 z-50 flex flex-col gap-3"
       >
         <SearchInput
           placeholder={t("skills.searchPlaceholder")}
@@ -77,6 +88,23 @@ function Skills() {
           onChange={setSearchQuery}
           containerClassName="!mx-0 !w-full"
         />
+
+        <div className="flex items-center justify-end gap-3 px-1">
+          <label className="text-sm font-medium text-gray-600 dark:text-primary-300">
+            {t("skills.sortOrder")}
+          </label>
+          <div className="w-[140px]">
+            <Select
+              value={sortOrder}
+              onChange={setSortOrder}
+              options={[
+                { value: "default", label: t("skills.sortOptions.default") },
+                { value: "newest", label: t("skills.sortOptions.newest") },
+                { value: "oldest", label: t("skills.sortOptions.oldest") },
+              ]}
+            />
+          </div>
+        </div>
       </motion.div>
 
       <Reveal
@@ -87,7 +115,7 @@ function Skills() {
         className="!z-50 "
       >
         <div className="w-full max-w-6xl min-h-[300px]">
-          {isInViewSkills && (
+          {!isLoading && isInViewSkills && (
             <>
               {displayedSkills.length > 0 ? (
                 <>
@@ -121,14 +149,18 @@ function Skills() {
               )}
             </>
           )}
+
+          {isLoading && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 justify-items-center">
+              {Array.from({ length: 12 }).map((_, i) => (
+                <SkillChipSkeleton key={i} index={i} />
+              ))}
+            </div>
+          )}
         </div>
       </Reveal>
 
-      <SkillsDialog
-        isOpen={isDialogOpen}
-        setIsOpen={setIsDialogOpen}
-        skills={skills}
-      />
+      <SkillsDialog isOpen={isDialogOpen} setIsOpen={setIsDialogOpen} />
 
       {/* Skills Count */}
       <Reveal animationType="scale" delay={0.6} duration={0.8} easing="backOut">

@@ -62,7 +62,13 @@
     "technologies": "{count} + Tecnologías",
     "searchPlaceholder": "Buscar habilidades...",
     "noSkills": "No se encontraron habilidades",
-    "seeMore": "Ver más"
+    "seeMore": "Ver más",
+    "sortOrder": "Ordenar por",
+    "sortOptions": {
+      "default": "Ninguno",
+      "newest": "Más reciente",
+      "oldest": "Más antiguo"
+    }
   },
   "education": {
     "title": "Educación",

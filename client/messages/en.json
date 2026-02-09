@@ -62,7 +62,13 @@
     "technologies": "{count} + Technologies",
     "searchPlaceholder": "Search skills...",
     "noSkills": "No skills found",
-    "seeMore": "See more"
+    "seeMore": "See more",
+    "sortOrder": "Sort by",
+    "sortOptions": {
+      "default": "None",
+      "newest": "Newest",
+      "oldest": "Oldest"
+    }
   },
   "education": {
     "title": "Education",
