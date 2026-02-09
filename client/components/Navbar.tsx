@@ -184,7 +184,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden flex flex-col items-center justify-center min-h-screen px-8"
+            className="md:hidden flex flex-col items-center justify-center min-h-screen px-8 bg-white/95 dark:bg-primary-950/95"
           >
             <div className="space-y-6 text-center">
               {/* Mobile Brand */}
@@ -214,7 +214,7 @@ export default function Navbar() {
                     <Link
                       href={href}
                       onClick={() => setIsOpen(false)}
-                      className="group flex items-center justify-center gap-4 p-4 rounded-2xl bg-white/50 dark:bg-gradient-to-r dark:from-primary-900/50 dark:to-primary-800/50 border border-gray-200 dark:border-primary-800/40 text-gray-700 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-gradient-to-r hover:from-accent-500/10 hover:to-accent-600/10 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/20"
+                      className="group flex items-center justify-center gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-primary-900/50 border border-gray-100 dark:border-primary-800/40 text-gray-800 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-white dark:hover:bg-primary-800/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/10 dark:hover:shadow-accent-500/20"
                     >
                       <span className="text-accent-400 text-xl">{icon}</span>
                       <span className="text-xl font-medium">{text}</span>
@@ -239,7 +239,7 @@ export default function Navbar() {
               {/* Mobile Footer */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: 1, y: -10 }}
                 transition={{ delay: 0.8 }}
                 className="mt-16 text-center"
               >
