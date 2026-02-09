@@ -33,13 +33,13 @@
     "title": "Acerca de Mí",
     "subtitle": "Apasionado por crear experiencias digitales que marquen la diferencia",
     "myStory": "Mi Historia",
-    "description1": "Soy un estudiante de Ingeniería de Software altamente motivado con pasión por crear soluciones digitales innovadoras. Con fuertes habilidades analíticas y de resolución de problemas, prospero transformando desafíos complejos en aplicaciones elegantes y fáciles de usar.",
-    "description2": "Actualmente trabajando como Desarrollador Frontend Junior, he pasado los últimos 2 años construyendo aplicaciones web escalables, creando componentes reutilizables y desarrollando interfaces de usuario intuitivas. Mi experiencia abarca los ecosistemas de React y Next.js, con conocimiento profundo en gestión de estado, integraciones de API y optimización de rendimiento.",
-    "description3": "Lo que me impulsa es la oportunidad de colaborar con equipos multidisciplinarios, adaptarme a las tecnologías emergentes y entregar soluciones de alta calidad que excedan las expectativas. Estoy comprometido a mantenerme actualizado con las tendencias de la industria y expandir continuamente mi experiencia técnica.",
+    "description1": "Desarrollador Frontend con más de 3 años de experiencia en producción construyendo aplicaciones React escalables y de alto rendimiento. Experiencia comprobada en TypeScript, gestión de estado con Redux y frameworks CSS modernos.",
+    "description2": "He entregado con éxito múltiples aplicaciones web full-stack con enfoque en interfaces de usuario perfectas, diseño responsivo y experiencia de usuario óptima. Fuertes habilidades de colaboración remota con capacidad demostrada para liderar equipos de desarrollo y mentorear desarrolladores.",
+    "description3": "Habilidades técnicas principales en React.js, TypeScript, JavaScript, Next.js y herramientas de estilo modernas como Tailwind CSS. Experimentado en tecnologías backend incluyendo Node.js, Express.js y servicios en la nube como AWS y Supabase.",
     "keyHighlights": "Puntos Destacados",
     "highlights": {
       "experience": {
-        "title": "2+ Años de Experiencia",
+        "title": "3+ Años de Experiencia",
         "description": "Desarrollo Frontend"
       },
       "education": {

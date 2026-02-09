@@ -33,13 +33,13 @@
     "title": "About Me",
     "subtitle": "Passionate about creating digital experiences that make a difference",
     "myStory": "My Story",
-    "description1": "I'm a highly motivated Software Engineering student with a passion for creating innovative digital solutions. With strong analytical and problem-solving abilities, I thrive on transforming complex challenges into elegant, user-friendly applications.",
-    "description2": "Currently working as a Junior Frontend Developer, I've spent the last 2 years building scalable web applications, crafting reusable components, and creating intuitive user interfaces. My expertise spans across React and Next.js ecosystems, with deep knowledge in state management, API integrations, and performance optimization.",
-    "description3": "What drives me is the opportunity to collaborate with cross-functional teams, adapt to emerging technologies, and deliver high-quality solutions that exceed expectations. I'm committed to staying current with industry trends and continuously expanding my technical expertise.",
+    "description1": "Frontend Developer with 3+ years of production experience building scalable, high-performance React applications. Proven expertise in TypeScript, Redux state management, and modern CSS frameworks.",
+    "description2": "Successfully delivered multiple full-stack web applications with focus on pixel-perfect UIs, responsive design, and optimal user experience. Strong remote collaboration skills with demonstrated ability to lead development teams and mentor developers.",
+    "description3": "Core technical skills in React.js, TypeScript, JavaScript, Next.js, and modern styling tools like Tailwind CSS. Experienced in backend technologies including Node.js, Express.js, and cloud services like AWS and Supabase.",
     "keyHighlights": "Key Highlights",
     "highlights": {
       "experience": {
-        "title": "2+ Years Experience",
+        "title": "3+ Years Experience",
         "description": "Frontend Development"
       },
       "education": {

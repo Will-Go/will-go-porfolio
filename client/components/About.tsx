@@ -1,6 +1,6 @@
 import Reveal from "@/components/Reveal";
 import Card from "@/components/Card";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 //ICONS
 import {
@@ -12,8 +12,8 @@ import {
   FaLightbulb,
 } from "react-icons/fa";
 
-function About() {
-  const t = useTranslations("about");
+async function About() {
+  const t = await getTranslations("about");
 
   const highlights = [
     {
@@ -57,7 +57,7 @@ function About() {
 
       <Reveal animationType="fadeUp" delay={0.3} duration={1} easing="easeOut">
         <Card className="max-w-4xl w-full">
-          <div className="p-8 space-y-6">
+          <div className="p-4 md:p-8 space-y-6">
             {/* Main Description */}
             <div className="space-y-4">
               {" "}
@@ -82,7 +82,7 @@ function About() {
               <h3 className="text-gray-800 dark:text-primary-200 font-semibold mb-4 text-center">
                 {t("keyHighlights")}
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {highlights.map((item, index) => (
                   <Reveal
                     key={index}
@@ -91,14 +91,14 @@ function About() {
                     duration={0.6}
                     easing="backOut"
                   >
-                    <div className="text-center p-4 rounded-lg bg-gray-50 dark:bg-primary-900/30 border-2 border-gray-200 dark:border-primary-800/40 hover:border-accent-500/50 transition-colors duration-300 group/card">
-                      <div className="text-2xl mb-2 group-hover/card:scale-110 transition-transform duration-300">
+                    <div className="text-center p-3 md:p-4 rounded-lg bg-gray-50 dark:bg-primary-900/30 border-2 border-gray-200 dark:border-primary-800/40 hover:border-accent-500/50 transition-colors duration-300 group/card h-full flex flex-col items-center justify-center">
+                      <div className="text-xl md:text-2xl mb-2 group-hover/card:scale-110 transition-transform duration-300">
                         {item.icon}
                       </div>
-                      <h4 className="font-semibold text-gray-800 dark:text-primary-200 text-sm mb-1">
+                      <h4 className="font-semibold text-gray-800 dark:text-primary-200 text-xs md:text-sm mb-1 leading-tight">
                         {item.title}
                       </h4>
-                      <p className="text-xs text-gray-500 dark:text-primary-400">
+                      <p className="text-[10px] md:text-xs text-gray-500 dark:text-primary-400 leading-tight">
                         {item.description}
                       </p>
                     </div>
