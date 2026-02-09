@@ -50,7 +50,7 @@ const SkillsDialog = ({ isOpen, setIsOpen }: SkillsDialogProps) => {
       contentClassName="max-h-[90vh] overflow-y-auto"
     >
       <div className="flex flex-col gap-8 py-4">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col items-end md:flex-row md:items-center md:justify-between gap-3">
           <SearchInput
             placeholder={t("skills.searchPlaceholder")}
             value={searchQuery}

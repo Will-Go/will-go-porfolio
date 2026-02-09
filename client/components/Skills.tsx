@@ -26,8 +26,9 @@ function Skills() {
   const [sortOrder, setSortOrder] = useState("default");
 
   const { data: skills = [], isLoading } = useQuery<TechSkill[]>({
-    queryKey: ["skills", sortOrder],
+    queryKey: ["skills", sortOrder, isInViewSkills],
     queryFn: () => {
+      if (!isInViewSkills) return [];
       let orderBy: { column: string; ascending: boolean } | undefined;
       if (sortOrder === "newest") {
         orderBy = { column: "started_at", ascending: false };
