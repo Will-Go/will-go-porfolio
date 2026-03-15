@@ -25,16 +25,24 @@ import { RxCross2 } from "react-icons/rx";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const titulo = useRef(null);
   const navRef = useRef(null);
   const t = useTranslations("navigation");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const links = [
     { text: t("home"), href: "/", icon: <FaHome /> },
     { text: t("about"), href: "/#about", icon: <FaUser /> },
     { text: t("experience"), href: "/#experience", icon: <FaBriefcase /> },
     { text: t("projects"), href: "/#projects", icon: <FaProjectDiagram /> },
-    { text: t("contact"), href: "/contact", icon: <FaEnvelope /> },
     { text: t("apps"), href: "/apps", icon: <FaRocket /> },
   ];
 
@@ -78,178 +86,132 @@ export default function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
       className={cn(
-        "fixed left-4 right-4 lg:left-8 lg:right-8 xl:left-16 xl:right-16 z-50 transition-all duration-500 ease-in-out",
-        isOpen
-          ? "top-0 bottom-0 left-0 right-0 bg-white/95 dark:bg-gradient-to-br dark:from-primary-950/95 dark:via-primary-900/95 dark:to-accent-950/20 backdrop-blur-xl border-none rounded-none"
-          : "top-1 bg-white/80 dark:bg-gradient-to-r dark:from-primary-950/80 dark:via-primary-900/90 dark:to-primary-950/80 backdrop-blur-xl border border-gray-200 dark:border-primary-800/40 rounded-xl shadow-lg shadow-gray-200/50 dark:shadow-accent-500/5",
+        "fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out",
+        scrolled || isOpen
+          ? "top-2 w-[calc(100%-1.5rem)] max-w-4xl px-3 py-1.5 bg-white/80 dark:bg-primary-950/80 backdrop-blur-xl border border-gray-200/30 dark:border-primary-800/20 rounded-2xl shadow-2xl shadow-black/10"
+          : "top-6 w-[calc(100%-2rem)] max-w-5xl px-4 py-2 bg-white/70 dark:bg-primary-950/70 backdrop-blur-md border border-gray-200/50 dark:border-primary-800/30 rounded-2xl shadow-xl shadow-black/5",
       )}
     >
-      <div className="flex justify-between items-center px-2 py-1.5 lg:px-3 lg:py-2">
+      <div className="flex justify-between items-center max-w-7xl mx-auto">
         {/* Brand Logo */}
         <Link
-          className="group flex items-center gap-3 min-w-fit"
+          className="group flex items-center gap-2 px-2 py-1 rounded-xl transition-all duration-300"
           onClick={() => setIsOpen(false)}
           href={"/"}
         >
-          <div className="relative">
-            <div className="absolute -inset-2 bg-gradient-to-r from-accent-500/20 to-primary-500/20 rounded-full blur-sm group-hover:blur-md transition-all duration-300 opacity-0 group-hover:opacity-100"></div>
-            <div className="relative p-2 bg-gradient-to-br from-accent-500/20 to-accent-600/20 rounded-full border border-accent-500/30">
-              <FaCode className="text-accent-400 text-lg" />
-            </div>
+          <div className="relative flex items-center justify-center p-2 bg-accent-500/10 rounded-lg border border-accent-500/20 group-hover:bg-accent-500 group-hover:border-accent-500 transition-all duration-300">
+            <FaCode className="text-accent-500 text-base group-hover:text-white transition-colors duration-300" />
           </div>
-          <div className="hidden sm:block">
+          <div className="hidden sm:inline-flex min-w-[160px] lg:min-w-[200px]">
             <span
               ref={titulo}
-              className="text-lg lg:text-xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent"
+              className="text-base font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent"
             >
               {t("brand.name")}
             </span>
           </div>
         </Link>
 
-        {/* Desktop Navigation and Language Switcher */}
-        <div className="hidden md:flex items-center gap-4">
-          <div className="flex items-center gap-1 lg:gap-2">
-            {links.map(({ text, href, icon }, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.1, duration: 0.5 }}
-              >
-                <Link
-                  href={href}
-                  onClick={() => setIsOpen(false)}
-                  className="group relative flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-primary-300 hover:text-accent-600 dark:hover:text-accent-300 transition-all duration-300 hover:bg-accent-500/10 hover:shadow-lg hover:shadow-accent-500/20"
-                >
-                  <span className="text-xs opacity-60 group-hover:opacity-100 transition-opacity duration-300">
-                    {icon}
-                  </span>
-                  <span className="relative">
-                    {text}
-                    <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-accent-500 to-accent-600 group-hover:w-full transition-all duration-300"></div>
-                  </span>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-2">
-            <LanguageSwitcher />
-            <ThemeToggle />
-          </div>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-1 bg-gray-100/30 dark:bg-primary-900/40 p-1 rounded-xl border border-gray-200/20 dark:border-primary-800/20">
+          {links.slice(1, 5).map(({ text, href, icon }, i) => (
+            <Link
+              key={i}
+              href={href}
+              className="relative px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-accent-500 dark:hover:text-accent-400 transition-all duration-300 rounded-lg hover:bg-white dark:hover:bg-zinc-800 shadow-sm shadow-transparent hover:shadow-black/5 group"
+            >
+              <span className="relative z-10">{text}</span>
+            </Link>
+          ))}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden relative p-3 rounded-xl bg-gray-100/50 dark:bg-primary-900/50 border border-gray-200 dark:border-primary-800/60 text-gray-700 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-accent-500/10 transition-all duration-300 group"
-          aria-label="Toggle menu"
-        >
-          <div className="relative w-5 h-5 flex items-center justify-center">
-            <AnimatePresence mode="wait">
-              {isOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ opacity: 0, rotate: -90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: 90 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute"
-                >
-                  <RxCross2 className="text-lg" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ opacity: 0, rotate: 90 }}
-                  animate={{ opacity: 1, rotate: 0 }}
-                  exit={{ opacity: 0, rotate: -90 }}
-                  transition={{ duration: 0.2 }}
-                  className="absolute"
-                >
-                  <FaBars className="text-lg" />
-                </motion.div>
-              )}
-            </AnimatePresence>
+        {/* Actions */}
+        <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1">
+            <LanguageSwitcher />
+            <div className="w-[1px] h-4 bg-gray-200 dark:bg-primary-800 mx-1"></div>
+            <ThemeToggle />
           </div>
-        </button>
+          <Link
+            href="/contact"
+            className="hidden lg:flex items-center gap-2 px-5 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-950 text-sm font-semibold rounded-xl hover:scale-105 transition-all duration-300 shadow-lg shadow-gray-900/10 dark:shadow-white/5 active:scale-95"
+          >
+            {t("contact")}
+          </Link>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden relative p-2 rounded-xl bg-gray-100/50 dark:bg-primary-900/50 border border-gray-200 dark:border-primary-800/60 text-gray-700 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 transition-all duration-300 group"
+            aria-label="Toggle menu"
+          >
+            <div className="relative w-5 h-5 flex items-center justify-center">
+              <AnimatePresence mode="wait">
+                {isOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="absolute"
+                  >
+                    <RxCross2 className="text-xl" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="absolute"
+                  >
+                    <FaBars className="text-lg" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden flex flex-col items-center justify-center min-h-screen px-8 bg-white/95 dark:bg-primary-950/95"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="md:hidden overflow-hidden"
           >
-            <div className="space-y-6 text-center">
-              {/* Mobile Brand */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="mb-12"
-              >
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent mb-2">
-                  {t("brand.name")}
-                </h2>
-                <p className="text-gray-500 dark:text-primary-400 text-sm">
-                  {t("brand.title")}
-                </p>
-              </motion.div>
-
-              {/* Mobile Navigation Links */}
-              <div className="space-y-4">
-                {links.map(({ text, href, icon }, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 + i * 0.1 }}
-                  >
-                    <Link
-                      href={href}
-                      onClick={() => setIsOpen(false)}
-                      className="group flex items-center justify-center gap-4 p-4 rounded-2xl bg-gray-50 dark:bg-primary-900/50 border border-gray-100 dark:border-primary-800/40 text-gray-800 dark:text-primary-200 hover:border-accent-500/60 hover:text-accent-600 dark:hover:text-accent-300 hover:bg-white dark:hover:bg-primary-800/50 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-accent-500/10 dark:hover:shadow-accent-500/20"
-                    >
-                      <span className="text-accent-400 text-xl">{icon}</span>
-                      <span className="text-xl font-medium">{text}</span>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Mobile Language Switcher */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
-                className="pt-4"
-              >
-                <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col gap-2 pt-4 pb-2 border-t border-gray-100 dark:border-primary-800/30 mt-4">
+              {links.map(({ text, href, icon }, i) => (
+                <Link
+                  key={i}
+                  href={href}
+                  onClick={() => setIsOpen(false)}
+                  className="flex items-center gap-4 p-3 rounded-xl bg-gray-50/50 dark:bg-primary-900/30 border border-transparent hover:border-accent-500/30 hover:bg-white dark:hover:bg-primary-800/50 transition-all duration-300"
+                >
+                  <span className="text-accent-500 text-lg">{icon}</span>
+                  <span className="text-base font-medium text-gray-700 dark:text-primary-200">
+                    {text}
+                  </span>
+                </Link>
+              ))}
+              <div className="flex items-center justify-between gap-4 p-3 mt-2 bg-gray-50/50 dark:bg-primary-900/30 rounded-xl border border-transparent">
+                <div className="flex items-center gap-4">
                   <LanguageSwitcher />
+                  <div className="w-[1px] h-4 bg-gray-200 dark:bg-primary-800"></div>
                   <ThemeToggle />
                 </div>
-              </motion.div>
-
-              {/* Mobile Footer */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: -10 }}
-                transition={{ delay: 0.8 }}
-                className="mt-16 text-center"
-              >
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-accent-500/10 dark:bg-accent-500/20 rounded-full border border-accent-500/20 dark:border-accent-500/30">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-gray-600 dark:text-primary-300 text-xs">
-                    {t("brand.subtitle")}
-                  </span>
-                </div>
-              </motion.div>
+                <Link
+                  href="/contact"
+                  onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-950 text-sm font-bold rounded-lg shadow-md"
+                >
+                  {t("contact")}
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}

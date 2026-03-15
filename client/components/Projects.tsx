@@ -178,8 +178,8 @@ function Projects() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
-            <CarouselNext className="bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
+            <CarouselPrevious className="hidden md:flex bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
+            <CarouselNext className="hidden md:flex bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
           </Carousel>
         )}
       </Reveal>

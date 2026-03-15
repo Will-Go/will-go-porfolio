@@ -4,11 +4,14 @@
 html {
   scroll-behavior: smooth;
   scroll-padding: 2rem;
+  font-family: var(--font-inter), sans-serif;
 }
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  --font-sans: var(--font-inter), sans-serif;
+  --font-display: var(--font-outfit), sans-serif;
   --background-image-gradient-radial: radial-gradient(var(--tw-gradient-stops));
   --background-image-gradient-conic: conic-gradient(
     from 180deg at 50% 50%,
@@ -61,6 +64,19 @@ html {
     }
     100% {
       opacity: 1;
+    }
+  }
+
+  --animate-pulse-slow: pulse-slow 8s ease-in-out infinite;
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.1);
     }
   }
 
@@ -133,6 +149,7 @@ html {
   }
 
   .typed-cursor {
+    @apply text-zinc-900 dark:text-white opacity-70;
     height: 100%;
   }
 }
@@ -163,13 +180,13 @@ html {
 
 @layer utilities {
   h1 {
-    @apply text-4xl font-bold;
+    @apply text-4xl font-bold font-display;
   }
   h2 {
-    @apply text-lg font-bold;
+    @apply text-lg font-bold font-display;
   }
   h3 {
-    @apply text-lg font-bold  text-zinc-400 italic;
+    @apply text-lg font-bold font-display text-zinc-400 italic;
   }
 
   hr {

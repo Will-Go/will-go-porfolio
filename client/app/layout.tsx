@@ -13,12 +13,16 @@ export const metadata = {
   description: "Hello this is my personal porfolio!",
 };
 
-//IMPORTA LAS FUENTES
-import { Encode_Sans_Expanded } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 
-const font = Encode_Sans_Expanded({
-  subsets: ["latin"],
-  weight: ["300", "600"],
+const inter = Inter({
+	subsets: ["latin"],
+	variable: "--font-inter",
+});
+
+const outfit = Outfit({
+	subsets: ["latin"],
+	variable: "--font-outfit",
 });
 
 export default async function RootLayout({
@@ -29,9 +33,9 @@ export default async function RootLayout({
   const locale = await getLocale();
   return (
     // <ViewTransition>
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className={`${inter.variable} ${outfit.variable}`}>
       <body
-        className={`${font.className} selection:text-black selection:bg-slate-300 `}
+        className="selection:text-black selection:bg-slate-300"
       >
         <ThemeProvider
           attribute="class"
