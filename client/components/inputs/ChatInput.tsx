@@ -69,7 +69,7 @@ function ChatInput({
   // Update editor content if value prop changes from outside
   useEffect(() => {
     if (editor && value !== undefined && value !== editor.getHTML()) {
-      editor.commands.setContent(value);
+      (editor as any).commands.setContent(value);
     }
   }, [editor, value]);
 

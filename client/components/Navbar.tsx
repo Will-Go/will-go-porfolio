@@ -102,10 +102,10 @@ export default function Navbar() {
           <div className="relative flex items-center justify-center p-2 bg-accent-500/10 rounded-lg border border-accent-500/20 group-hover:bg-accent-500 group-hover:border-accent-500 transition-all duration-300">
             <FaCode className="text-accent-500 text-base group-hover:text-white transition-colors duration-300" />
           </div>
-          <div className="hidden sm:inline-flex min-w-[160px] lg:min-w-[200px]">
+          <div className="hidden sm:inline-flex min-w-[160px] lg:max-w-[200px]">
             <span
               ref={titulo}
-              className="text-base font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent"
+              className="text-base font-bold bg-gradient-to-r max-w-[150px] text-nowrap! from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent"
             >
               {t("brand.name")}
             </span>
