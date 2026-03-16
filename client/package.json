@@ -7,12 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prod": "next build && next start",
-    "format": "biome format --write .",
-    "format:check": "biome format .",
-    "lint:fix": "biome check --write .",
-    "lint:unsafe": "biome check --write --unsafe .",
-    "biome:ci": "biome ci ."
+    "prod": "next build && next start"
   },
   "dependencies": {
     "@radix-ui/react-select": "^2.2.5",
