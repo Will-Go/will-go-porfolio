@@ -4,7 +4,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding: 2rem;
-  scroll-snap-type: y;
+  /* scroll-snap-type: y; */
   font-family: var(--font-inter), sans-serif;
 }
 
