@@ -38,15 +38,6 @@ export default function Presentation() {
 
         {/* Text Content */}
         <div className="space-y-6 max-w-3xl mx-auto">
-          <Reveal animationType="slideDown" duration={1} easing="easeOut">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-500/10 border border-accent-500/20 mb-4">
-              <span className="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></span>
-              <p className="text-accent-600 dark:text-accent-400 text-xs md:text-sm font-semibold tracking-wider uppercase m-0">
-                {t("home.welcome")}
-              </p>
-            </div>
-          </Reveal>
-
           <Reveal animationType="fadeUp" delay={0.2} duration={1}>
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-display tracking-tight leading-[1.1] text-gray-900 dark:text-white">
               {t("home.name")}
