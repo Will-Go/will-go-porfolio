@@ -152,10 +152,22 @@ function Reveal({
     offset: ["start end", "end start"],
   });
 
+  const fadeWidth = 0.2 + (distance / 20) * 0.15;
+  const thresholdOffset = threshold * 0.15;
+  const midPoint = 0.5;
+  const fadeInStart = Math.max(midPoint - fadeWidth - thresholdOffset, 0.02);
+  const fadeOutEnd = Math.min(midPoint + fadeWidth + thresholdOffset, 0.98);
+
   const scrollOpacity = useTransform(
     scrollYProgress,
-    [0.15, 0.5, 0.85],
+    [fadeInStart, midPoint, fadeOutEnd],
     [0, 1, 0],
+  );
+
+  const scrollScale = useTransform(
+    scrollYProgress,
+    [fadeInStart, midPoint, fadeOutEnd],
+    [0.75, 1, 0.75],
   );
 
   const customVariants: Variants = {
@@ -166,14 +178,14 @@ function Reveal({
           animationType === "slideUp"
             ? distance
             : animationType === "slideDown"
-            ? -distance
-            : 0,
+              ? -distance
+              : 0,
         x:
           animationType === "slideLeft"
             ? distance
             : animationType === "slideRight"
-            ? -distance
-            : 0,
+              ? -distance
+              : 0,
       }),
       ...(animationType.includes("fade") &&
         animationType !== "fadeIn" && {
@@ -181,14 +193,14 @@ function Reveal({
             animationType === "fadeUp"
               ? distance
               : animationType === "fadeDown"
-              ? -distance
-              : 0,
+                ? -distance
+                : 0,
           x:
             animationType === "fadeLeft"
               ? distance
               : animationType === "fadeRight"
-              ? -distance
-              : 0,
+                ? -distance
+                : 0,
         }),
       ...(animationType === "scale" && { scale }),
       ...(animationType === "rotateIn" && { rotate: rotation, scale }),
@@ -209,7 +221,11 @@ function Reveal({
         ease: easingMap[easing],
         type: "tween",
       }}
-      style={fadeOutOnExit ? { opacity: scrollOpacity } : undefined}
+      style={{
+        ...(fadeOutOnExit
+          ? { opacity: scrollOpacity, scale: scrollScale }
+          : {}),
+      }}
     >
       {children}
     </motion.div>
