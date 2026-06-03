@@ -14,11 +14,22 @@ export default async function Home() {
   return (
     <main className="relative min-h-screen p-4 md:p-12 lg:p-20 selection:text-black selection:bg-slate-300 overflow-x-clip animate-fade-in">
       <Presentation />
-      <Reveal animationType="fadeIn" duration={0.8} easing="easeOut">
+      <Reveal
+        animationType="fadeIn"
+        duration={0.8}
+        easing="easeOut"
+        fadeOutOnExit
+      >
         <hr id="about" />
         <About />
       </Reveal>
-      <Reveal animationType="scale" duration={1} easing="backOut" scale={0.9}>
+      <Reveal
+        animationType="scale"
+        duration={1}
+        easing="backOut"
+        scale={0.9}
+        fadeOutOnExit
+      >
         <hr id="projects" />
         <Projects />
       </Reveal>
@@ -27,6 +38,7 @@ export default async function Home() {
         duration={0.8}
         easing="easeOut"
         distance={30}
+        fadeOutOnExit
       >
         <hr />
         <Skills />
@@ -36,6 +48,7 @@ export default async function Home() {
         duration={0.8}
         easing="easeOut"
         distance={30}
+        fadeOutOnExit
       >
         <hr />
         <Education />
@@ -44,7 +57,8 @@ export default async function Home() {
         animationType="fadeUp"
         duration={0.8}
         easing="easeOut"
-        distance={40}
+        distance={80}
+        fadeOutOnExit
       >
         <hr id="experience" />
         <Experience />

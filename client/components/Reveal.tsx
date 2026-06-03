@@ -1,6 +1,13 @@
 "use client";
 import { useRef, useEffect } from "react";
-import { motion, useInView, useAnimation, Variants } from "framer-motion";
+import {
+  motion,
+  useInView,
+  useAnimation,
+  useScroll,
+  useTransform,
+  type Variants,
+} from "framer-motion";
 
 import { cn } from "@/utils/cn";
 
@@ -28,6 +35,7 @@ interface RevealProps {
   scale?: number;
   rotation?: number;
   once?: boolean;
+  fadeOutOnExit?: boolean;
   threshold?: number;
   easing?:
     | "linear"
@@ -118,15 +126,17 @@ function Reveal({
   scale = 0.9,
   rotation = -10,
   once = true,
+  fadeOutOnExit = false,
   threshold = 0.1,
   easing = "easeOut",
 }: RevealProps) {
   const controls = useAnimation();
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
+
   const isInView = useInView(ref, {
     once,
     amount: threshold,
-    margin: "0px 0px -50px 0px", // Trigger animation slightly before element is visible
+    margin: "0px 0px -50px 0px",
   });
 
   useEffect(() => {
@@ -137,7 +147,17 @@ function Reveal({
     }
   }, [isInView, controls, once]);
 
-  // Create custom variants based on props
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const scrollOpacity = useTransform(
+    scrollYProgress,
+    [0.15, 0.5, 0.85],
+    [0, 1, 0],
+  );
+
   const customVariants: Variants = {
     hidden: {
       ...animationVariants[animationType].hidden,
@@ -189,6 +209,7 @@ function Reveal({
         ease: easingMap[easing],
         type: "tween",
       }}
+      style={fadeOutOnExit ? { opacity: scrollOpacity } : undefined}
     >
       {children}
     </motion.div>
