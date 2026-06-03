@@ -78,7 +78,7 @@ const SkillsDialog = ({ isOpen, setIsOpen }: SkillsDialogProps) => {
         {!isLoading && (
           <>
             {filteredSkills.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 justify-items-center">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 justify-items-center px-4">
                 {filteredSkills.map((techSkill, i) => (
                   <SkillChip
                     key={i}
