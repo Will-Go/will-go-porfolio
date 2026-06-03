@@ -1,3 +1,4 @@
+"use client";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type { ISourceOptions } from "@tsparticles/engine";
 import { useEffect, useMemo, useState } from "react";
@@ -16,16 +17,18 @@ const ParticlesComponent = (props: ParticlesComponentProps) => {
   // this should be run only once per application lifetime
   useEffect(() => {
     initParticlesEngine(async (engine) => {
-      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
-      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
-      // starting from v2 you can add only the features you need reducing the bundle size
-      //await loadAll(engine);
-      //await loadFull(engine);
-      await loadSlim(engine);
-      //await loadBasic(engine);
-    }).then(() => {
-      setInit(true);
-    });
+      try {
+        await loadSlim(engine);
+      } catch {
+        // Plugins already registered, engine is ready
+      }
+    })
+      .then(() => {
+        setInit(true);
+      })
+      .catch(() => {
+        setInit(true);
+      });
   }, []);
 
   const options: ISourceOptions = useMemo(
@@ -148,10 +151,20 @@ const ParticlesComponent = (props: ParticlesComponentProps) => {
       },
       retina_detect: true,
     }),
-    []
+    [],
   );
 
-  return <Particles id={props.id} options={options} />;
+  return (
+    <>
+      {init && (
+        <Particles
+          id={props.id}
+          options={options}
+          className={props.className}
+        />
+      )}
+    </>
+  );
 };
 
 export default ParticlesComponent;
