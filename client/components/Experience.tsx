@@ -133,7 +133,7 @@ function TimelineItem({
   const cardX = useTransform(
     scrollYProgress,
     [animStart, animEnd],
-    [isLeft ? -100 : 100, 0],
+    [isLeft ? -160 : 160, 0],
   );
   const cardOpacity = useTransform(
     scrollYProgress,
