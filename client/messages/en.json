@@ -31,29 +31,14 @@
   },
   "about": {
     "title": "About Me",
-    "subtitle": "Passionate about creating digital experiences that make a difference",
-    "myStory": "My Story",
-    "description1": "Frontend Developer with 3+ years of production experience building scalable, high-performance React applications. Proven expertise in TypeScript, Redux state management, and modern CSS frameworks.",
-    "description2": "Successfully delivered multiple full-stack web applications with focus on pixel-perfect UIs, responsive design, and optimal user experience. Strong remote collaboration skills with demonstrated ability to lead development teams and mentor developers.",
-    "description3": "Core technical skills in React.js, TypeScript, JavaScript, Next.js, and modern styling tools like Tailwind CSS. Experienced in backend technologies including Node.js, Express.js, and cloud services like AWS and Supabase.",
-    "keyHighlights": "Key Highlights",
-    "highlights": {
-      "experience": {
-        "title": "3+ Years Experience",
-        "description": "Frontend Development"
-      },
-      "education": {
-        "title": "Software Engineering",
-        "description": "Student at ULACIT"
-      },
-      "skills": {
-        "title": "Full-Stack Ready",
-        "description": "React & Next.js Expert"
-      },
-      "mindset": {
-        "title": "Problem Solver",
-        "description": "Innovative Solutions"
-      }
+    "subtitle": "Building fast, accessible web apps with modern tools",
+    "intro": "I'm a frontend-focused full-stack developer from Costa Rica. I build scalable React apps, ship clean TypeScript, and care deeply about performance and user experience. When I'm not coding, I'm exploring cybersecurity and AI.",
+    "coreStack": "Core Stack",
+    "stats": {
+      "years": "Years Exp.",
+      "projects": "Projects",
+      "scope": "Full-Stack",
+      "education": "Software Eng."
     }
   },
   "skills": {

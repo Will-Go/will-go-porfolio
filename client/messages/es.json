@@ -31,29 +31,14 @@
   },
   "about": {
     "title": "Acerca de Mí",
-    "subtitle": "Apasionado por crear experiencias digitales que marquen la diferencia",
-    "myStory": "Mi Historia",
-    "description1": "Desarrollador Frontend con más de 3 años de experiencia en producción construyendo aplicaciones React escalables y de alto rendimiento. Experiencia comprobada en TypeScript, gestión de estado con Redux y frameworks CSS modernos.",
-    "description2": "He entregado con éxito múltiples aplicaciones web full-stack con enfoque en interfaces de usuario perfectas, diseño responsivo y experiencia de usuario óptima. Fuertes habilidades de colaboración remota con capacidad demostrada para liderar equipos de desarrollo y mentorear desarrolladores.",
-    "description3": "Habilidades técnicas principales en React.js, TypeScript, JavaScript, Next.js y herramientas de estilo modernas como Tailwind CSS. Experimentado en tecnologías backend incluyendo Node.js, Express.js y servicios en la nube como AWS y Supabase.",
-    "keyHighlights": "Puntos Destacados",
-    "highlights": {
-      "experience": {
-        "title": "3+ Años de Experiencia",
-        "description": "Desarrollo Frontend"
-      },
-      "education": {
-        "title": "Ingeniería de Software",
-        "description": "Estudiante en ULACIT"
-      },
-      "skills": {
-        "title": "Listo para Full-Stack",
-        "description": "Experto en React y Next.js"
-      },
-      "mindset": {
-        "title": "Solucionador de Problemas",
-        "description": "Soluciones Innovadoras"
-      }
+    "subtitle": "Construyendo apps web rápidas y accesibles con herramientas modernas",
+    "intro": "Soy un desarrollador full-stack con enfoque frontend de Costa Rica. Construyo apps React escalables, escribo TypeScript limpio y me importa profundamente el rendimiento y la experiencia de usuario. Cuando no programo, exploro ciberseguridad e IA.",
+    "coreStack": "Tecnologías Principales",
+    "stats": {
+      "years": "Años Exp.",
+      "projects": "Proyectos",
+      "scope": "Full-Stack",
+      "education": "Ing. Software"
     }
   },
   "skills": {
