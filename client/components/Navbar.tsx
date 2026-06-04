@@ -1,6 +1,7 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
@@ -26,9 +27,22 @@ import { RxCross2 } from "react-icons/rx";
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const titulo = useRef(null);
   const navRef = useRef(null);
   const t = useTranslations("navigation");
+  const pathname = usePathname();
+
+  const isActive = useCallback(
+    (href: string) => {
+      if (href === "/" || href.startsWith("/#")) {
+        const section = href.includes("#") ? href.split("#")[1] : "home";
+        return pathname === "/" && activeSection === section;
+      }
+      return pathname === href;
+    },
+    [pathname, activeSection],
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,11 +52,42 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const sectionIds = ["home", "about", "projects", "experience"];
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+
+        if (visible.length > 0) {
+          const id = visible[0].target.id;
+          if (id && sectionIds.includes(id)) {
+            setActiveSection(id);
+          }
+        }
+      },
+      { rootMargin: "-20% 0px -60% 0px", threshold: 0 },
+    );
+
+    for (const el of elements) {
+      observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   const links = [
     { text: t("home"), href: "/", icon: <FaHome /> },
     { text: t("about"), href: "/#about", icon: <FaUser /> },
-    { text: t("experience"), href: "/#experience", icon: <FaBriefcase /> },
     { text: t("projects"), href: "/#projects", icon: <FaProjectDiagram /> },
+    { text: t("experience"), href: "/#experience", icon: <FaBriefcase /> },
     { text: t("apps"), href: "/apps", icon: <FaRocket /> },
   ];
 
@@ -114,11 +159,16 @@ export default function Navbar() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-1 bg-gray-100/30 dark:bg-primary-900/40 p-1 rounded-xl border border-gray-200/20 dark:border-primary-800/20">
-          {links.slice(1, 5).map(({ text, href, icon }, i) => (
+          {links.slice(1, 5).map(({ text, href }, i) => (
             <Link
               key={i}
               href={href}
-              className="relative px-4 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-accent-500 dark:hover:text-accent-400 transition-all duration-300 rounded-lg hover:bg-white dark:hover:bg-zinc-800 shadow-sm shadow-transparent hover:shadow-black/5 group"
+              className={cn(
+                "relative px-4 py-1.5 text-sm font-medium transition-all duration-300 rounded-lg shadow-sm group",
+                isActive(href)
+                  ? "text-accent-500 dark:text-accent-400 bg-white dark:bg-zinc-800 shadow-black/5"
+                  : "text-gray-600 dark:text-gray-400 hover:text-accent-500 dark:hover:text-accent-400 hover:bg-white dark:hover:bg-zinc-800 shadow-transparent hover:shadow-black/5",
+              )}
             >
               <span className="relative z-10">{text}</span>
             </Link>
@@ -190,7 +240,12 @@ export default function Navbar() {
                   key={i}
                   href={href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-4 p-3 rounded-xl bg-gray-50/50 dark:bg-primary-900/30 border border-transparent hover:border-accent-500/30 hover:bg-white dark:hover:bg-primary-800/50 transition-all duration-300"
+                  className={cn(
+                    "flex items-center gap-4 p-3 rounded-xl border transition-all duration-300",
+                    isActive(href)
+                      ? "border-accent-500/30 bg-white dark:bg-primary-800/50"
+                      : "border-transparent bg-gray-50/50 dark:bg-primary-900/30 hover:border-accent-500/30 hover:bg-white dark:hover:bg-primary-800/50",
+                  )}
                 >
                   <span className="text-accent-500 text-lg">{icon}</span>
                   <span className="text-base font-medium text-gray-700 dark:text-primary-200">
