@@ -4,8 +4,6 @@ import {
   motion,
   useInView,
   useAnimation,
-  useScroll,
-  useTransform,
   type Variants,
 } from "framer-motion";
 
@@ -35,7 +33,6 @@ interface RevealProps {
   scale?: number;
   rotation?: number;
   once?: boolean;
-  fadeOutOnExit?: boolean;
   threshold?: number;
   easing?:
     | "linear"
@@ -126,7 +123,6 @@ function Reveal({
   scale = 0.9,
   rotation = -10,
   once = true,
-  fadeOutOnExit = false,
   threshold = 0.1,
   easing = "easeOut",
 }: RevealProps) {
@@ -146,29 +142,6 @@ function Reveal({
       controls.start("hidden");
     }
   }, [isInView, controls, once]);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const fadeWidth = 0.2 + (distance / 20) * 0.15;
-  const thresholdOffset = threshold * 0.15;
-  const midPoint = 0.5;
-  const fadeInStart = Math.max(midPoint - fadeWidth - thresholdOffset, 0.02);
-  const fadeOutEnd = Math.min(midPoint + fadeWidth + thresholdOffset, 0.98);
-
-  const scrollOpacity = useTransform(
-    scrollYProgress,
-    [fadeInStart, midPoint, fadeOutEnd],
-    [0, 1, 0],
-  );
-
-  const scrollScale = useTransform(
-    scrollYProgress,
-    [fadeInStart, midPoint, fadeOutEnd],
-    [0.75, 1, 0.75],
-  );
 
   const customVariants: Variants = {
     hidden: {
@@ -220,11 +193,6 @@ function Reveal({
         delay,
         ease: easingMap[easing],
         type: "tween",
-      }}
-      style={{
-        ...(fadeOutOnExit
-          ? { opacity: scrollOpacity, scale: scrollScale }
-          : {}),
       }}
     >
       {children}
