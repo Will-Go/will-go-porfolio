@@ -1,20 +1,19 @@
-//COMPONENTS
-import Card from "@/components/Card";
+"use client";
 import Reveal from "@/components/Reveal";
 import { useTranslations } from "next-intl";
 
-//ICONS
 import {
   FaGraduationCap,
   FaMapMarkerAlt,
   FaCalendarAlt,
-  FaBookOpen,
+  FaCheckCircle,
 } from "react-icons/fa";
-
-const PERCENTAGE_COMPLETE = 100; // Example percentage of program completion
 
 function Education() {
   const t = useTranslations("education");
+
+  const focusAreas: string[] = t.raw("focus");
+  const capabilities: string[] = t.raw("capabilities");
 
   return (
     <div
@@ -29,111 +28,99 @@ function Education() {
               {t("title")}
             </h1>
           </div>
-          <p className="text-lg text-gray-600 dark:text-primary-300 leading-relaxed max-w-2xl mx-auto">
-            {t("subtitle")}
-          </p>
         </div>
       </Reveal>
 
-      <Reveal animationType="fadeUp" delay={0.3} duration={1} easing="easeOut">
-        <Card className="max-w-4xl w-full  transition-colors duration-300">
-          <div className="p-8 space-y-6">
-            {/* University Header */}
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-              <div className="space-y-2">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-primary-100 leading-tight">
-                  {t("university")}
-                </h2>
-                <h3 className="text-lg font-semibold text-accent-400">
-                  {t("degree")}
-                </h3>
-              </div>
-              <div className="flex items-center gap-2 text-gray-500 dark:text-primary-400">
-                <FaCalendarAlt className="text-accent-500" />
-                <span className="font-medium">
-                  {t("period", { percentage: PERCENTAGE_COMPLETE })}
-                </span>
-              </div>
+      <Reveal animationType="fadeUp" delay={0.3} duration={0.8} easing="easeOut">
+        <div className="w-full max-w-4xl">
+          {/* Main diploma-style panel */}
+          <div className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-primary-700/40 bg-white dark:bg-primary-900/40">
+            {/* Left accent strip */}
+            <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-accent-500 via-accent-400 to-accent-600" />
+
+            {/* Background watermark */}
+            <div className="absolute -right-8 -top-8 text-[180px] text-gray-100 dark:text-primary-800/20 select-none pointer-events-none leading-none">
+              <FaGraduationCap />
             </div>
 
-            {/* Location */}
-            <div className="flex items-center gap-2 text-gray-600 dark:text-primary-300">
-              <FaMapMarkerAlt className="text-accent-500" />
-              <span>{t("location")}</span>
-            </div>
+            <div className="relative p-6 md:p-8 space-y-6">
+              {/* Header with large icon */}
+              <div className="flex flex-col sm:flex-row gap-5 items-start">
+                <div className="w-14 h-14 rounded-xl bg-accent-500/10 dark:bg-accent-500/20 border border-accent-500/20 flex items-center justify-center flex-shrink-0">
+                  <FaGraduationCap className="text-accent-500 text-2xl" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-primary-100 leading-tight">
+                    {t("university")}
+                  </h2>
+                  <p className="text-base text-accent-500 font-semibold mt-1">
+                    {t("degree")}
+                  </p>
+                </div>
 
-            {/* Description */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-gray-800 dark:text-primary-200">
-                <FaBookOpen className="text-accent-500" />
-                <span className="font-semibold">Program Overview</span>
+                {/* Metadata chips */}
+                <div className="flex flex-wrap gap-2 sm:justify-end">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-primary-800/60 text-xs font-medium text-gray-600 dark:text-primary-300">
+                    <FaCalendarAlt className="text-accent-500" />
+                    {t("period")}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-primary-800/60 text-xs font-medium text-gray-600 dark:text-primary-300">
+                    <FaMapMarkerAlt className="text-accent-500" />
+                    {t("location")}
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-green-500/10 dark:bg-green-500/20 border border-green-500/20 text-xs font-semibold text-green-600 dark:text-green-400">
+                    <FaCheckCircle className="text-[10px]" />
+                    {t("progress")}
+                  </span>
+                </div>
               </div>
-              <p className="text-gray-600 dark:text-primary-400 leading-relaxed text-justify">
-                {t("description")}
-              </p>
-            </div>
 
-            {/* Key Areas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-              <div className="space-y-2">
-                <h4 className="font-semibold text-gray-800 dark:text-primary-200">
-                  Key Focus Areas:
-                </h4>
-                <ul className="text-sm text-gray-600 dark:text-primary-400 space-y-1">
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
-                    Software Development & Engineering
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
-                    Database Design & Management
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
-                    Web Development Technologies
-                  </li>
-                </ul>
+              {/* Decorative divider */}
+              <div className="flex items-center gap-3">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-200 dark:via-primary-700/50 to-transparent" />
+                <div className="w-1.5 h-1.5 rounded-full bg-accent-500/40" />
+                <div className="w-1.5 h-1.5 rounded-full bg-accent-500/20" />
+                <div className="w-1.5 h-1.5 rounded-full bg-accent-500/10" />
+                <div className="h-px flex-1 bg-gradient-to-l from-transparent via-gray-200 dark:via-primary-700/50 to-transparent" />
               </div>
-              <div className="space-y-2">
-                <h4 className="font-semibold text-gray-800 dark:text-primary-200">
-                  Technical Skills:
-                </h4>
-                <ul className="text-sm text-gray-600 dark:text-primary-400 space-y-1">
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
-                    Object-Oriented Programming
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
-                    Software Architecture & Design
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
-                    Project Management
-                  </li>
-                </ul>
-              </div>
-            </div>
 
-            {/* Progress Indicator */}
-            <div className="pt-6 border-t border-gray-200 dark:border-primary-800/30">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-600 dark:text-primary-300">
-                  {t("progress.title")}
-                </span>
-                <span className="text-sm text-accent-400 font-semibold">
-                  {PERCENTAGE_COMPLETE}% Complete
-                </span>
+              {/* Coursework */}
+              <div>
+                <p className="text-xs font-semibold text-gray-500 dark:text-primary-400 uppercase tracking-wider mb-3">
+                  {t("focusLabel")}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {focusAreas.map((area) => (
+                    <span
+                      key={area}
+                      className="px-3 py-1.5 text-xs font-medium bg-gray-50 dark:bg-primary-800/50 border border-gray-200 dark:border-primary-700/30 rounded-full text-gray-700 dark:text-primary-300 transition-all duration-300 hover:border-accent-500/40 hover:text-accent-500 dark:hover:text-accent-400 hover:bg-accent-500/5 cursor-default"
+                    >
+                      {area}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="w-full bg-gray-200 dark:bg-primary-900/50 rounded-full h-2">
-                <div
-                  className="bg-gradient-to-r from-accent-500 to-accent-600 h-2 rounded-full transition-all duration-500"
-                  style={{ width: `${PERCENTAGE_COMPLETE}%` }}
-                ></div>
+
+              {/* Capabilities strip */}
+              <div className="-mx-6 md:-mx-8 -mb-6 md:-mb-8 mt-4 px-6 md:px-8 py-4 bg-accent-500/5 dark:bg-accent-500/10 border-t border-accent-500/10 dark:border-accent-500/20">
+                <div className="flex flex-wrap items-center gap-3 md:gap-6">
+                  <span className="text-xs font-semibold text-accent-600 dark:text-accent-400 uppercase tracking-wider">
+                    {t("capabilitiesLabel")}
+                  </span>
+                  {capabilities.map((item) => (
+                    <span
+                      key={item}
+                      className="text-sm font-medium text-gray-700 dark:text-primary-300 flex items-center gap-2"
+                    >
+                      <span className="w-1 h-1 rounded-full bg-accent-500" />
+                      {item}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </Card>
+        </div>
       </Reveal>
     </div>
   );

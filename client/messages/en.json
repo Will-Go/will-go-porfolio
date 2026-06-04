@@ -57,23 +57,27 @@
   },
   "education": {
     "title": "Education",
-    "subtitle": "Currently pursuing my passion for technology through formal education in Software Engineering",
+    "subtitle": "B.S. in Software Engineering — ULACIT, San José",
     "university": "Universidad Latinoamericana de Ciencia y Tecnología",
     "degree": "Bachelor's Degree in Software Engineering",
-    "period": "2021 - 2025 ({percentage}% Complete)",
-    "location": "San José, Barrio Tournon, Costa Rica",
-    "description": "Comprehensive program focusing on modern software development methodologies, algorithms, data structures, and full-stack web development.",
-    "achievements": {
-      "title": "Key Achievements",
-      "items": {
-        "gpa": "Maintaining strong academic performance",
-        "projects": "Completed 15+ practical projects"
-      }
-    },
-    "progress": {
-      "title": "Program Progress",
-      "description": "Currently in final year with focus on advanced topics"
-    }
+    "period": "2021 — 2025",
+    "location": "San José, Costa Rica",
+    "progress": "Completed",
+    "focusLabel": "Coursework",
+    "focus": [
+      "Software Development",
+      "Database Design & SQL",
+      "Web Technologies",
+      "Algorithms & Data Structures",
+      "System Architecture",
+      "Project Management"
+    ],
+    "capabilitiesLabel": "Capabilities",
+    "capabilities": [
+      "Object-Oriented Programming",
+      "Software Architecture & Design",
+      "Full-Stack Web Development"
+    ]
   },
   "experience": {
     "title": "Professional Experience",

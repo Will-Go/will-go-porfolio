@@ -57,23 +57,27 @@
   },
   "education": {
     "title": "Educación",
-    "subtitle": "Actualmente persiguiendo mi pasión por la tecnología a través de educación formal en Ingeniería de Software",
+    "subtitle": "Licenciatura en Ingeniería de Software — ULACIT, San José",
     "university": "Universidad Latinoamericana de Ciencia y Tecnología",
     "degree": "Licenciatura en Ingeniería de Software",
-    "period": "2021 - 2025 ({percentage}% Completado)",
-    "location": "San José, Barrio Tournon, Costa Rica",
-    "description": "Programa integral enfocado en metodologías modernas de desarrollo de software, algoritmos, estructuras de datos y desarrollo web full-stack.",
-    "achievements": {
-      "title": "Logros Clave",
-      "items": {
-        "gpa": "Manteniendo un fuerte rendimiento académico",
-        "projects": "Completados 15+ proyectos prácticos"
-      }
-    },
-    "progress": {
-      "title": "Progreso del Programa",
-      "description": "Actualmente en el año final con enfoque en temas avanzados"
-    }
+    "period": "2021 — 2025",
+    "location": "San José, Costa Rica",
+    "progress": "Completado",
+    "focusLabel": "Áreas de Estudio",
+    "focus": [
+      "Desarrollo de Software",
+      "Diseño de Bases de Datos y SQL",
+      "Tecnologías Web",
+      "Algoritmos y Estructuras de Datos",
+      "Arquitectura de Sistemas",
+      "Gestión de Proyectos"
+    ],
+    "capabilitiesLabel": "Capacidades",
+    "capabilities": [
+      "Programación Orientada a Objetos",
+      "Arquitectura y Diseño de Software",
+      "Desarrollo Web Full-Stack"
+    ]
   },
   "experience": {
     "title": "Experiencia Profesional",
