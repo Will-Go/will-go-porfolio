@@ -167,10 +167,19 @@ export default function Player({
     );
     camera.position.y = PLAYER_EYE_HEIGHT;
 
-    // Welcome zone detection
+    // Welcome zone detection — within radius AND facing the sign
     const dx = camera.position.x - WELCOME_ZONE.x;
     const dz = camera.position.z - WELCOME_ZONE.z;
-    const nowInWelcome = dx * dx + dz * dz < WELCOME_ZONE.r * WELCOME_ZONE.r;
+    const inRadius = dx * dx + dz * dz < WELCOME_ZONE.r * WELCOME_ZONE.r;
+    const toWelcomeX = WELCOME_ZONE.x - camera.position.x;
+    const toWelcomeZ = WELCOME_ZONE.z - camera.position.z;
+    const toWelcomeLen = Math.sqrt(toWelcomeX * toWelcomeX + toWelcomeZ * toWelcomeZ);
+    const facingWelcome =
+      toWelcomeLen > 0.001 &&
+      forwardVec.x * (toWelcomeX / toWelcomeLen) +
+          forwardVec.z * (toWelcomeZ / toWelcomeLen) >
+        0.3;
+    const nowInWelcome = inRadius && facingWelcome;
     if (nowInWelcome !== inWelcome.current) {
       inWelcome.current = nowInWelcome;
       onWelcomeZoneChange(nowInWelcome);
