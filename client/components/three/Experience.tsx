@@ -3,7 +3,6 @@
 import { useState, useCallback, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
-import { useTranslations } from "next-intl";
 import { cn } from "@/utils/cn";
 import { FaTimes } from "react-icons/fa";
 import { EYE } from "./constants";
@@ -15,7 +14,6 @@ import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
 
 export default function ThreeExperience() {
-  const t = useTranslations();
   const [showWelcome, setShowWelcome] = useState(false);
   const [locked, setLocked] = useState(false);
   const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
@@ -122,23 +120,6 @@ export default function ThreeExperience() {
         </div>
       )}
 
-      {/* Welcome panel (auto-shown when near center) */}
-      {showWelcome && !expandedPanel && (
-        <div
-          className={cn(
-            "fixed z-40 pointer-events-none",
-            "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            "max-w-[440px] w-[90vw]",
-            "rounded-2xl border border-accent-500/20 bg-black/40 backdrop-blur-xl p-6",
-            "shadow-[0_0_40px_rgba(1,65,255,0.08)]",
-            "text-white",
-            "animate-fade-in",
-          )}
-        >
-          <PanelContent zone="welcome" />
-        </div>
-      )}
-
       {/* Expanded panel (opened by clicking wall label) */}
       {expandedPanel && (
         <div
@@ -201,7 +182,7 @@ export default function ThreeExperience() {
         </div>
       )}
 
-      <FloatingHeadOverlay />
+      <FloatingHeadOverlay showWelcome={showWelcome && !expandedPanel} locked={locked} />
     </>
   );
 }

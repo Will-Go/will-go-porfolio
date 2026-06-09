@@ -16,25 +16,15 @@ export function PanelContent({ zone }: { zone: string }) {
   switch (zone) {
     case "welcome":
       return (
-        <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-500/10 border border-accent-500/20">
-            <span className="w-2 h-2 rounded-full bg-accent-500 animate-pulse" />
-            <span className="text-xs text-accent-500 font-medium uppercase tracking-widest">
-              {t("home.welcome")}
-            </span>
-          </div>
-          <h1 className="text-3xl font-bold text-white">{t("home.name")}</h1>
-          <h2 className="text-xl text-accent-400 font-medium">
-            {t("home.title")}
-          </h2>
-          <p className="text-sm text-gray-300 leading-relaxed">
+        <div className="text-left space-y-2">
+          <p className="text-sm text-gray-100 leading-relaxed">
+            <span className="text-accent-400">{t("home.welcome")}!</span>{" "}
+            {t("home.name")}. {t("home.title")} based in{" "}
+            {t("home.location")}.
+          </p>
+          <p className="text-xs text-gray-400 leading-relaxed">
             {t("home.description", { location: t("home.location") })}
           </p>
-          <div className="flex items-center justify-center gap-2 text-xs text-gray-400">
-            <span className="px-2 py-1 rounded bg-accent-500/5 border border-accent-500/10">
-              📍 {t("home.location")}
-            </span>
-          </div>
         </div>
       );
     case "about":
