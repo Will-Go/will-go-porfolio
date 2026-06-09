@@ -225,6 +225,13 @@
     "connectLinkedIn": "Connect on LinkedIn",
     "logoutExit": "Logout & Exit"
   },
+  "threeExperience": {
+    "clickToLook": "to look",
+    "wasdToMove": "to move",
+    "clickPanelsToExplore": "click wall panels to explore",
+    "press": "Press",
+    "releaseCursor": "to release cursor & click wall panels"
+  },
   "appsContent": {
     "title": "Utility Apps",
     "subtitle": "A collection of useful developer tools and utilities to boost your productivity.",

@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { cn } from "@/utils/cn";
+import { useTranslations } from "next-intl";
 import { FaTimes } from "react-icons/fa";
 import { EYE } from "./constants";
 import { Room } from "./Room";
@@ -15,6 +16,7 @@ import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
 
 export default function ThreeExperience() {
+  const t = useTranslations("threeExperience");
   const [showWelcome, setShowWelcome] = useState(false);
   const [locked, setLocked] = useState(false);
   const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
@@ -167,18 +169,18 @@ export default function ThreeExperience() {
               <kbd className="px-1.5 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400 text-[10px]">
                 Click
               </kbd>
-              to look
+              {t("clickToLook")}
             </span>
             <span className="w-px h-3 bg-accent-500/20" />
             <span className="flex items-center gap-1.5">
               <kbd className="px-1.5 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400 text-[10px]">
                 WASD
               </kbd>
-              to move
+              {t("wasdToMove")}
             </span>
             <span className="w-px h-3 bg-accent-500/20" />
             <span className="text-[10px] text-gray-500">
-              click wall panels to explore
+              {t("clickPanelsToExplore")}
             </span>
           </div>
         </div>
@@ -188,11 +190,11 @@ export default function ThreeExperience() {
       {locked && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
           <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-accent-500/10 text-[10px] text-gray-400">
-            Press{" "}
+            {t("press")}{" "}
             <kbd className="px-1 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400">
               ESC
             </kbd>{" "}
-            to release cursor & click wall panels
+            {t("releaseCursor")}
           </div>
         </div>
       )}
