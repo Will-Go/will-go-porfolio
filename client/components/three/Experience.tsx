@@ -3,7 +3,7 @@
 import { useState, useCallback, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
+import { ACESFilmicToneMapping } from "three";
 import { cn } from "@/utils/cn";
 import { useTranslations } from "next-intl";
 import { FaTimes } from "react-icons/fa";
@@ -56,7 +56,7 @@ export default function ThreeExperience() {
           dpr={[1, 2]}
           gl={{
             antialias: true,
-            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMapping: ACESFilmicToneMapping,
             toneMappingExposure: 1.5,
           }}
         >
