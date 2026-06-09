@@ -1,0 +1,207 @@
+"use client";
+
+import { useState, useCallback, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import * as THREE from "three";
+import { useTranslations } from "next-intl";
+import { cn } from "@/utils/cn";
+import { FaTimes } from "react-icons/fa";
+import { EYE } from "./constants";
+import { Room } from "./Room";
+import { WelcomeSign } from "./WelcomeSign";
+import { WallLabels } from "./WallLabels";
+import Player from "./Player";
+import { PanelContent } from "./PanelContent";
+import FloatingHeadOverlay from "./FloatingHeadOverlay";
+
+export default function ThreeExperience() {
+  const t = useTranslations();
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [locked, setLocked] = useState(false);
+  const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
+  const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+
+  const onWelcomeZoneChange = useCallback(
+    (inside: boolean) => setShowWelcome(inside),
+    [],
+  );
+  const onLockChange = useCallback((l: boolean) => setLocked(l), []);
+  const onSectionClick = useCallback((id: string) => {
+    document.exitPointerLock();
+    setExpandedPanel(id);
+  }, []);
+  const onWelcomeSignClick = useCallback(() => {
+    document.exitPointerLock();
+    setExpandedPanel("welcome");
+  }, []);
+  const closePanel = useCallback(() => setExpandedPanel(null), []);
+  const onHoverChange = useCallback(
+    (id: string | null) => setHoveredSection(id),
+    [],
+  );
+
+  return (
+    <>
+      <div style={{ position: "fixed", inset: 0, zIndex: 30 }}>
+        <Canvas
+          camera={{
+            position: [0, EYE, 0],
+            rotation: [0, 0, 0],
+            fov: 75,
+            near: 0.1,
+            far: 100,
+          }}
+          style={{ width: "100%", height: "100%" }}
+          dpr={[1, 2]}
+          gl={{
+            antialias: true,
+            toneMapping: THREE.ACESFilmicToneMapping,
+            toneMappingExposure: 1.5,
+          }}
+        >
+          <Suspense fallback={null}>
+            <ambientLight intensity={0.6} color="#ffffff" />
+            <directionalLight
+              position={[5, 10, 5]}
+              intensity={1.0}
+              color="#ffffff"
+            />
+            <pointLight
+              position={[0, 4, 0]}
+              intensity={1.5}
+              color="#0141ff"
+              distance={20}
+            />
+            <pointLight
+              position={[-8, 3, 0]}
+              intensity={1}
+              color="#8b5cf6"
+              distance={15}
+            />
+            <pointLight
+              position={[8, 3, 0]}
+              intensity={1}
+              color="#8b5cf6"
+              distance={15}
+            />
+            <Room />
+            <WelcomeSign onClick={onWelcomeSignClick} />
+            <WallLabels
+              onSectionClick={onSectionClick}
+              hoveredSection={hoveredSection}
+            />
+            <Player
+              onWelcomeZoneChange={onWelcomeZoneChange}
+              onLockChange={onLockChange}
+              onSectionClick={onSectionClick}
+              onHoverChange={onHoverChange}
+              expandedPanel={expandedPanel}
+            />
+          </Suspense>
+        </Canvas>
+      </div>
+
+      {/* Crosshair (visible when pointer is locked) */}
+      {locked && (
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none">
+          <div
+            className={cn(
+              "w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-200",
+              hoveredSection
+                ? "border-accent-400 bg-accent-500/15 scale-125"
+                : "border-white/40",
+            )}
+          >
+            <div
+              className={cn(
+                "w-1.5 h-1.5 rounded-full transition-colors duration-200",
+                hoveredSection ? "bg-accent-400" : "bg-white/60",
+              )}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Welcome panel (auto-shown when near center) */}
+      {showWelcome && !expandedPanel && (
+        <div
+          className={cn(
+            "fixed z-40 pointer-events-none",
+            "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+            "max-w-[440px] w-[90vw]",
+            "rounded-2xl border border-accent-500/20 bg-black/40 backdrop-blur-xl p-6",
+            "shadow-[0_0_40px_rgba(1,65,255,0.08)]",
+            "text-white",
+            "animate-fade-in",
+          )}
+        >
+          <PanelContent zone="welcome" />
+        </div>
+      )}
+
+      {/* Expanded panel (opened by clicking wall label) */}
+      {expandedPanel && (
+        <div
+          className={cn(
+            "fixed z-40",
+            "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+            "max-w-[440px] w-[90vw] max-h-[70vh] overflow-y-auto",
+            "rounded-2xl border border-accent-500/20 bg-black/40 backdrop-blur-xl p-6",
+            "shadow-[0_0_40px_rgba(1,65,255,0.08)]",
+            "text-white",
+            "animate-fade-in",
+          )}
+        >
+          <button
+            type="button"
+            onClick={closePanel}
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 border border-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all duration-200 cursor-pointer"
+          >
+            <FaTimes className="text-sm" />
+          </button>
+          <PanelContent zone={expandedPanel} />
+        </div>
+      )}
+
+      {/* Controls hint (only when no panel is open) */}
+      {!locked && !expandedPanel && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+          <div className="flex items-center gap-4 px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-accent-500/20 text-xs text-gray-300">
+            <span className="flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400 text-[10px]">
+                Click
+              </kbd>
+              to look
+            </span>
+            <span className="w-px h-3 bg-accent-500/20" />
+            <span className="flex items-center gap-1.5">
+              <kbd className="px-1.5 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400 text-[10px]">
+                WASD
+              </kbd>
+              to move
+            </span>
+            <span className="w-px h-3 bg-accent-500/20" />
+            <span className="text-[10px] text-gray-500">
+              click wall panels to explore
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ESC hint when locked */}
+      {locked && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/30 backdrop-blur-sm border border-accent-500/10 text-[10px] text-gray-400">
+            Press{" "}
+            <kbd className="px-1 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400">
+              ESC
+            </kbd>{" "}
+            to release cursor & click wall panels
+          </div>
+        </div>
+      )}
+
+      <FloatingHeadOverlay />
+    </>
+  );
+}

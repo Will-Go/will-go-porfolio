@@ -31,7 +31,12 @@ function Education() {
         </div>
       </Reveal>
 
-      <Reveal animationType="fadeUp" delay={0.3} duration={0.8} easing="easeOut">
+      <Reveal
+        animationType="fadeUp"
+        delay={0.3}
+        duration={0.8}
+        easing="easeOut"
+      >
         <div className="w-full max-w-4xl">
           {/* Main diploma-style panel */}
           <div className="relative overflow-hidden rounded-2xl border border-gray-200 dark:border-primary-700/40 bg-white dark:bg-primary-900/40">

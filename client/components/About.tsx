@@ -1,6 +1,8 @@
+"use client";
+
 import Reveal from "@/components/Reveal";
 import Card from "@/components/Card";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
 //ICONS
 import {
@@ -21,8 +23,8 @@ const CORE_STACK = [
   "Supabase",
 ];
 
-async function About() {
-  const t = await getTranslations("about");
+function About() {
+  const t = useTranslations("about");
 
   const stats = [
     {
