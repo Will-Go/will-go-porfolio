@@ -1,61 +1,55 @@
-export const ROOM_WIDTH = 20;
-export const ROOM_DEPTH = 16;
-export const ROOM_HEIGHT = 5;
-export const WALL_THICKNESS = 0.3;
-export const HALF_W = ROOM_WIDTH / 2;
-export const HALF_D = ROOM_DEPTH / 2;
+// Player
 export const PLAYER_RADIUS = 0.35;
 export const PLAYER_EYE_HEIGHT = 1.7;
 export const PLAYER_SPEED = 7;
-
-// Short aliases for room dimensions
-export const ROOM_W = ROOM_WIDTH;
-export const ROOM_D = ROOM_DEPTH;
-export const ROOM_H = ROOM_HEIGHT;
 export const EYE = PLAYER_EYE_HEIGHT;
 export const RADIUS = PLAYER_RADIUS;
 export const SPEED = PLAYER_SPEED;
 
-// Welcome zone
-export const WELCOME_ZONE = { x: -2, z: 0, r: 4.5 };
+// Open world bounds — circular boundary keeps the player from getting lost
+export const BOUNDARY_RADIUS = 24;
+export const GROUND_SIZE = 64;
 
-// Wall section data
-export interface IWallSection {
+// Path / station visuals
+export const PATH_WIDTH = 1.6;
+export const STATION_CIRCLE_RADIUS = 2.4;
+
+// voxel_computer_table.glb placement (tuned for the model's native scale)
+export const COMPUTER_SCALE = 0.4;
+export const COMPUTER_Y = 0;
+
+// Station data — ordered walkthrough sequence
+export interface IStation {
   id: string;
+  step: number;
   position: [number, number, number];
-  rotation: [number, number, number];
   titleKey: string;
 }
 
-export const WALL_SECTIONS: IWallSection[] = [
+export const STATIONS: IStation[] = [
   {
-    id: "about",
-    position: [-4, 2.2, HALF_D - 0.3],
-    rotation: [0, Math.PI, 0],
-    titleKey: "about.title",
+    id: "welcome",
+    step: 1,
+    position: [0, 0, 16],
+    titleKey: "threeExperience.welcome.title",
   },
-  {
-    id: "projects",
-    position: [HALF_W - 0.3, 2.2, -3],
-    rotation: [0, -Math.PI / 2, 0],
-    titleKey: "projects.title",
-  },
-  {
-    id: "skills",
-    position: [0, 2.2, -HALF_D + 0.3],
-    rotation: [0, 0, 0],
-    titleKey: "skills.title",
-  },
+  { id: "about", step: 2, position: [-7, 0, 9], titleKey: "about.title" },
+  { id: "projects", step: 3, position: [7, 0, 3], titleKey: "projects.title" },
+  { id: "skills", step: 4, position: [-7, 0, -3], titleKey: "skills.title" },
   {
     id: "education",
-    position: [-HALF_W + 0.3, 2.2, 3],
-    rotation: [0, Math.PI / 2, 0],
+    step: 5,
+    position: [7, 0, -9],
     titleKey: "education.title",
   },
   {
     id: "experience",
-    position: [-HALF_W + 0.3, 2.2, -3],
-    rotation: [0, Math.PI / 2, 0],
+    step: 6,
+    position: [0, 0, -16],
     titleKey: "experience.title",
   },
 ];
+
+// Welcome zone — anchored to the welcome station so the floating-head bubble
+// still triggers when the player approaches the start of the path.
+export const WELCOME_ZONE = { x: 0, z: 16, r: 5 };

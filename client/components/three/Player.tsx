@@ -4,13 +4,12 @@ import { useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import {
-  HALF_W,
-  HALF_D,
+  BOUNDARY_RADIUS,
   PLAYER_RADIUS,
   PLAYER_EYE_HEIGHT,
   PLAYER_SPEED,
   WELCOME_ZONE,
-  WALL_SECTIONS,
+  STATIONS,
 } from "./constants";
 
 const moveVec = new THREE.Vector3();
@@ -45,14 +44,15 @@ export default function Player({
   const expandedPanelRef = useRef(expandedPanel);
   expandedPanelRef.current = expandedPanel;
 
-  // Create invisible hit targets at wall label positions
+  // Create invisible hit targets over each station's computer table so the
+  // center-ray can detect what the player is aiming at while pointer-locked.
   useEffect(() => {
-    const targets = WALL_SECTIONS.map((section) => {
-      const geo = new THREE.BoxGeometry(3, 1.5, 0.2);
+    const targets = STATIONS.map((station) => {
+      const geo = new THREE.BoxGeometry(2.4, 2, 2.4);
       const mat = new THREE.MeshBasicMaterial({ visible: false });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(...section.position);
-      mesh.userData.sectionId = section.id;
+      mesh.position.set(station.position[0], 1, station.position[2]);
+      mesh.userData.sectionId = station.id;
       scene.add(mesh);
       return mesh;
     });
@@ -71,11 +71,7 @@ export default function Player({
     const canvas = gl.domElement;
     if (!canvas) return;
 
-    camera.position.set(
-      WELCOME_ZONE.x + 2.5,
-      PLAYER_EYE_HEIGHT,
-      WELCOME_ZONE.z + 3.5,
-    );
+    camera.position.set(WELCOME_ZONE.x, PLAYER_EYE_HEIGHT, WELCOME_ZONE.z + 4.5);
     camera.rotation.set(-Math.PI / 50, 0, 0);
 
     const onLock = () => {
@@ -155,16 +151,20 @@ export default function Player({
     if (f) moveVec.addScaledVector(forwardVec, f * speed);
     if (s) moveVec.addScaledVector(rightVec, s * speed);
 
-    camera.position.x = THREE.MathUtils.clamp(
-      camera.position.x + moveVec.x,
-      -HALF_W + PLAYER_RADIUS,
-      HALF_W - PLAYER_RADIUS,
-    );
-    camera.position.z = THREE.MathUtils.clamp(
-      camera.position.z + moveVec.z,
-      -HALF_D + PLAYER_RADIUS,
-      HALF_D - PLAYER_RADIUS,
-    );
+    let nextX = camera.position.x + moveVec.x;
+    let nextZ = camera.position.z + moveVec.z;
+
+    // Circular boundary — re-project inside the ring so the player can't wander off.
+    const maxR = BOUNDARY_RADIUS - PLAYER_RADIUS;
+    const distSq = nextX * nextX + nextZ * nextZ;
+    if (distSq > maxR * maxR) {
+      const dist = Math.sqrt(distSq);
+      nextX = (nextX / dist) * maxR;
+      nextZ = (nextZ / dist) * maxR;
+    }
+
+    camera.position.x = nextX;
+    camera.position.z = nextZ;
     camera.position.y = PLAYER_EYE_HEIGHT;
 
     // Welcome zone detection — within radius AND facing the sign

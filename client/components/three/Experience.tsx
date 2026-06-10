@@ -7,16 +7,17 @@ import { ACESFilmicToneMapping } from "three";
 import { cn } from "@/utils/cn";
 import { useTranslations } from "next-intl";
 import { FaTimes } from "react-icons/fa";
-import { EYE } from "./constants";
+import { EYE, STATIONS } from "./constants";
 import { Room } from "./Room";
-import { WelcomeSign } from "./WelcomeSign";
-import { WallLabels } from "./WallLabels";
+import { Station } from "./Station";
+import { PathTrail } from "./PathTrail";
 import Player from "./Player";
 import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
 
 export default function ThreeExperience() {
   const t = useTranslations("threeExperience");
+  const tRoot = useTranslations();
   const [showWelcome, setShowWelcome] = useState(false);
   const [locked, setLocked] = useState(false);
   const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
@@ -61,36 +62,43 @@ export default function ThreeExperience() {
           }}
         >
           <Suspense fallback={null}>
-            <ambientLight intensity={0.6} color="#ffffff" />
+            <color attach="background" args={["#0a0a18"]} />
+            <fog attach="fog" args={["#0a0a18", 20, 52]} />
+            <ambientLight intensity={0.7} color="#ffffff" />
+            <hemisphereLight
+              color="#3a3a6a"
+              groundColor="#0a0a1a"
+              intensity={0.6}
+            />
             <directionalLight
-              position={[5, 10, 5]}
-              intensity={1.0}
+              position={[10, 18, 8]}
+              intensity={1.1}
               color="#ffffff"
             />
             <pointLight
-              position={[0, 4, 0]}
-              intensity={1.5}
+              position={[0, 6, 8]}
+              intensity={1.2}
               color="#0141ff"
-              distance={20}
+              distance={28}
             />
             <pointLight
-              position={[-8, 3, 0]}
-              intensity={1}
+              position={[0, 6, -10]}
+              intensity={1.2}
               color="#8b5cf6"
-              distance={15}
-            />
-            <pointLight
-              position={[8, 3, 0]}
-              intensity={1}
-              color="#8b5cf6"
-              distance={15}
+              distance={28}
             />
             <Room />
-            <WelcomeSign onClick={onWelcomeSignClick} />
-            <WallLabels
-              onSectionClick={onSectionClick}
-              hoveredSection={hoveredSection}
-            />
+            <PathTrail />
+
+            {STATIONS.map((station) => (
+              <Station
+                key={station.id}
+                station={station}
+                title={tRoot(station.titleKey)}
+                hovered={hoveredSection === station.id}
+                onClick={() => onSectionClick(station.id)}
+              />
+            ))}
             <Player
               onWelcomeZoneChange={onWelcomeZoneChange}
               onLockChange={onLockChange}
@@ -127,7 +135,11 @@ export default function ThreeExperience() {
       <AnimatePresence>
         {expandedPanel && (
           <motion.div
-            initial={{ clipPath: "inset(50% 0% 50% 0%)", opacity: 0, scale: 0.95 }}
+            initial={{
+              clipPath: "inset(50% 0% 50% 0%)",
+              opacity: 0,
+              scale: 0.95,
+            }}
             animate={{
               clipPath: "inset(0% 0% 0% 0%)",
               opacity: 1,
@@ -199,7 +211,10 @@ export default function ThreeExperience() {
         </div>
       )}
 
-      <FloatingHeadOverlay showWelcome={showWelcome && !expandedPanel} locked={locked} />
+      <FloatingHeadOverlay
+        showWelcome={showWelcome && !expandedPanel}
+        locked={locked}
+      />
     </>
   );
 }

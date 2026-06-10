@@ -1,112 +1,138 @@
 "use client";
 
-import { HALF_D, HALF_W, ROOM_D, ROOM_H, ROOM_W } from "./constants";
+import { useMemo } from "react";
+import { BOUNDARY_RADIUS, GROUND_SIZE, STATIONS } from "./constants";
 
-const WALL_COLOR = "#1e1e30";
-const NEON_COLOR = "#0141ff";
-const PILLAR_COLOR = "#0141ff";
-const halfH = ROOM_H / 2;
-const topH = ROOM_H - 0.15;
-const gap = 0.8;
+const GROUND_COLOR = "#16162a";
+const ACCENT = "#0141ff";
+const BLOCK_COLORS = ["#1e1e38", "#242447", "#2a2a52", "#1a1a30", "#312b5c"];
+const POST_COLOR = "#0141ff";
 
-const CORNER_PILLARS: [number, number, number][] = [
-	[-HALF_W + 0.1, halfH, -HALF_D + 0.1],
-	[HALF_W - 0.1, halfH, -HALF_D + 0.1],
-	[-HALF_W + 0.1, halfH, HALF_D - 0.1],
-	[HALF_W - 0.1, halfH, HALF_D - 0.1],
-];
-
-const CEILING_LIGHTS: [number, number, number][] = [
-	[-6, 4.98, -4],
-	[6, 4.98, -4],
-	[-6, 4.98, 4],
-	[6, 4.98, 4],
-];
-
-interface INeonStrip {
-	position: [number, number, number];
-	rotationY: number;
-	width: number;
-	height: number;
+// Deterministic PRNG so decoration is stable across renders.
+function mulberry32(seed: number) {
+  return () => {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
 
-const NEON_STRIPS: INeonStrip[] = [
-	{ position: [0, topH, -HALF_D + 0.01], rotationY: 0, width: ROOM_W - gap, height: 0.06 },
-	{ position: [0, topH, HALF_D - 0.01], rotationY: Math.PI, width: ROOM_W - gap, height: 0.06 },
-	{ position: [-HALF_W + 0.01, topH, 0], rotationY: Math.PI / 2, width: ROOM_D - gap, height: 0.06 },
-	{ position: [HALF_W - 0.01, topH, 0], rotationY: -Math.PI / 2, width: ROOM_D - gap, height: 0.06 },
-	{ position: [0, 0.15, -HALF_D + 0.01], rotationY: 0, width: ROOM_W - gap, height: 0.04 },
-	{ position: [0, 0.15, HALF_D - 0.01], rotationY: Math.PI, width: ROOM_W - gap, height: 0.04 },
-	{ position: [-HALF_W + 0.01, 0.15, 0], rotationY: Math.PI / 2, width: ROOM_D - gap, height: 0.04 },
-	{ position: [HALF_W - 0.01, 0.15, 0], rotationY: -Math.PI / 2, width: ROOM_D - gap, height: 0.04 },
-];
+interface IVoxelBlock {
+  position: [number, number, number];
+  size: [number, number, number];
+  color: string;
+}
 
-function NeonStrip({ position, rotationY, width, height }: INeonStrip) {
-	return (
-		<mesh position={position} rotation-y={rotationY}>
-			<planeGeometry args={[width, height]} />
-			<meshBasicMaterial color={NEON_COLOR} transparent opacity={0.25} />
-		</mesh>
-	);
+function buildBlocks(): IVoxelBlock[] {
+  const rand = mulberry32(1337);
+  const blocks: IVoxelBlock[] = [];
+  let attempts = 0;
+  while (blocks.length < 70 && attempts < 600) {
+    attempts++;
+    const angle = rand() * Math.PI * 2;
+    const radius = 9 + rand() * (BOUNDARY_RADIUS - 11);
+    const x = Math.cos(angle) * radius;
+    const z = Math.sin(angle) * radius;
+
+    // Keep clear of stations so they never overlap a computer/circle.
+    const tooClose = STATIONS.some((s) => {
+      const dx = x - s.position[0];
+      const dz = z - s.position[2];
+      return dx * dx + dz * dz < 4 * 4;
+    });
+    if (tooClose) continue;
+
+    const w = 0.6 + rand() * 1.6;
+    const h = 0.4 + rand() * 2.4;
+    const d = 0.6 + rand() * 1.6;
+    blocks.push({
+      position: [x, h / 2, z],
+      size: [w, h, d],
+      color: BLOCK_COLORS[Math.floor(rand() * BLOCK_COLORS.length)],
+    });
+  }
+  return blocks;
+}
+
+function buildPosts(): {
+  position: [number, number, number];
+  height: number;
+}[] {
+  const count = 48;
+  const posts: { position: [number, number, number]; height: number }[] = [];
+  for (let i = 0; i < count; i++) {
+    const angle = (i / count) * Math.PI * 2;
+    const height = i % 4 === 0 ? 2.6 : 1.6;
+    posts.push({
+      position: [
+        Math.cos(angle) * BOUNDARY_RADIUS,
+        height / 2,
+        Math.sin(angle) * BOUNDARY_RADIUS,
+      ],
+      height,
+    });
+  }
+  return posts;
 }
 
 export function Room() {
-	return (
-		<group>
-			<mesh rotation-x={-Math.PI / 2}>
-				<planeGeometry args={[ROOM_W, ROOM_D]} />
-				<meshStandardMaterial color="#2a2a3a" roughness={0.5} metalness={0.4} />
-			</mesh>
+  const blocks = useMemo(buildBlocks, []);
+  const posts = useMemo(buildPosts, []);
 
-			<gridHelper args={[ROOM_W, ROOM_W, 0x0141ff, 0x0141ff]}>
-				<meshBasicMaterial attach="material" transparent opacity={0.12} />
-			</gridHelper>
+  return (
+    <group>
+      {/* Voxel ground */}
+      <mesh rotation-x={-Math.PI / 2} receiveShadow>
+        <planeGeometry args={[GROUND_SIZE, GROUND_SIZE]} />
+        <meshStandardMaterial
+          color={GROUND_COLOR}
+          roughness={0.95}
+          metalness={0.05}
+          flatShading
+        />
+      </mesh>
 
-			<mesh position-y={ROOM_H} rotation-x={Math.PI / 2}>
-				<planeGeometry args={[ROOM_W, ROOM_D]} />
-				<meshStandardMaterial color="#202038" roughness={0.6} metalness={0.3} />
-			</mesh>
+      {/* Subtle accent grid */}
+      <gridHelper
+        args={[GROUND_SIZE, GROUND_SIZE, ACCENT, ACCENT]}
+        position-y={0.01}
+      >
+        <meshBasicMaterial attach="material" transparent opacity={0.07} />
+      </gridHelper>
 
-			<mesh position={[0, halfH, -HALF_D]}>
-				<planeGeometry args={[ROOM_W, ROOM_H]} />
-				<meshStandardMaterial color={WALL_COLOR} roughness={0.5} metalness={0.2} />
-			</mesh>
-			<mesh position={[0, halfH, HALF_D]} rotation-y={Math.PI}>
-				<planeGeometry args={[ROOM_W, ROOM_H]} />
-				<meshStandardMaterial color={WALL_COLOR} roughness={0.5} metalness={0.2} />
-			</mesh>
-			<mesh position={[HALF_W, halfH, 0]} rotation-y={-Math.PI / 2}>
-				<planeGeometry args={[ROOM_D, ROOM_H]} />
-				<meshStandardMaterial color={WALL_COLOR} roughness={0.5} metalness={0.2} />
-			</mesh>
-			<mesh position={[-HALF_W, halfH, 0]} rotation-y={Math.PI / 2}>
-				<planeGeometry args={[ROOM_D, ROOM_H]} />
-				<meshStandardMaterial color={WALL_COLOR} roughness={0.5} metalness={0.2} />
-			</mesh>
+      {/* Scattered low-poly voxel terrain */}
+      {blocks.map((block) => (
+        <mesh
+          key={block.position.join(",")}
+          position={block.position}
+          castShadow
+        >
+          <boxGeometry args={block.size} />
+          <meshStandardMaterial
+            color={block.color}
+            roughness={0.85}
+            metalness={0.1}
+            flatShading
+          />
+        </mesh>
+      ))}
 
-			{NEON_STRIPS.map((strip) => (
-				<NeonStrip key={`${strip.position.join(",")}-${strip.rotationY}`} {...strip} />
-			))}
-
-			{CORNER_PILLARS.map((position) => (
-				<mesh key={position.join(",")} position={position}>
-					<boxGeometry args={[0.2, ROOM_H, 0.2]} />
-					<meshStandardMaterial
-						color={PILLAR_COLOR}
-						emissive={PILLAR_COLOR}
-						emissiveIntensity={0.7}
-						roughness={0.3}
-						metalness={0.5}
-					/>
-				</mesh>
-			))}
-
-			{CEILING_LIGHTS.map((position) => (
-				<mesh key={position.join(",")} position={position} rotation-x={Math.PI / 2}>
-					<planeGeometry args={[2, 0.8]} />
-					<meshBasicMaterial color={NEON_COLOR} transparent opacity={0.5} />
-				</mesh>
-			))}
-		</group>
-	);
+      {/* Glowing perimeter posts mark the boundary */}
+      {posts.map((post) => (
+        <mesh key={post.position.join(",")} position={post.position}>
+          <boxGeometry args={[0.35, post.height, 0.35]} />
+          <meshStandardMaterial
+            color={POST_COLOR}
+            emissive={POST_COLOR}
+            emissiveIntensity={1.1}
+            roughness={0.4}
+            metalness={0.3}
+            flatShading
+          />
+        </mesh>
+      ))}
+    </group>
+  );
 }

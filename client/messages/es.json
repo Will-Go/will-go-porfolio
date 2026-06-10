@@ -228,9 +228,12 @@
   "threeExperience": {
     "clickToLook": "para mirar",
     "wasdToMove": "para moverte",
-    "clickPanelsToExplore": "clic en paneles para explorar",
+    "clickPanelsToExplore": "sigue el camino y haz clic en las computadoras",
     "press": "Presiona",
-    "releaseCursor": "para soltar el cursor y hacer clic en paneles"
+    "releaseCursor": "para soltar el cursor y hacer clic en las computadoras",
+    "welcome": {
+      "title": "Bienvenido"
+    }
   },
   "appsContent": {
     "title": "Apps de Utilidad",
