@@ -229,6 +229,7 @@
     "clickToLook": "para mirar",
     "wasdToMove": "para moverte",
     "clickPanelsToExplore": "sigue el camino y haz clic en las computadoras",
+    "clickComputer": "Haz clic en la computadora",
     "press": "Presiona",
     "releaseCursor": "para soltar el cursor y hacer clic en las computadoras",
     "welcome": {

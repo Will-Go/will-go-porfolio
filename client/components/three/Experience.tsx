@@ -14,6 +14,7 @@ import { PathTrail } from "./PathTrail";
 import Player from "./Player";
 import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
+import { useStationStore } from "@/stores/useStationStore";
 
 export default function ThreeExperience() {
   const t = useTranslations("threeExperience");
@@ -22,20 +23,28 @@ export default function ThreeExperience() {
   const [locked, setLocked] = useState(false);
   const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const visited = useStationStore((s) => s.visited);
+  const nextStationId = useStationStore((s) => s.nextStationId);
+  const markVisited = useStationStore((s) => s.markVisited);
 
   const onWelcomeZoneChange = useCallback(
     (inside: boolean) => setShowWelcome(inside),
     [],
   );
   const onLockChange = useCallback((l: boolean) => setLocked(l), []);
-  const onSectionClick = useCallback((id: string) => {
-    document.exitPointerLock();
-    setExpandedPanel(id);
-  }, []);
+  const onSectionClick = useCallback(
+    (id: string) => {
+      document.exitPointerLock();
+      markVisited(id);
+      setExpandedPanel(id);
+    },
+    [markVisited],
+  );
   const onWelcomeSignClick = useCallback(() => {
     document.exitPointerLock();
+    markVisited("welcome");
     setExpandedPanel("welcome");
-  }, []);
+  }, [markVisited]);
   const closePanel = useCallback(() => setExpandedPanel(null), []);
   const onHoverChange = useCallback(
     (id: string | null) => setHoveredSection(id),
@@ -96,6 +105,9 @@ export default function ThreeExperience() {
                 station={station}
                 title={tRoot(station.titleKey)}
                 hovered={hoveredSection === station.id}
+                visited={visited.includes(station.id)}
+                isNext={nextStationId === station.id}
+                panelOpen={expandedPanel !== null}
                 onClick={() => onSectionClick(station.id)}
               />
             ))}
