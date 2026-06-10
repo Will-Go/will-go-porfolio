@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ThreeExperience from "@/components/three/Experience";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
@@ -13,23 +13,24 @@ import Presentation from "@/components/Presentation";
 import { useTranslations } from "next-intl";
 import { FaCube, FaScroll } from "react-icons/fa";
 import ChatBubble from "@/components/ChatBubble";
-
-const VIEW_KEY = "portfolio-view-mode";
+import { useViewModeStore } from "@/stores/useViewModeStore";
 
 export default function HomePage() {
   const t = useTranslations();
-  const [is3D, setIs3D] = useState(true);
+  const is3D = useViewModeStore((state) => state.is3D);
+  const toggleView = useViewModeStore((state) => state.toggleView);
 
   useEffect(() => {
-    const saved = localStorage.getItem(VIEW_KEY);
-    if (saved === "2d") setIs3D(false);
-  }, []);
+    if (is3D) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
 
-  const toggleView = () => {
-    const next = !is3D;
-    setIs3D(next);
-    localStorage.setItem(VIEW_KEY, next ? "3d" : "2d");
-  };
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [is3D]);
 
   if (is3D) {
     return (

@@ -4,9 +4,16 @@ import { useMemo } from "react";
 import { BOUNDARY_RADIUS, GROUND_SIZE, STATIONS } from "./constants";
 
 const GROUND_COLOR = "#16162a";
-const ACCENT = "#0141ff";
-const BLOCK_COLORS = ["#1e1e38", "#242447", "#2a2a52", "#1a1a30", "#312b5c"];
-const POST_COLOR = "#0141ff";
+const ACCENT = "#0141ff"; // accent-500
+// Dark accent shades from globals.css (--color-accent-600 → 900)
+const BLOCK_COLORS = [
+  "#0139cc", // accent-600
+  "#013199", // accent-700
+  "#002966", // accent-800
+  "#002033", // accent-900
+  "#111c35", // ground + accent-900 blend
+];
+const POST_COLOR = "#0141ff"; // accent-500
 
 // Deterministic PRNG so decoration is stable across renders.
 function mulberry32(seed: number) {
@@ -23,37 +30,6 @@ interface IVoxelBlock {
   position: [number, number, number];
   size: [number, number, number];
   color: string;
-}
-
-function buildBlocks(): IVoxelBlock[] {
-  const rand = mulberry32(1337);
-  const blocks: IVoxelBlock[] = [];
-  let attempts = 0;
-  while (blocks.length < 70 && attempts < 600) {
-    attempts++;
-    const angle = rand() * Math.PI * 2;
-    const radius = 9 + rand() * (BOUNDARY_RADIUS - 11);
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
-
-    // Keep clear of stations so they never overlap a computer/circle.
-    const tooClose = STATIONS.some((s) => {
-      const dx = x - s.position[0];
-      const dz = z - s.position[2];
-      return dx * dx + dz * dz < 4 * 4;
-    });
-    if (tooClose) continue;
-
-    const w = 0.6 + rand() * 1.6;
-    const h = 0.4 + rand() * 2.4;
-    const d = 0.6 + rand() * 1.6;
-    blocks.push({
-      position: [x, h / 2, z],
-      size: [w, h, d],
-      color: BLOCK_COLORS[Math.floor(rand() * BLOCK_COLORS.length)],
-    });
-  }
-  return blocks;
 }
 
 function buildPosts(): {
@@ -78,7 +54,6 @@ function buildPosts(): {
 }
 
 export function Room() {
-  const blocks = useMemo(buildBlocks, []);
   const posts = useMemo(buildPosts, []);
 
   return (
@@ -101,23 +76,6 @@ export function Room() {
       >
         <meshBasicMaterial attach="material" transparent opacity={0.07} />
       </gridHelper>
-
-      {/* Scattered low-poly voxel terrain */}
-      {blocks.map((block) => (
-        <mesh
-          key={block.position.join(",")}
-          position={block.position}
-          castShadow
-        >
-          <boxGeometry args={block.size} />
-          <meshStandardMaterial
-            color={block.color}
-            roughness={0.85}
-            metalness={0.1}
-            flatShading
-          />
-        </mesh>
-      ))}
 
       {/* Glowing perimeter posts mark the boundary */}
       {posts.map((post) => (

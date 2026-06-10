@@ -15,7 +15,7 @@ export const PATH_WIDTH = 1.6;
 export const STATION_CIRCLE_RADIUS = 2.4;
 
 // voxel_computer_table.glb placement (tuned for the model's native scale)
-export const COMPUTER_SCALE = 0.4;
+export const COMPUTER_SCALE = 0.35;
 export const COMPUTER_Y = 0;
 
 // Station data — ordered walkthrough sequence

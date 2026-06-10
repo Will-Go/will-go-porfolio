@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useViewModeStore } from "@/stores/useViewModeStore";
 
 //UTILS
 import { cn } from "@/utils/cn";
@@ -32,6 +33,7 @@ export default function Navbar() {
   const navRef = useRef(null);
   const t = useTranslations("navigation");
   const pathname = usePathname();
+  const setIs3D = useViewModeStore((state) => state.setIs3D);
 
   const isActive = useCallback(
     (href: string) => {
@@ -90,6 +92,29 @@ export default function Navbar() {
     { text: t("experience"), href: "/#experience", icon: <FaBriefcase /> },
     { text: t("apps"), href: "/apps", icon: <FaRocket /> },
   ];
+
+  const handleSectionClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    const sectionId = href.split("#")[1];
+    if (!sectionId) return;
+
+    setIs3D(false);
+    setActiveSection(sectionId);
+    setIsOpen(false);
+
+    if (pathname === "/") {
+      e.preventDefault();
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document
+            .getElementById(sectionId)
+            ?.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    }
+  };
 
   useEffect(() => {
     const titles = [
@@ -163,6 +188,11 @@ export default function Navbar() {
             <Link
               key={i}
               href={href}
+              onClick={
+                href.startsWith("/#")
+                  ? (e) => handleSectionClick(e, href)
+                  : undefined
+              }
               className={cn(
                 "relative px-4 py-1.5 text-sm font-medium transition-all duration-300 rounded-lg shadow-sm group",
                 isActive(href)
@@ -239,7 +269,11 @@ export default function Navbar() {
                 <Link
                   key={i}
                   href={href}
-                  onClick={() => setIsOpen(false)}
+                  onClick={
+                    href.startsWith("/#")
+                      ? (e) => handleSectionClick(e, href)
+                      : () => setIsOpen(false)
+                  }
                   className={cn(
                     "flex items-center gap-4 p-3 rounded-xl border transition-all duration-300",
                     isActive(href)
