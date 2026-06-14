@@ -112,6 +112,13 @@
       "categories": "Categories",
       "technology": "Technology",
       "technologies": "Technologies"
+    },
+    "carousel": {
+      "label": "Featured projects carousel",
+      "previous": "Previous project",
+      "next": "Next project",
+      "goToProject": "Go to {name}",
+      "hint": "Drag or use arrows to explore"
     }
   },
   "contact": {

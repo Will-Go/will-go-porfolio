@@ -1,17 +1,8 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { useEffect, useState } from "react";
 import Reveal from "@/components/Reveal";
+import ProjectsCarousel from "@/components/ProjectsCarousel";
 import { useTranslations } from "next-intl";
-
-//COMPONENTS
-import ProjectCard from "@/components/ProjectCard";
 
 //ICONS
 import { FaGithub, FaExclamationTriangle, FaSpinner } from "react-icons/fa";
@@ -136,7 +127,7 @@ function Projects() {
         delay={0.3}
         duration={1}
         easing="easeOut"
-        className=" w-full md:w-fit px-6 md:px-0"
+        className="w-full"
       >
         {projects.length === 0 && !projectFetchError && (
           <div className="text-center py-12">
@@ -159,29 +150,7 @@ function Projects() {
             </div>
           </div>
         )}
-        {projects.length > 0 && (
-          <Carousel className="w-full max-w-xs  md:max-w-7xl">
-            <CarouselContent>
-              {projects.map((project, i) => (
-                <CarouselItem
-                  className=" basis-full sm:basis-1/4 lg:basis-1/3 "
-                  key={i}
-                >
-                  <Reveal
-                    animationType="flipUp"
-                    delay={0.25 + i * 0.1}
-                    duration={0.6}
-                    easing="backOut"
-                  >
-                    <ProjectCard index={i} {...project} />
-                  </Reveal>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden md:flex bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
-            <CarouselNext className="hidden md:flex bg-white/80 dark:bg-primary-900/80 border-gray-200 dark:border-primary-700/60 text-gray-700 dark:text-primary-200 hover:bg-accent-500/20 hover:border-accent-500/60 hover:text-accent-300 transition-all duration-300 shadow-lg backdrop-blur-sm" />
-          </Carousel>
-        )}
+        {projects.length > 0 && <ProjectsCarousel projects={projects} />}
       </Reveal>
     </div>
   );
