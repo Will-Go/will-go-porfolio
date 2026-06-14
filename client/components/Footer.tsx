@@ -1,6 +1,8 @@
+"use client";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import { useTranslations } from "next-intl";
+import { useViewModeStore } from "@/stores/useViewModeStore";
 import {
   FaGithub,
   FaLinkedin,
@@ -11,6 +13,9 @@ import {
 
 function Footer() {
   const t = useTranslations();
+  const is3D = useViewModeStore((state) => state.is3D);
+
+  if (is3D) return null;
 
   const socials = [
     {

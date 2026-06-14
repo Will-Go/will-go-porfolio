@@ -34,6 +34,7 @@ export default function Navbar() {
   const t = useTranslations("navigation");
   const pathname = usePathname();
   const setIs3D = useViewModeStore((state) => state.setIs3D);
+  const is3D = useViewModeStore((state) => state.is3D);
 
   const isActive = useCallback(
     (href: string) => {
@@ -210,7 +211,7 @@ export default function Navbar() {
           <div className="hidden sm:flex items-center gap-1">
             <LanguageSwitcher />
             <div className="w-[1px] h-4 bg-gray-200 dark:bg-primary-800 mx-1"></div>
-            <ThemeToggle />
+            {!is3D && <ThemeToggle />}
           </div>
           <Link
             href="/contact"

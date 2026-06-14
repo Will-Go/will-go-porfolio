@@ -71,7 +71,7 @@ export default function ThreeExperience() {
           }}
         >
           <Suspense fallback={null}>
-            <color attach="background" args={["#0a0a18"]} />
+            <color attach="background" args={["#000"]} />
             <fog attach="fog" args={["#0a0a18", 20, 52]} />
             <ambientLight intensity={0.7} color="#ffffff" />
             <hemisphereLight

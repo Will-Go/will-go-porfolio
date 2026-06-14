@@ -34,7 +34,7 @@ export default function HomePage() {
 
   if (is3D) {
     return (
-      <>
+      <div className="relative p-4 md:p-12 lg:p-20 selection:text-black selection:bg-slate-300 overflow-x-clip animate-fade-in">
         <ThreeExperience />
         <button
           type="button"
@@ -45,7 +45,7 @@ export default function HomePage() {
           <FaScroll className="text-accent-500" />
           <span className="hidden sm:inline">{t("home.viewWork")}</span>
         </button>
-      </>
+      </div>
     );
   }
 
