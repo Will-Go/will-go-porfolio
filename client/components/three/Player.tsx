@@ -10,13 +10,25 @@ import {
   PLAYER_SPEED,
   WELCOME_ZONE,
   STATIONS,
+  STATION_COLLIDER,
+  getStationBoxColliders,
 } from "./constants";
+import { moveWithBoxCollisions } from "./collision";
 
 const moveVec = new THREE.Vector3();
 const forwardVec = new THREE.Vector3();
 const rightVec = new THREE.Vector3();
 const rayDir = new THREE.Vector3();
 const raycaster = new THREE.Raycaster();
+const STATION_COLLIDERS = getStationBoxColliders();
+
+// Head-bob tuning. The bob runs on its own continuous time/phase so it stays
+// smooth regardless of frame-rate, and its intensity eases in/out separately
+// from the actual walking movement.
+const BOB_FREQUENCY = 9; // oscillations speed (radians/sec scale)
+const BOB_VERTICAL = 0.06; // peak vertical offset (meters)
+const BOB_LATERAL = 0.035; // peak side-to-side sway (meters)
+const BOB_RAMP = 6; // how fast the bob eases in when walking / out when idle
 
 interface PlayerProps {
   onWelcomeZoneChange: (inside: boolean) => void;
@@ -39,6 +51,11 @@ export default function Player({
   const inWelcome = useRef(false);
   const euler = useRef(new THREE.Euler(0, 0, 0, "YXZ"));
   const clock = useRef(new THREE.Clock());
+  // Logical (un-bobbed) player position — movement & collision act on this so
+  // the bob offset never feeds back into the player's real position.
+  const basePos = useRef(new THREE.Vector3());
+  const bobPhase = useRef(0);
+  const bobIntensity = useRef(0);
   const hitTargets = useRef<THREE.Mesh[]>([]);
   const hoveredRef = useRef<string | null>(null);
   const expandedPanelRef = useRef(expandedPanel);
@@ -48,10 +65,18 @@ export default function Player({
   // center-ray can detect what the player is aiming at while pointer-locked.
   useEffect(() => {
     const targets = STATIONS.map((station) => {
-      const geo = new THREE.BoxGeometry(2.4, 2, 2.4);
+      const geo = new THREE.BoxGeometry(
+        STATION_COLLIDER.halfWidth * 2,
+        STATION_COLLIDER.height,
+        STATION_COLLIDER.halfDepth * 2,
+      );
       const mat = new THREE.MeshBasicMaterial({ visible: false });
       const mesh = new THREE.Mesh(geo, mat);
-      mesh.position.set(station.position[0], 1, station.position[2]);
+      mesh.position.set(
+        station.position[0],
+        STATION_COLLIDER.centerY,
+        station.position[2],
+      );
       mesh.userData.sectionId = station.id;
       scene.add(mesh);
       return mesh;
@@ -71,7 +96,12 @@ export default function Player({
     const canvas = gl.domElement;
     if (!canvas) return;
 
-    camera.position.set(WELCOME_ZONE.x, PLAYER_EYE_HEIGHT, WELCOME_ZONE.z + 4.5);
+    camera.position.set(
+      WELCOME_ZONE.x,
+      PLAYER_EYE_HEIGHT,
+      WELCOME_ZONE.z + 4.5,
+    );
+    basePos.current.copy(camera.position);
     camera.rotation.set(-Math.PI / 50, 0, 0);
 
     const onLock = () => {
@@ -151,8 +181,8 @@ export default function Player({
     if (f) moveVec.addScaledVector(forwardVec, f * speed);
     if (s) moveVec.addScaledVector(rightVec, s * speed);
 
-    let nextX = camera.position.x + moveVec.x;
-    let nextZ = camera.position.z + moveVec.z;
+    let nextX = basePos.current.x + moveVec.x;
+    let nextZ = basePos.current.z + moveVec.z;
 
     // Circular boundary — re-project inside the ring so the player can't wander off.
     const maxR = BOUNDARY_RADIUS - PLAYER_RADIUS;
@@ -163,21 +193,54 @@ export default function Player({
       nextZ = (nextZ / dist) * maxR;
     }
 
-    camera.position.x = nextX;
-    camera.position.z = nextZ;
-    camera.position.y = PLAYER_EYE_HEIGHT;
+    ({ x: nextX, z: nextZ } = moveWithBoxCollisions(
+      basePos.current.x,
+      basePos.current.z,
+      nextX,
+      nextZ,
+      PLAYER_RADIUS,
+      STATION_COLLIDERS,
+    ));
+
+    basePos.current.x = nextX;
+    basePos.current.z = nextZ;
+    basePos.current.y = PLAYER_EYE_HEIGHT;
+
+    // Head bob — runs on its own smooth time/phase, separate from the walking
+    // movement. Intensity eases toward 1 while moving and back to 0 when idle.
+    const isMoving = f !== 0 || s !== 0;
+    const target = isMoving ? 1 : 0;
+    bobIntensity.current +=
+      (target - bobIntensity.current) * Math.min(1, dt * BOB_RAMP);
+    // Only advance the phase while there's meaningful intensity, and settle the
+    // phase back to a neutral 0 once the bob has faded out.
+    if (bobIntensity.current > 0.001) {
+      bobPhase.current += dt * BOB_FREQUENCY;
+    } else {
+      bobPhase.current = 0;
+    }
+    const bobY = Math.sin(bobPhase.current) * BOB_VERTICAL * bobIntensity.current;
+    // Lateral sway is half-frequency so it sways once per two vertical bobs.
+    const bobSide =
+      Math.cos(bobPhase.current * 0.5) * BOB_LATERAL * bobIntensity.current;
+
+    camera.position.x = basePos.current.x + rightVec.x * bobSide;
+    camera.position.z = basePos.current.z + rightVec.z * bobSide;
+    camera.position.y = PLAYER_EYE_HEIGHT + bobY;
 
     // Welcome zone detection — within radius AND facing the sign
-    const dx = camera.position.x - WELCOME_ZONE.x;
-    const dz = camera.position.z - WELCOME_ZONE.z;
+    const dx = basePos.current.x - WELCOME_ZONE.x;
+    const dz = basePos.current.z - WELCOME_ZONE.z;
     const inRadius = dx * dx + dz * dz < WELCOME_ZONE.r * WELCOME_ZONE.r;
-    const toWelcomeX = WELCOME_ZONE.x - camera.position.x;
-    const toWelcomeZ = WELCOME_ZONE.z - camera.position.z;
-    const toWelcomeLen = Math.sqrt(toWelcomeX * toWelcomeX + toWelcomeZ * toWelcomeZ);
+    const toWelcomeX = WELCOME_ZONE.x - basePos.current.x;
+    const toWelcomeZ = WELCOME_ZONE.z - basePos.current.z;
+    const toWelcomeLen = Math.sqrt(
+      toWelcomeX * toWelcomeX + toWelcomeZ * toWelcomeZ,
+    );
     const facingWelcome =
       toWelcomeLen > 0.001 &&
       forwardVec.x * (toWelcomeX / toWelcomeLen) +
-          forwardVec.z * (toWelcomeZ / toWelcomeLen) >
+        forwardVec.z * (toWelcomeZ / toWelcomeLen) >
         0.3;
     const nowInWelcome = inRadius && facingWelcome;
     if (nowInWelcome !== inWelcome.current) {
