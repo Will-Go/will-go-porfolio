@@ -7,6 +7,8 @@ import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Presentation from "@/components/Presentation";
 import ChatBubble from "@/components/ChatBubble";
+import { Suspense } from "react";
+import { FaSpinner } from "react-icons/fa";
 
 export default function HomePageServer() {
   return (
@@ -51,7 +53,20 @@ export default function HomePageServer() {
               scale={0.9}
             >
               <hr />
-              <Projects />
+              <Suspense
+                fallback={
+                  <div className="flex flex-col items-center justify-center my-16 gap-8 px-4">
+                    <div className="flex items-center gap-3">
+                      <FaSpinner className="text-2xl text-accent-500 animate-spin" />
+                      {/* <span className="text-primary-300">
+                        {t("projects.loading")}
+                      </span> */}
+                    </div>
+                  </div>
+                }
+              >
+                <Projects />
+              </Suspense>
             </Reveal>
           </FadeInOut>
         </section>
@@ -67,7 +82,17 @@ export default function HomePageServer() {
               distance={30}
             >
               <hr />
-              <Skills />
+              <Suspense
+                fallback={
+                  <div className="flex flex-col items-center justify-center my-16 gap-8 px-4">
+                    <div className="flex items-center gap-3">
+                      <FaSpinner className="text-2xl text-accent-500 animate-spin" />
+                    </div>
+                  </div>
+                }
+              >
+                <Skills />
+              </Suspense>
             </Reveal>
           </FadeInOut>
         </section>
