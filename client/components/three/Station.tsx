@@ -17,7 +17,11 @@ import {
   FaBriefcase,
   FaCheck,
 } from "react-icons/fa";
-import { STATION_CIRCLE_RADIUS, type IStation } from "./constants";
+import {
+  STATION_CIRCLE_RADIUS,
+  STATION_COLLIDER,
+  type IStation,
+} from "./constants";
 
 const ACCENT = "#0141ff";
 const VISITED = "#22c55e"; // green-500
@@ -111,6 +115,17 @@ export function Station({
         onPointerOver={handleOver}
         onPointerOut={handleOut}
       />
+
+      {/* Invisible collision volume — resolved in Player.tsx */}
+      <mesh position={[0, STATION_COLLIDER.centerY, 0]} visible={false}>
+        <boxGeometry
+          args={[
+            STATION_COLLIDER.halfWidth * 2,
+            STATION_COLLIDER.height,
+            STATION_COLLIDER.halfDepth * 2,
+          ]}
+        />
+      </mesh>
 
       <StationClickHint
         visible={showClickHint}

@@ -18,6 +18,21 @@ export const STATION_CIRCLE_RADIUS = 2.4;
 export const COMPUTER_SCALE = 0.35;
 export const COMPUTER_Y = 0;
 
+// Station desk collision — XZ footprint around each VoxelComputerTable
+export const STATION_COLLIDER = {
+  halfWidth: 1.2,
+  halfDepth: 1.2,
+  height: 2,
+  centerY: 1,
+} as const;
+
+export interface IStationBoxCollider {
+  centerX: number;
+  centerZ: number;
+  halfWidth: number;
+  halfDepth: number;
+}
+
 // Station data — ordered walkthrough sequence
 export interface IStation {
   id: string;
@@ -49,6 +64,15 @@ export const STATIONS: IStation[] = [
     titleKey: "experience.title",
   },
 ];
+
+export function getStationBoxColliders(): IStationBoxCollider[] {
+  return STATIONS.map((station) => ({
+    centerX: station.position[0],
+    centerZ: station.position[2],
+    halfWidth: STATION_COLLIDER.halfWidth,
+    halfDepth: STATION_COLLIDER.halfDepth,
+  }));
+}
 
 // Welcome zone — anchored to the welcome station so the floating-head bubble
 // still triggers when the player approaches the start of the path.
