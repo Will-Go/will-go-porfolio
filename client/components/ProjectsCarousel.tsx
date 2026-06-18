@@ -26,13 +26,13 @@ function getWrappedOffset(
 }
 
 function useCarouselMetrics() {
-  const [metrics, setMetrics] = useState({ spacing: 210, cardWidth: 320 });
+  const [metrics, setMetrics] = useState({ spacing: 260, cardWidth: 420 });
 
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth;
-      const cardWidth = Math.min(Math.max(width * 0.17, 250), 360);
-      const spacing = Math.min(Math.max(width * 0.14, 84), 260);
+      const cardWidth = Math.min(Math.max(width * 0.28, 320), 520);
+      const spacing = Math.min(Math.max(width * 0.2, 110), 320);
 
       setMetrics({ spacing, cardWidth });
     };
@@ -88,7 +88,7 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
 
   return (
     <section
-      className="relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 select-none"
+      className="relative w-full select-none"
       aria-roledescription="carousel"
       aria-label={t("label")}
     >
@@ -98,7 +98,7 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
       </div>
 
       <div
-        className="relative mx-auto flex h-[min(72vh,640px)] min-h-[480px] w-full items-center justify-center overflow-visible px-4"
+        className="relative mx-auto flex h-[min(78vh,720px)] min-h-[520px] w-full items-center justify-center overflow-visible"
         style={{ perspective: "1400px" }}
       >
         <motion.div

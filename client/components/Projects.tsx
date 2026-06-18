@@ -88,7 +88,7 @@ function Projects() {
     );
   }
   return (
-    <div className="flex flex-col items-center justify-center my-16 gap-8 w-full">
+    <div className="flex w-full max-w-none flex-col items-center justify-center gap-8 px-4 py-16 md:px-8">
       <Reveal animationType="slideDown" duration={1} easing="backOut">
         <div className="text-center space-y-4 max-w-4xl">
           <div className="flex items-center justify-center gap-3 mb-6">

@@ -71,7 +71,7 @@ export default function ProjectCard({
 	return (
 		<Card
 			className={cn(
-				"group relative flex h-full min-h-[380px] flex-col overflow-hidden border transition-all duration-500",
+				"group relative flex h-full min-h-[440px] w-full flex-col overflow-hidden border transition-all duration-500",
 				isActive
 					? "border-accent-500/50 bg-white shadow-[0_24px_60px_-20px_rgba(1,65,255,0.35)] dark:border-accent-500/40 dark:bg-primary-900/90 dark:shadow-[0_24px_60px_-20px_rgba(1,65,255,0.25)]"
 					: "border-gray-200/80 bg-white/95 hover:border-accent-500/30 dark:border-primary-700/40 dark:bg-primary-900/70",
@@ -88,7 +88,7 @@ export default function ProjectCard({
 				<div className="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-accent-500/10 blur-2xl" />
 			</div>
 
-			<div className="relative flex h-full flex-col p-5 sm:p-6">
+			<div className="relative flex h-full flex-col p-6 sm:p-7">
 				<div className="mb-5 flex items-start justify-between gap-3">
 					<div className="min-w-0 flex-1 space-y-3">{titleLink}</div>
 					<span

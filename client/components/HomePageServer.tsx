@@ -43,14 +43,15 @@ export default function HomePageServer() {
         </section>
         <section
           id="projects"
-          className="min-h-screen flex items-center justify-center"
+          className="relative left-1/2 flex min-h-screen w-screen max-w-[100vw] -translate-x-1/2 items-center justify-center"
         >
-          <FadeInOut distance={20} threshold={0.1}>
+          <FadeInOut distance={20} threshold={0.1} className="w-full">
             <Reveal
               animationType="scale"
               duration={1}
               easing="backOut"
               scale={0.9}
+              className="w-full"
             >
               <hr />
               <Suspense
