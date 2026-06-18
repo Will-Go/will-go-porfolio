@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, Suspense, useEffect } from "react";
+import { useState, useCallback, Suspense, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { ACESFilmicToneMapping } from "three";
@@ -16,6 +16,16 @@ import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
 import { useStationStore } from "@/stores/useStationStore";
 
+const CAMERA_SETTINGS = {
+  position: [0, EYE, 0] as [number, number, number],
+  rotation: [0, 0, 0] as [number, number, number],
+  fov: 75,
+  near: 0.1,
+  far: 100,
+};
+
+const CANVAS_DPR: [number, number] = [1, 1.5];
+
 export default function ThreeExperience() {
   const t = useTranslations("threeExperience");
   const tRoot = useTranslations();
@@ -26,6 +36,7 @@ export default function ThreeExperience() {
   const visited = useStationStore((s) => s.visited);
   const nextStationId = useStationStore((s) => s.nextStationId);
   const markVisited = useStationStore((s) => s.markVisited);
+  const visitedStationIds = useMemo(() => new Set(visited), [visited]);
 
   const onWelcomeZoneChange = useCallback(
     (inside: boolean) => setShowWelcome(inside),
@@ -66,17 +77,13 @@ export default function ThreeExperience() {
     <>
       <div style={{ position: "fixed", inset: 0, zIndex: 30 }}>
         <Canvas
-          camera={{
-            position: [0, EYE, 0],
-            rotation: [0, 0, 0],
-            fov: 75,
-            near: 0.1,
-            far: 100,
-          }}
+          camera={CAMERA_SETTINGS}
           style={{ width: "100%", height: "100%" }}
-          dpr={[1, 2]}
+          dpr={CANVAS_DPR}
+          performance={{ min: 0.5 }}
           gl={{
-            antialias: true,
+            antialias: false,
+            powerPreference: "high-performance",
             toneMapping: ACESFilmicToneMapping,
             toneMappingExposure: 1.5,
           }}
@@ -116,7 +123,7 @@ export default function ThreeExperience() {
                 station={station}
                 title={tRoot(station.titleKey)}
                 hovered={hoveredSection === station.id}
-                visited={visited.includes(station.id)}
+                visited={visitedStationIds.has(station.id)}
                 isNext={nextStationId === station.id}
                 panelOpen={expandedPanel !== null}
                 onClick={() => onSectionClick(station.id)}

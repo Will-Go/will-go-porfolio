@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
+import { MathUtils } from "three";
 import { useTranslations } from "next-intl";
 import type * as THREE from "three";
 import { cn } from "@/utils/cn";
@@ -18,6 +19,7 @@ import {
   FaCheck,
 } from "react-icons/fa";
 import {
+  COMPUTER_Y,
   STATION_CIRCLE_RADIUS,
   STATION_COLLIDER,
   type IStation,
@@ -25,6 +27,10 @@ import {
 
 const ACCENT = "#0141ff";
 const VISITED = "#22c55e"; // green-500
+const RING_SEGMENTS = 32;
+const ZONE_CHECK_INTERVAL = 0.12;
+const COMPUTER_BOB_AMPLITUDE = 0.04;
+const COMPUTER_BOB_SPEED = 1.15;
 
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   welcome: FaHome,
@@ -54,7 +60,11 @@ export function Station({
 }) {
   const tHint = useTranslations("threeExperience");
   const { camera } = useThree();
-  const ringRef = useRef<THREE.Mesh>(null);
+  const tableRef = useRef<THREE.Group>(null);
+  const floorMaterialRef = useRef<THREE.MeshBasicMaterial>(null);
+  const ringMaterialRef = useRef<THREE.MeshBasicMaterial>(null);
+  const playerInZoneRef = useRef(false);
+  const zoneCheckElapsed = useRef(0);
   const [localHover, setLocalHover] = useState(false);
   const [playerInZone, setPlayerInZone] = useState(false);
   const active = hovered || localHover;
@@ -62,24 +72,60 @@ export function Station({
   const color = visited ? VISITED : ACCENT;
   const showClickHint = playerInZone && !panelOpen;
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }, delta) => {
     const t = clock.getElapsedTime();
-    if (ringRef.current) {
-      const mat = ringRef.current.material as THREE.MeshBasicMaterial;
-      const pulse = isNext ? Math.sin(t * 3 + station.step) * 0.3 : 0;
-      mat.opacity =
-        0.45 +
-        Math.sin(t * 2 + station.step) * 0.2 +
-        (active ? 0.25 : 0) +
-        pulse;
+
+    if (floorMaterialRef.current) {
+      floorMaterialRef.current.opacity = MathUtils.damp(
+        floorMaterialRef.current.opacity,
+        active ? 0.18 : 0.1,
+        8,
+        delta,
+      );
     }
+
+    if (ringMaterialRef.current) {
+      const ambientPulse = isNext ? Math.sin(t * 2.1 + station.step) * 0.18 : 0;
+      const targetOpacity = MathUtils.clamp(
+        0.38 + (active ? 0.26 : 0) + ambientPulse,
+        0.16,
+        0.78,
+      );
+      ringMaterialRef.current.opacity = MathUtils.damp(
+        ringMaterialRef.current.opacity,
+        targetOpacity,
+        8,
+        delta,
+      );
+    }
+
+    if (tableRef.current) {
+      const targetY =
+        active || isNext
+          ? COMPUTER_Y +
+            Math.sin(t * COMPUTER_BOB_SPEED + station.step) *
+              COMPUTER_BOB_AMPLITUDE
+          : COMPUTER_Y;
+      tableRef.current.position.y = MathUtils.damp(
+        tableRef.current.position.y,
+        targetY,
+        6,
+        delta,
+      );
+    }
+
+    zoneCheckElapsed.current += delta;
+    if (zoneCheckElapsed.current < ZONE_CHECK_INTERVAL) return;
+    zoneCheckElapsed.current = 0;
 
     const dx = camera.position.x - station.position[0];
     const dz = camera.position.z - station.position[2];
-    const inZone =
-      dx * dx + dz * dz <
-      (STATION_CIRCLE_RADIUS + 0.18) * (STATION_CIRCLE_RADIUS + 0.18);
-    if (inZone !== playerInZone) setPlayerInZone(inZone);
+    const zoneRadius = STATION_CIRCLE_RADIUS + 0.18;
+    const inZone = dx * dx + dz * dz < zoneRadius * zoneRadius;
+    if (inZone !== playerInZoneRef.current) {
+      playerInZoneRef.current = inZone;
+      setPlayerInZone(inZone);
+    }
   });
 
   const handleOver = () => {
@@ -95,22 +141,32 @@ export function Station({
     <group position={station.position}>
       {/* Glowing floor circle */}
       <mesh rotation-x={-Math.PI / 2} position-y={0.015}>
-        <circleGeometry args={[STATION_CIRCLE_RADIUS, 48]} />
+        <circleGeometry args={[STATION_CIRCLE_RADIUS, RING_SEGMENTS]} />
         <meshBasicMaterial
+          ref={floorMaterialRef}
           color={color}
           transparent
-          opacity={active ? 0.2 : 0.12}
+          opacity={active ? 0.18 : 0.1}
         />
       </mesh>
-      <mesh ref={ringRef} rotation-x={-Math.PI / 2} position-y={0.02}>
+      <mesh rotation-x={-Math.PI / 2} position-y={0.02}>
         <ringGeometry
-          args={[STATION_CIRCLE_RADIUS - 0.18, STATION_CIRCLE_RADIUS, 48]}
+          args={[
+            STATION_CIRCLE_RADIUS - 0.18,
+            STATION_CIRCLE_RADIUS,
+            RING_SEGMENTS,
+          ]}
         />
-        <meshBasicMaterial color={color} transparent opacity={0.5} />
+        <meshBasicMaterial
+          ref={ringMaterialRef}
+          color={color}
+          transparent
+          opacity={0.38}
+        />
       </mesh>
 
       <VoxelComputerTable
-        bobPhase={station.step}
+        ref={tableRef}
         onClick={onClick}
         onPointerOver={handleOver}
         onPointerOut={handleOut}
