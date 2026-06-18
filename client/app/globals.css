@@ -150,8 +150,7 @@ html {
   }
 
   .typed-cursor {
-    @apply text-zinc-900 dark:text-white opacity-70;
-    height: 100%;
+    @apply inline align-[-0.1em] text-zinc-900 opacity-70 dark:text-white;
   }
 }
 
