@@ -59,7 +59,7 @@ export function ProjectsPanel() {
         </div>
       )}
 
-      <div className="space-y-3 max-h-[50vh] overflow-y-auto px-3">
+      <div className="space-y-3 max-h-[50vh] overflow-y-auto overscroll-contain px-3">
         {projects.map((project) => (
           <div
             key={project.repoUrl ?? project.name}

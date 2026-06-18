@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, Suspense } from "react";
+import { useState, useCallback, Suspense, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { ACESFilmicToneMapping } from "three";
@@ -50,6 +50,17 @@ export default function ThreeExperience() {
     (id: string | null) => setHoveredSection(id),
     [],
   );
+
+  const panelOpen = expandedPanel !== null;
+
+  useEffect(() => {
+    if (!panelOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closePanel();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [panelOpen, closePanel]);
 
   return (
     <>
@@ -143,44 +154,48 @@ export default function ThreeExperience() {
         </div>
       )}
 
-      {/* Expanded panel — TV-like open/close from vertical center */}
+      {/* Panels — fullscreen black screen, content wipes open vertically */}
       <AnimatePresence>
-        {expandedPanel && (
+        {panelOpen && expandedPanel && (
           <motion.div
-            initial={{
-              clipPath: "inset(50% 0% 50% 0%)",
-              opacity: 0,
-              scale: 0.95,
-            }}
-            animate={{
-              clipPath: "inset(0% 0% 0% 0%)",
-              opacity: 1,
-              scale: 1,
-              transition: { duration: 0.7, ease: [0.65, 0, 0.35, 1] },
-            }}
-            exit={{
-              clipPath: "inset(50% 0% 50% 0%)",
-              opacity: 0,
-              scale: 0.95,
-              transition: { duration: 0.6, ease: [0.65, 0, 0.35, 1] },
-            }}
-            className={cn(
-              "fixed z-40",
-              "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              "max-w-[440px] w-[90vw] max-h-[70vh] overflow-y-auto",
-              "rounded-2xl border border-accent-500/20 bg-black/40 backdrop-blur-xl p-6",
-              "shadow-[0_0_40px_rgba(1,65,255,0.08)]",
-              "text-white",
-            )}
+            key={expandedPanel}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 0.25 } }}
+            exit={{ opacity: 0, transition: { duration: 0.2 } }}
+            className="fixed inset-0 z-40 bg-black"
           >
-            <button
-              type="button"
-              onClick={closePanel}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 border border-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all duration-200 cursor-pointer"
+            <motion.div
+              initial={{
+                clipPath: "inset(50% 0% 50% 0%)",
+                opacity: 0,
+              }}
+              animate={{
+                clipPath: "inset(0% 0% 0% 0%)",
+                opacity: 1,
+                transition: { duration: 0.55, ease: [0.65, 0, 0.35, 1] },
+              }}
+              exit={{
+                clipPath: "inset(50% 0% 50% 0%)",
+                opacity: 0,
+                transition: { duration: 0.45, ease: [0.65, 0, 0.35, 1] },
+              }}
+              className={cn(
+                "fixed inset-0 flex items-center justify-center px-8 py-10",
+                "text-white",
+              )}
             >
-              <FaTimes className="text-sm" />
-            </button>
-            <PanelContent zone={expandedPanel} />
+              <div className="relative w-full max-w-2xl min-h-[50dvh] max-h-[80vh] p-12 overflow-y-auto overscroll-contain">
+                <button
+                  type="button"
+                  onClick={closePanel}
+                  className="absolute top-0 right-0 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 border border-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all duration-200 cursor-pointer"
+                  aria-label="Close"
+                >
+                  <FaTimes className="text-sm" />
+                </button>
+                <PanelContent zone={expandedPanel} />
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
