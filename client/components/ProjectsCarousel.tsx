@@ -98,7 +98,7 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
       </div>
 
       <div
-        className="relative mx-auto flex h-[min(78vh,720px)] min-h-[520px] w-full items-center justify-center overflow-visible"
+        className="relative mx-auto flex min-h-[520px] w-full items-center justify-center overflow-visible"
         style={{ perspective: "1400px" }}
       >
         <motion.div
