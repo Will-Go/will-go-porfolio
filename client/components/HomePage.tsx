@@ -16,10 +16,12 @@ import { FaCube, FaScroll } from "react-icons/fa";
 import ChatBubble from "@/components/ChatBubble";
 import { useViewModeStore } from "@/stores/useViewModeStore";
 import LenisWrapper from "@/wrapper/LenisWrapper";
+import { usePanelStore } from "@/stores/usePanelStore";
 
 export default function HomePage() {
   const t = useTranslations();
   const is3D = useViewModeStore((state) => state.is3D);
+  const expandedPanel = usePanelStore((state) => state.expandedPanel);
   const toggleView = useViewModeStore((state) => state.toggleView);
 
   useEffect(() => {
@@ -38,15 +40,17 @@ export default function HomePage() {
     return (
       <div className="relative p-4 md:p-12 lg:p-20 selection:text-black selection:bg-slate-300 overflow-x-clip animate-fade-in">
         <ThreeExperience />
-        <button
-          type="button"
-          onClick={toggleView}
-          className="fixed top-28 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-accent-500/20 text-xs text-gray-300 hover:text-white hover:border-accent-500/40 transition-all duration-300 cursor-pointer"
-          title={t("common.seeMore")}
-        >
-          <FaScroll className="text-accent-500" />
-          <span className="hidden sm:inline">{t("home.viewWork")}</span>
-        </button>
+        {!expandedPanel && (
+          <button
+            type="button"
+            onClick={toggleView}
+            className="fixed top-28 right-4 z-50 flex items-center gap-2 px-3 py-2 rounded-xl bg-black/40 backdrop-blur-md border border-accent-500/20 text-xs text-gray-300 hover:text-white hover:border-accent-500/40 transition-all duration-300 cursor-pointer"
+            title={t("common.seeMore")}
+          >
+            <FaScroll className="text-accent-500" />
+            <span className="hidden sm:inline">{t("home.viewWork")}</span>
+          </button>
+        )}
       </div>
     );
   }
