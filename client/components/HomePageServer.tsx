@@ -6,6 +6,7 @@ import Education from "@/components/Education";
 import Projects from "@/components/Projects";
 import Experience from "@/components/Experience";
 import Presentation from "@/components/Presentation";
+import HeroMorphOrb from "@/components/HeroMorphOrb";
 import ChatBubble from "@/components/ChatBubble";
 import { Suspense } from "react";
 import { FaSpinner } from "react-icons/fa";
@@ -15,11 +16,12 @@ export default function HomePageServer() {
     <>
       <ChatBubble />
       <div className="relative p-4 md:p-12 lg:p-20 selection:text-black selection:bg-slate-300 overflow-x-clip animate-fade-in">
+        <HeroMorphOrb />
         <section
           id="home"
-          className="min-h-screen flex items-center justify-center"
+          className="relative min-h-screen flex items-center justify-center overflow-hidden"
         >
-          <FadeInOut distance={20} threshold={0.1}>
+          <FadeInOut distance={20} threshold={0.1} className="relative z-10">
             <Reveal
               animationType="fadeIn"
               duration={0.8}
