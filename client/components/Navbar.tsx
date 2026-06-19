@@ -8,6 +8,7 @@ import Typed from "typed.js";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { usePanelStore } from "@/stores/usePanelStore";
+import { useIntroStore } from "@/stores/useIntroStore";
 import { useViewModeStore } from "@/stores/useViewModeStore";
 import { cn } from "@/utils/cn";
 import {
@@ -49,7 +50,8 @@ export default function Navbar() {
   const setIs3D = useViewModeStore((state) => state.setIs3D);
   const is3D = useViewModeStore((state) => state.is3D);
   const expandedPanel = usePanelStore((state) => state.expandedPanel);
-  const panelOpen = expandedPanel !== null;
+  const introComplete = useIntroStore((state) => state.introComplete);
+  const panelOpen = expandedPanel !== null || (is3D && !introComplete);
 
   const isActive = useCallback(
     (href: string) => {

@@ -21,7 +21,9 @@ import { PathTrail } from "./PathTrail";
 import Player from "./Player";
 import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
+import StartIntroOverlay from "./StartIntroOverlay";
 import { usePanelStore } from "@/stores/usePanelStore";
+import { useIntroStore } from "@/stores/useIntroStore";
 import { useStationStore } from "@/stores/useStationStore";
 
 const CAMERA_SETTINGS = {
@@ -53,6 +55,8 @@ export default function ThreeExperience() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [locked, setLocked] = useState(false);
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const introComplete = useIntroStore((s) => s.introComplete);
+  const setIntroComplete = useIntroStore((s) => s.setIntroComplete);
   const expandedPanel = usePanelStore((s) => s.expandedPanel);
   const openPanel = usePanelStore((s) => s.openPanel);
   const closePanel = usePanelStore((s) => s.closePanel);
@@ -94,6 +98,10 @@ export default function ThreeExperience() {
   const panelOpen = expandedPanel !== null;
 
   useEffect(() => {
+    setIntroComplete(false);
+  }, [setIntroComplete]);
+
+  useEffect(() => {
     if (!panelOpen) return;
     document.exitPointerLock();
   }, [panelOpen]);
@@ -109,6 +117,8 @@ export default function ThreeExperience() {
 
   return (
     <>
+      {!introComplete && <StartIntroOverlay />}
+
       <div style={{ position: "fixed", inset: 0, zIndex: 30 }}>
         <Canvas
           camera={CAMERA_SETTINGS}
@@ -255,7 +265,7 @@ export default function ThreeExperience() {
       </AnimatePresence>
 
       {/* Controls hint (only when no panel is open) */}
-      {!locked && !expandedPanel && (
+      {introComplete && !locked && !expandedPanel && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
           <div className="flex items-center gap-4 px-5 py-2.5 rounded-full bg-black/40 backdrop-blur-md border border-accent-500/20 text-xs text-gray-300">
             <span className="flex items-center gap-1.5">
