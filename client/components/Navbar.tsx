@@ -39,7 +39,11 @@ const NAV_CONTENT_SPRING = {
   mass: 0.75,
 };
 
-export default function Navbar() {
+interface INavbarProps {
+  isMobileOrTablet?: boolean;
+}
+
+export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -51,7 +55,9 @@ export default function Navbar() {
   const is3D = useViewModeStore((state) => state.is3D);
   const expandedPanel = usePanelStore((state) => state.expandedPanel);
   const introComplete = useIntroStore((state) => state.introComplete);
-  const panelOpen = expandedPanel !== null || (is3D && !introComplete);
+  const panelOpen =
+    !isMobileOrTablet &&
+    (expandedPanel !== null || (is3D && !introComplete));
 
   const isActive = useCallback(
     (href: string) => {
