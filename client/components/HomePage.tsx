@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 import { FaCube, FaScroll } from "react-icons/fa";
 import ChatBubble from "@/components/ChatBubble";
 import { useViewModeStore } from "@/stores/useViewModeStore";
+import LenisWrapper from "@/wrapper/LenisWrapper";
 
 export default function HomePage() {
   const t = useTranslations();
@@ -50,7 +51,7 @@ export default function HomePage() {
   }
 
   return (
-    <>
+    <LenisWrapper>
       <ChatBubble />
       <div className="relative p-4 md:p-12 lg:p-20 selection:text-black selection:bg-slate-300 overflow-x-clip animate-fade-in">
         <section
@@ -154,6 +155,6 @@ export default function HomePage() {
         <FaCube className="text-primary" />
         <span className="hidden sm:inline">3D View</span>
       </button>
-    </>
+    </LenisWrapper>
   );
 }

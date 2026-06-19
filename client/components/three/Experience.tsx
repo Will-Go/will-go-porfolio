@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useCallback, Suspense, useEffect, useMemo } from "react";
+import {
+  useState,
+  useCallback,
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas } from "@react-three/fiber";
 import { ACESFilmicToneMapping } from "three";
@@ -53,6 +60,13 @@ export default function ThreeExperience() {
   const nextStationId = useStationStore((s) => s.nextStationId);
   const markVisited = useStationStore((s) => s.markVisited);
   const visitedStationIds = useMemo(() => new Set(visited), [visited]);
+  const panelScrollRef = useRef<HTMLDivElement>(null);
+  const [panelScrollEl, setPanelScrollEl] = useState<HTMLDivElement | null>(null);
+
+  const setPanelScrollNode = useCallback((node: HTMLDivElement | null) => {
+    panelScrollRef.current = node;
+    setPanelScrollEl(node);
+  }, []);
 
   const onWelcomeZoneChange = useCallback(
     (inside: boolean) => setShowWelcome(inside),
@@ -78,6 +92,11 @@ export default function ThreeExperience() {
   );
 
   const panelOpen = expandedPanel !== null;
+
+  useEffect(() => {
+    if (!panelOpen) return;
+    document.exitPointerLock();
+  }, [panelOpen]);
 
   useEffect(() => {
     if (!panelOpen) return;
@@ -195,8 +214,17 @@ export default function ThreeExperience() {
               "will-change-[clip-path]",
             )}
           >
-            <div className="absolute inset-0 overflow-y-auto overscroll-contain">
-              <div className="relative flex min-h-dvh w-full flex-col px-6 py-16 sm:px-12 md:px-16 lg:px-24">
+            <div
+              ref={setPanelScrollNode}
+              data-lenis-prevent
+              className="absolute inset-0 h-dvh overflow-y-auto overscroll-contain"
+            >
+              <div
+                className={cn(
+                  "relative flex w-full flex-col px-6 py-16 sm:px-12 md:px-16 lg:px-24",
+                  expandedPanel !== "experience" && "min-h-dvh",
+                )}
+              >
                 <button
                   type="button"
                   onClick={closePanel}
@@ -205,8 +233,20 @@ export default function ThreeExperience() {
                 >
                   <FaTimes className="text-sm" />
                 </button>
-                <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center">
-                  <PanelContent zone={expandedPanel} />
+                <div
+                  className={cn(
+                    "mx-auto flex w-full flex-1 flex-col",
+                    expandedPanel === "projects"
+                      ? "max-w-7xl justify-center"
+                      : expandedPanel === "experience"
+                        ? "max-w-5xl justify-start pb-24"
+                        : "max-w-3xl justify-center",
+                  )}
+                >
+                  <PanelContent
+                    zone={expandedPanel}
+                    scrollContainer={panelScrollEl}
+                  />
                 </div>
               </div>
             </div>

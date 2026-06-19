@@ -1,24 +1,34 @@
 "use client";
 
-import type { ReactNode } from "react";
 import {
-  WelcomePanel,
-  AboutPanel,
-  SkillsPanel,
-  EducationPanel,
-  ExperiencePanel,
-  ProjectsPanel,
+	WelcomePanel,
+	AboutPanel,
+	SkillsPanel,
+	EducationPanel,
+	ExperiencePanel,
+	ProjectsPanel,
 } from "./content";
 
-const panels: Record<string, ReactNode> = {
-  welcome: <WelcomePanel />,
-  about: <AboutPanel />,
-  skills: <SkillsPanel />,
-  education: <EducationPanel />,
-  experience: <ExperiencePanel />,
-  projects: <ProjectsPanel />,
-};
+interface IPanelContentProps {
+	zone: string;
+	scrollContainer?: HTMLElement | null;
+}
 
-export function PanelContent({ zone }: { zone: string }) {
-  return <div className="w-full">{panels[zone] ?? null}</div>;
+export function PanelContent({ zone, scrollContainer }: IPanelContentProps) {
+	switch (zone) {
+		case "welcome":
+			return <WelcomePanel />;
+		case "about":
+			return <AboutPanel />;
+		case "skills":
+			return <SkillsPanel />;
+		case "education":
+			return <EducationPanel />;
+		case "experience":
+			return <ExperiencePanel scrollContainer={scrollContainer} />;
+		case "projects":
+			return <ProjectsPanel />;
+		default:
+			return null;
+	}
 }
