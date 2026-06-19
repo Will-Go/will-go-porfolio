@@ -14,6 +14,7 @@ import { PathTrail } from "./PathTrail";
 import Player from "./Player";
 import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
+import { usePanelStore } from "@/stores/usePanelStore";
 import { useStationStore } from "@/stores/useStationStore";
 
 const CAMERA_SETTINGS = {
@@ -26,13 +27,28 @@ const CAMERA_SETTINGS = {
 
 const CANVAS_DPR: [number, number] = [1, 1.5];
 
+const TV_PANEL_CLOSED = "inset(50% 0% 50% 0%)";
+const TV_PANEL_OPEN = "inset(0% 0% 0% 0%)";
+
+const TV_PANEL_TRANSITION = {
+  duration: 0.55,
+  ease: [0.76, 0, 0.24, 1] as [number, number, number, number],
+};
+
+const TV_PANEL_EXIT_TRANSITION = {
+  duration: 0.45,
+  ease: [0.76, 0, 0.24, 1] as [number, number, number, number],
+};
+
 export default function ThreeExperience() {
   const t = useTranslations("threeExperience");
   const tRoot = useTranslations();
   const [showWelcome, setShowWelcome] = useState(false);
   const [locked, setLocked] = useState(false);
-  const [expandedPanel, setExpandedPanel] = useState<string | null>(null);
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
+  const expandedPanel = usePanelStore((s) => s.expandedPanel);
+  const openPanel = usePanelStore((s) => s.openPanel);
+  const closePanel = usePanelStore((s) => s.closePanel);
   const visited = useStationStore((s) => s.visited);
   const nextStationId = useStationStore((s) => s.nextStationId);
   const markVisited = useStationStore((s) => s.markVisited);
@@ -47,16 +63,15 @@ export default function ThreeExperience() {
     (id: string) => {
       document.exitPointerLock();
       markVisited(id);
-      setExpandedPanel(id);
+      openPanel(id);
     },
-    [markVisited],
+    [markVisited, openPanel],
   );
   const onWelcomeSignClick = useCallback(() => {
     document.exitPointerLock();
     markVisited("welcome");
-    setExpandedPanel("welcome");
-  }, [markVisited]);
-  const closePanel = useCallback(() => setExpandedPanel(null), []);
+    openPanel("welcome");
+  }, [markVisited, openPanel]);
   const onHoverChange = useCallback(
     (id: string | null) => setHoveredSection(id),
     [],
@@ -161,48 +176,40 @@ export default function ThreeExperience() {
         </div>
       )}
 
-      {/* Panels — fullscreen black screen, content wipes open vertically */}
-      <AnimatePresence>
+      {/* Panels — fullscreen TV wipe: center → edges on open, edges → center on close */}
+      <AnimatePresence mode="wait">
         {panelOpen && expandedPanel && (
           <motion.div
             key={expandedPanel}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 0.25 } }}
-            exit={{ opacity: 0, transition: { duration: 0.2 } }}
-            className="fixed inset-0 z-40 bg-black"
+            initial={{ clipPath: TV_PANEL_CLOSED }}
+            animate={{
+              clipPath: TV_PANEL_OPEN,
+              transition: TV_PANEL_TRANSITION,
+            }}
+            exit={{
+              clipPath: TV_PANEL_CLOSED,
+              transition: TV_PANEL_EXIT_TRANSITION,
+            }}
+            className={cn(
+              "fixed inset-0 z-40 bg-black text-white",
+              "will-change-[clip-path]",
+            )}
           >
-            <motion.div
-              initial={{
-                clipPath: "inset(50% 0% 50% 0%)",
-                opacity: 0,
-              }}
-              animate={{
-                clipPath: "inset(0% 0% 0% 0%)",
-                opacity: 1,
-                transition: { duration: 0.55, ease: [0.65, 0, 0.35, 1] },
-              }}
-              exit={{
-                clipPath: "inset(50% 0% 50% 0%)",
-                opacity: 0,
-                transition: { duration: 0.45, ease: [0.65, 0, 0.35, 1] },
-              }}
-              className={cn(
-                "fixed inset-0 flex items-center justify-center px-8 py-10",
-                "text-white",
-              )}
-            >
-              <div className="relative w-full max-w-2xl min-h-[50dvh] max-h-[80vh] p-12 overflow-y-auto overscroll-contain">
+            <div className="absolute inset-0 overflow-y-auto overscroll-contain">
+              <div className="relative flex min-h-dvh w-full flex-col px-6 py-16 sm:px-12 md:px-16 lg:px-24">
                 <button
                   type="button"
                   onClick={closePanel}
-                  className="absolute top-0 right-0 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 border border-white/10 text-gray-400 hover:text-white hover:bg-white/20 transition-all duration-200 cursor-pointer"
+                  className="fixed top-6 right-6 z-50 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-white/10 text-gray-400 transition-all duration-200 hover:bg-white/20 hover:text-white sm:top-8 sm:right-8"
                   aria-label="Close"
                 >
                   <FaTimes className="text-sm" />
                 </button>
-                <PanelContent zone={expandedPanel} />
+                <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center">
+                  <PanelContent zone={expandedPanel} />
+                </div>
               </div>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

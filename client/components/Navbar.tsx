@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Typed from "typed.js";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { usePanelStore } from "@/stores/usePanelStore";
 import { useViewModeStore } from "@/stores/useViewModeStore";
 import { cn } from "@/utils/cn";
 import {
@@ -23,6 +24,20 @@ import { RxCross2 } from "react-icons/rx";
 const navLinkClass =
   "relative px-3 py-2 text-[13px] font-medium tracking-wide transition-colors duration-200 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40";
 
+const NAV_SPRING = {
+  type: "spring" as const,
+  stiffness: 420,
+  damping: 36,
+  mass: 0.85,
+};
+
+const NAV_CONTENT_SPRING = {
+  type: "spring" as const,
+  stiffness: 480,
+  damping: 38,
+  mass: 0.75,
+};
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -33,6 +48,8 @@ export default function Navbar() {
   const pathname = usePathname();
   const setIs3D = useViewModeStore((state) => state.setIs3D);
   const is3D = useViewModeStore((state) => state.is3D);
+  const expandedPanel = usePanelStore((state) => state.expandedPanel);
+  const panelOpen = expandedPanel !== null;
 
   const isActive = useCallback(
     (href: string) => {
@@ -158,50 +175,106 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
+  const isCompactNav = scrolled || isOpen;
+
   return (
     <>
       <motion.nav
         ref={navRef}
         initial={{ opacity: 0, y: -12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          width: panelOpen ? 56 : "min(calc(100vw - 1.5rem), 64rem)",
+        }}
+        transition={{
+          opacity: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+          y: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+          width: NAV_SPRING,
+        }}
         className={cn(
-          "fixed left-1/2 z-50 -translate-x-1/2 rounded-full transition-all duration-300 ease-out",
-          scrolled || isOpen
-            ? "top-3 w-[calc(100%-1.5rem)] max-w-5xl px-4 py-2.5"
-            : "top-5 w-[calc(100%-2rem)] max-w-5xl px-5 py-3",
-          "bg-white/20 shadow-lg shadow-black/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-white/5 dark:shadow-black/40",
-          !isOpen &&
-            "border border-white/30 ring-1 ring-inset ring-white/40 dark:border-white/10 dark:ring-white/10",
-          isOpen && "border border-transparent ring-0 dark:bg-black/60",
-          scrolled && !isOpen && "bg-white/30 dark:bg-white/8",
+          "fixed left-1/2 z-50 -translate-x-1/2 overflow-hidden rounded-full py-2",
+          isCompactNav || panelOpen ? "top-3" : "top-5",
+          panelOpen
+            ? "border-0 bg-black shadow-none ring-0 backdrop-blur-none dark:bg-black"
+            : cn(
+                "bg-white/20 shadow-lg shadow-black/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-white/5 dark:shadow-black/40",
+                !isOpen &&
+                  "border border-white/30 ring-1 ring-inset ring-white/40 dark:border-white/10 dark:ring-white/10",
+                isOpen && "border border-transparent ring-0 dark:bg-black/60",
+                scrolled && !isOpen && "bg-white/30 dark:bg-white/8",
+              ),
         )}
       >
-        <div className="mx-auto flex h-9 max-w-5xl items-center justify-between gap-4 md:grid md:grid-cols-[1fr_auto_1fr] md:gap-2">
+        <div
+          className={cn(
+            "flex h-9 w-full min-w-0 items-center overflow-hidden",
+            panelOpen
+              ? "justify-center px-2 py-2"
+              : "justify-between px-4 py-2.5",
+          )}
+        >
           {/* Brand */}
           <Link
-            className="group flex min-w-0 items-center gap-2.5 justify-self-start rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40"
+            className="group flex shrink-0 items-center overflow-hidden rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40"
             onClick={() => setIsOpen(false)}
             href="/"
           >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/25 transition-colors duration-200 group-hover:border-accent-400/50 group-hover:bg-accent-500/80 dark:border-white/15 dark:bg-white/10 dark:group-hover:bg-accent-400/80">
-              <FaCode className="text-xs text-primary-900 transition-colors duration-200 group-hover:text-white dark:text-primary-50 dark:group-hover:text-primary-950" />
-            </div>
             <div
+              className={cn(
+                "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-200",
+                panelOpen
+                  ? "border-white/20 bg-white/10 group-hover:border-white/40 group-hover:bg-white/20"
+                  : "border-white/30 bg-white/25 group-hover:border-accent-400/50 group-hover:bg-accent-500/80 dark:border-white/15 dark:bg-white/10 dark:group-hover:bg-accent-400/80",
+              )}
+            >
+              <FaCode
+                className={cn(
+                  "text-xs transition-colors duration-200",
+                  panelOpen
+                    ? "text-white group-hover:text-white"
+                    : "text-primary-900 group-hover:text-white dark:text-primary-50 dark:group-hover:text-primary-950",
+                )}
+              />
+            </div>
+            <motion.div
+              layout="size"
+              initial={false}
+              animate={{
+                width: panelOpen ? 0 : `${typedTitleWidthCh}ch`,
+                opacity: panelOpen ? 0 : 1,
+                marginLeft: panelOpen ? 0 : 10,
+              }}
+              transition={NAV_CONTENT_SPRING}
               className="hidden overflow-hidden sm:block"
-              style={{ width: `${typedTitleWidthCh}ch` }}
             >
               <span
                 ref={titulo}
-                className="inline whitespace-nowrap font-display text-sm font-semibold tracking-tight text-primary-900 dark:text-primary-50"
+                className={cn(
+                  "inline whitespace-nowrap font-display text-sm font-semibold tracking-tight",
+                  panelOpen
+                    ? "text-white"
+                    : "text-primary-900 dark:text-primary-50",
+                )}
               >
                 {t("brand.name")}
               </span>
-            </div>
+            </motion.div>
           </Link>
 
           {/* Desktop navigation — pinned to center column */}
-          <div className="hidden items-center gap-0.5 justify-self-center md:flex">
+          <motion.div
+            layout="size"
+            initial={false}
+            animate={{
+              maxWidth: panelOpen ? 0 : 960,
+              opacity: panelOpen ? 0 : 1,
+              marginInline: panelOpen ? 0 : 8,
+            }}
+            transition={NAV_CONTENT_SPRING}
+            className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 overflow-hidden md:flex"
+            style={{ pointerEvents: panelOpen ? "none" : "auto" }}
+          >
             {desktopLinks.map(({ text, href }) => (
               <Link
                 key={href}
@@ -213,6 +286,7 @@ export default function Navbar() {
                 }
                 className={cn(
                   navLinkClass,
+                  "whitespace-nowrap",
                   isActive(href)
                     ? "text-primary-900 dark:text-primary-50"
                     : "text-primary-500 hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-100",
@@ -228,10 +302,21 @@ export default function Navbar() {
                 )}
               </Link>
             ))}
-          </div>
+          </motion.div>
 
           {/* Actions */}
-          <div className="flex shrink-0 items-center justify-self-end gap-1.5 sm:gap-2">
+          <motion.div
+            layout="size"
+            initial={false}
+            animate={{
+              maxWidth: panelOpen ? 0 : 420,
+              opacity: panelOpen ? 0 : 1,
+              marginLeft: panelOpen ? 0 : 8,
+            }}
+            transition={NAV_CONTENT_SPRING}
+            className="flex min-w-0 shrink-0 items-center gap-1.5 overflow-hidden sm:gap-2"
+            style={{ pointerEvents: panelOpen ? "none" : "auto" }}
+          >
             <div className="hidden items-center sm:flex">
               <LanguageSwitcher />
               {!is3D && (
@@ -285,7 +370,7 @@ export default function Navbar() {
                 )}
               </AnimatePresence>
             </button>
-          </div>
+          </motion.div>
         </div>
       </motion.nav>
 

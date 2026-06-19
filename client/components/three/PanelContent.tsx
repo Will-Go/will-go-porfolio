@@ -20,5 +20,5 @@ const panels: Record<string, ReactNode> = {
 };
 
 export function PanelContent({ zone }: { zone: string }) {
-  return (panels[zone] ?? null) as ReactNode;
+  return <div className="w-full">{panels[zone] ?? null}</div>;
 }
