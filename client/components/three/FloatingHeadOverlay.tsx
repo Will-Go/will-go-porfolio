@@ -50,7 +50,7 @@ export default function FloatingHeadOverlay({
 	locked?: boolean;
 }) {
 	return (
-		<div className="fixed bottom-3 right-6 z-50 flex flex-col items-end pointer-events-none">
+		<div className="fixed bottom-6 right-12 z-50 flex flex-col items-end pointer-events-none">
 			<AnimatePresence>
 				{showWelcome && (
 					<motion.div
@@ -59,7 +59,7 @@ export default function FloatingHeadOverlay({
 						initial="initial"
 						animate="animate"
 						exit="exit"
-						className="relative right-20 bottom-5 z-10 max-w-[400px] w-[80vw] pointer-events-auto overscroll-contain"
+						className="relative right-20 bottom-3 z-10 max-w-[400px] w-[80vw] pointer-events-auto overscroll-contain"
 					>
 						<div className="relative rounded-2xl border border-accent-500/20 bg-black/50 backdrop-blur-xl p-4 shadow-[0_0_40px_rgba(1,65,255,0.08)] text-white overscroll-contain">
 							<PanelContent zone="welcome" />

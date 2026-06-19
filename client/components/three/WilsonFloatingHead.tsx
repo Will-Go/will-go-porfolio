@@ -98,7 +98,7 @@ export default function WilsonFloatingHead({ locked }: { locked?: boolean }) {
   });
 
   return (
-    <group ref={groupRef} position={[0, -1, 0]}>
+    <group ref={groupRef} position={[0, -1, 0]} scale={0.9}>
       <primitive object={scene} castShadow />
     </group>
   );
