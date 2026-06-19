@@ -195,7 +195,8 @@ export default function Navbar() {
           width: NAV_SPRING,
         }}
         className={cn(
-          "fixed left-1/2 z-50 -translate-x-1/2 overflow-hidden rounded-full py-2",
+          "fixed left-1/2 z-50 -translate-x-1/2 rounded-full py-2",
+          panelOpen ? "overflow-hidden" : "overflow-visible",
           isCompactNav || panelOpen ? "top-3" : "top-5",
           panelOpen
             ? "border-0 bg-black shadow-none ring-0 backdrop-blur-none dark:bg-black"
@@ -210,7 +211,8 @@ export default function Navbar() {
       >
         <div
           className={cn(
-            "flex h-9 w-full min-w-0 items-center overflow-hidden",
+            "flex h-9 w-full min-w-0 items-center",
+            panelOpen ? "overflow-hidden" : "overflow-visible",
             panelOpen
               ? "justify-center px-2 py-2"
               : "justify-between px-4 py-2.5",
@@ -316,7 +318,10 @@ export default function Navbar() {
               marginLeft: panelOpen ? 0 : 8,
             }}
             transition={NAV_CONTENT_SPRING}
-            className="flex min-w-0 shrink-0 items-center gap-1.5 overflow-hidden sm:gap-2"
+            className={cn(
+              "flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2",
+              panelOpen ? "overflow-hidden" : "overflow-visible",
+            )}
             style={{ pointerEvents: panelOpen ? "none" : "auto" }}
           >
             <div className="hidden items-center sm:flex">
