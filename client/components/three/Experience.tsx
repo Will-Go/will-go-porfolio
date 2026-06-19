@@ -65,7 +65,9 @@ export default function ThreeExperience() {
   const markVisited = useStationStore((s) => s.markVisited);
   const visitedStationIds = useMemo(() => new Set(visited), [visited]);
   const panelScrollRef = useRef<HTMLDivElement>(null);
-  const [panelScrollEl, setPanelScrollEl] = useState<HTMLDivElement | null>(null);
+  const [panelScrollEl, setPanelScrollEl] = useState<HTMLDivElement | null>(
+    null,
+  );
 
   const setPanelScrollNode = useCallback((node: HTMLDivElement | null) => {
     panelScrollRef.current = node;
@@ -303,7 +305,8 @@ export default function ThreeExperience() {
       )}
 
       <FloatingHeadOverlay
-        showWelcome={showWelcome && !expandedPanel}
+        showInWorldBubble={showWelcome && !expandedPanel}
+        activePanelZone={expandedPanel}
         locked={locked}
       />
     </>

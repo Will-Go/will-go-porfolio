@@ -2,95 +2,157 @@
 
 import { Suspense } from "react";
 import { Canvas, events } from "@react-three/fiber";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import WilsonFloatingHead from "@/components/three/WilsonFloatingHead";
 import { PanelContent } from "./PanelContent";
+import { getPanelHeadPlacement } from "./panelHeadPlacement";
+import { usePanelAnchorPosition } from "./hook/usePanelAnchorPosition";
 
 // Avoid scale on the head wrapper — CSS transform scale on a Canvas parent
 // fights ResizeObserver and makes the head appear to grow during scroll.
-const headVariants = {
-	initial: { opacity: 0, x: 200, y: 200 },
-	animate: {
-		opacity: 1,
-		x: 0,
-		y: 0,
-		transition: { type: "spring", damping: 20, stiffness: 120 },
-	},
-	exit: {
-		opacity: 0,
-		x: 200,
-		y: 200,
-		transition: { type: "spring", damping: 20, stiffness: 120 },
-	},
+const viewportHeadVariants = {
+  initial: { opacity: 0, x: 200, y: 200 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    transition: { type: "spring", damping: 20, stiffness: 120 },
+  },
+  exit: {
+    opacity: 0,
+    x: 200,
+    y: 200,
+    transition: { type: "spring", damping: 20, stiffness: 120 },
+  },
+};
+
+const panelHeadVariants = {
+  initial: { opacity: 0, y: -40 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring", damping: 20, stiffness: 120 },
+  },
+  exit: {
+    opacity: 0,
+    y: -40,
+    transition: { type: "spring", damping: 20, stiffness: 120 },
+  },
 };
 
 const bubbleVariants = {
-	initial: { opacity: 0, x: 100, y: 100, scale: 0.8 },
-	animate: {
-		opacity: 1,
-		x: 0,
-		y: 0,
-		scale: 1,
-		transition: { type: "spring", damping: 15, stiffness: 120 },
-	},
-	exit: {
-		opacity: 0,
-		x: 100,
-		y: 100,
-		scale: 0.8,
-		transition: { type: "spring", damping: 15, stiffness: 120 },
-	},
+  initial: { opacity: 0, x: 100, y: 100, scale: 0.8 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", damping: 15, stiffness: 120 },
+  },
+  exit: {
+    opacity: 0,
+    x: 100,
+    y: 100,
+    scale: 0.8,
+    transition: { type: "spring", damping: 15, stiffness: 120 },
+  },
 };
 
-export default function FloatingHeadOverlay({
-	showWelcome,
-	locked,
-}: {
-	showWelcome?: boolean;
-	locked?: boolean;
-}) {
-	return (
-		<div className="fixed bottom-6 right-12 z-50 flex flex-col items-end pointer-events-none">
-			<AnimatePresence>
-				{showWelcome && (
-					<motion.div
-						key="welcome-bubble"
-						variants={bubbleVariants}
-						initial="initial"
-						animate="animate"
-						exit="exit"
-						className="relative right-20 bottom-3 z-10 max-w-[400px] w-[80vw] pointer-events-auto overscroll-contain"
-					>
-						<div className="relative rounded-2xl border border-accent-500/20 bg-black/50 backdrop-blur-xl p-4 shadow-[0_0_40px_rgba(1,65,255,0.08)] text-white overscroll-contain">
-							<PanelContent zone="welcome" />
-						</div>
-						<div className="absolute -bottom-2 right-8 w-3 h-3 bg-black/50 backdrop-blur-xl border-r border-b border-accent-500/20 rotate-45" />
-					</motion.div>
-				)}
-			</AnimatePresence>
+const HEAD_SIZE = { width: 140, height: 200 } as const;
+const PANEL_HEAD_GAP = 16;
 
-			<motion.div
-				variants={headVariants}
-				initial="initial"
-				animate="animate"
-				exit="exit"
-				className="relative z-0 shrink-0"
-				style={{ width: 140, height: 200 }}
-			>
-				<Canvas
-					camera={{ position: [0, 0, 2.5], fov: 50 }}
-					dpr={[1, 2]}
-					gl={{ antialias: true, alpha: true }}
-					events={(state) => ({ ...events(state), enabled: false })}
-					style={{ background: "transparent", pointerEvents: "none" }}
-				>
-					<Suspense fallback={null}>
-						<ambientLight intensity={0.8} />
-						<directionalLight position={[2, 3, 4]} intensity={1} />
-						<WilsonFloatingHead locked={locked} />
-					</Suspense>
-				</Canvas>
-			</motion.div>
-		</div>
-	);
+interface IFloatingHeadOverlayProps {
+  /** Show the in-world welcome bubble (3D explore mode, bottom-right). */
+  showInWorldBubble?: boolean;
+  /** Expanded panel zone — enables panel-anchored placement when configured. */
+  activePanelZone?: string | null;
+  locked?: boolean;
+}
+
+function FloatingHead({
+  locked,
+  variants,
+}: {
+  locked?: boolean;
+  variants: Variants;
+}) {
+  return (
+    <motion.div
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="relative z-0 shrink-0"
+      style={HEAD_SIZE}
+    >
+      <Canvas
+        camera={{ position: [0, 0, 2.5], fov: 50 }}
+        dpr={[1, 2]}
+        gl={{ antialias: true, alpha: true }}
+        events={(state) => ({ ...events(state), enabled: false })}
+        style={{ background: "transparent", pointerEvents: "none" }}
+      >
+        <Suspense fallback={null}>
+          <ambientLight intensity={0.8} />
+          <directionalLight position={[2, 3, 4]} intensity={1} />
+          <WilsonFloatingHead locked={locked} />
+        </Suspense>
+      </Canvas>
+    </motion.div>
+  );
+}
+
+export default function FloatingHeadOverlay({
+  showInWorldBubble = false,
+  activePanelZone = null,
+  locked,
+}: IFloatingHeadOverlayProps) {
+  const placement = activePanelZone
+    ? getPanelHeadPlacement(activePanelZone)
+    : null;
+  const isPanelAnchored = placement === "panel-top-center";
+  const anchorPosition = usePanelAnchorPosition(
+    isPanelAnchored ? activePanelZone : null,
+  );
+
+  if (isPanelAnchored) {
+    if (!anchorPosition) return null;
+
+    return (
+      <div
+        className="fixed z-50 flex flex-col items-center pointer-events-none"
+        style={{
+          left: anchorPosition.left,
+          top: anchorPosition.top,
+          transform: `translate(-50%, calc(-100% - ${PANEL_HEAD_GAP}px))`,
+        }}
+      >
+        <FloatingHead locked={locked} variants={panelHeadVariants} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed bottom-6 right-12 z-50 flex flex-col items-end pointer-events-none">
+      <AnimatePresence>
+        {showInWorldBubble && (
+          <motion.div
+            key="welcome-bubble"
+            variants={bubbleVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            className="relative right-20 bottom-3 z-10 max-w-[400px] w-[80vw] pointer-events-auto overscroll-contain"
+          >
+            <div className="relative rounded-2xl border border-accent-500/20 bg-black/50 backdrop-blur-xl p-4 shadow-[0_0_40px_rgba(1,65,255,0.08)] text-white overscroll-contain">
+              <PanelContent zone="welcome" />
+            </div>
+            <div className="absolute -bottom-2 right-8 w-3 h-3 bg-black/50 backdrop-blur-xl border-r border-b border-accent-500/20 rotate-45" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <FloatingHead locked={locked} variants={viewportHeadVariants} />
+    </div>
+  );
 }
