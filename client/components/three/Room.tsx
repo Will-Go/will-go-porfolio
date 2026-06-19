@@ -1,45 +1,103 @@
 "use client";
 
 import { useMemo } from "react";
-import { BOUNDARY_RADIUS, GROUND_SIZE } from "./constants";
+import * as THREE from "three";
+import { GROUND_SIZE } from "./constants";
+import { BoundaryField } from "./BoundaryField";
 
-const GROUND_COLOR = "#16162a";
 const ACCENT = "#0141ff"; // accent-500
-const POST_COLOR = "#0141ff"; // accent-500
 
-function buildPosts(): {
-  position: [number, number, number];
-  height: number;
-}[] {
-  const count = 48;
-  const posts: { position: [number, number, number]; height: number }[] = [];
-  for (let i = 0; i < count; i++) {
-    const angle = (i / count) * Math.PI * 2;
-    const height = i % 4 === 0 ? 2.6 : 1.6;
-    posts.push({
-      position: [
-        Math.cos(angle) * BOUNDARY_RADIUS,
-        height / 2,
-        Math.sin(angle) * BOUNDARY_RADIUS,
-      ],
-      height,
-    });
+const domeVertexShader = /* glsl */ `
+  varying vec3 vDir;
+  void main() {
+    vDir = normalize(position);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
-  return posts;
+`;
+
+const domeFragmentShader = /* glsl */ `
+  precision highp float;
+  varying vec3 vDir;
+  uniform vec3 uTop;
+  uniform vec3 uHorizon;
+  uniform vec3 uBottom;
+  void main() {
+    float h = vDir.y;
+    vec3 col = h > 0.0
+      ? mix(uHorizon, uTop, pow(h, 0.5))
+      : mix(uHorizon, uBottom, pow(-h, 0.7));
+    gl_FragColor = vec4(col, 1.0);
+  }
+`;
+
+function GradientDome() {
+  const uniforms = useMemo(
+    () => ({
+      uTop: { value: new THREE.Color("#05050f") },
+      uHorizon: { value: new THREE.Color("#1b1450") },
+      uBottom: { value: new THREE.Color("#020207") },
+    }),
+    [],
+  );
+
+  return (
+    <mesh>
+      <sphereGeometry args={[70, 32, 32]} />
+      <shaderMaterial
+        uniforms={uniforms}
+        vertexShader={domeVertexShader}
+        fragmentShader={domeFragmentShader}
+        side={THREE.BackSide}
+        depthWrite={false}
+        fog={false}
+      />
+    </mesh>
+  );
+}
+
+function useGradientGroundGeometry() {
+  return useMemo(() => {
+    const segments = 48;
+    const geometry = new THREE.PlaneGeometry(
+      GROUND_SIZE,
+      GROUND_SIZE,
+      segments,
+      segments,
+    );
+    const position = geometry.attributes.position;
+    const inner = new THREE.Color("#23234d");
+    const outer = new THREE.Color("#0a0a17");
+    const tmp = new THREE.Color();
+    const colors = new Float32Array(position.count * 3);
+    const half = GROUND_SIZE / 2;
+    for (let i = 0; i < position.count; i++) {
+      const x = position.getX(i);
+      const y = position.getY(i); // becomes world Z after the -90deg rotation
+      const dist = Math.min(1, Math.hypot(x, y) / half);
+      const t = THREE.MathUtils.smoothstep(dist, 0.0, 0.75);
+      tmp.copy(inner).lerp(outer, t);
+      colors[i * 3] = tmp.r;
+      colors[i * 3 + 1] = tmp.g;
+      colors[i * 3 + 2] = tmp.b;
+    }
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    return geometry;
+  }, []);
 }
 
 export function Room() {
-  const posts = useMemo(buildPosts, []);
+  const groundGeometry = useGradientGroundGeometry();
 
   return (
     <group>
-      {/* Voxel ground */}
-      <mesh rotation-x={-Math.PI / 2} receiveShadow>
-        <planeGeometry args={[GROUND_SIZE, GROUND_SIZE]} />
+      <GradientDome />
+
+      {/* Radial-gradient voxel ground */}
+      <mesh geometry={groundGeometry} rotation-x={-Math.PI / 2} receiveShadow>
         <meshStandardMaterial
-          color={GROUND_COLOR}
-          roughness={0.95}
-          metalness={0.05}
+          vertexColors
+          roughness={0.9}
+          metalness={0.1}
           flatShading
         />
       </mesh>
@@ -52,20 +110,8 @@ export function Room() {
         <meshBasicMaterial attach="material" transparent opacity={0.07} />
       </gridHelper>
 
-      {/* Glowing perimeter posts mark the boundary */}
-      {posts.map((post) => (
-        <mesh key={post.position.join(",")} position={post.position}>
-          <boxGeometry args={[0.35, post.height, 0.35]} />
-          <meshStandardMaterial
-            color={POST_COLOR}
-            emissive={POST_COLOR}
-            emissiveIntensity={1.1}
-            roughness={0.4}
-            metalness={0.3}
-            flatShading
-          />
-        </mesh>
-      ))}
+      {/* Futuristic force-field boundary that follows the player near the edge */}
+      <BoundaryField />
     </group>
   );
 }
