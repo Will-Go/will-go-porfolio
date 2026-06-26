@@ -10,6 +10,8 @@ import { useTranslations } from "next-intl";
 import BackgroundBlur from "@/components/BackgroundBlur";
 import DescriptionReveal from "@/components/DescriptionReveal";
 import Reveal from "@/components/Reveal";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/utils/cn";
 
 export default function Presentation() {
   const t = useTranslations();
@@ -64,14 +66,13 @@ export default function Presentation() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
             <Link
               href="#projects"
-              className="group relative flex items-center justify-center px-8 py-3.5 bg-gray-900 dark:bg-white text-white dark:text-gray-950 font-bold rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-accent-500/20 active:scale-95 overflow-hidden"
+              className={cn(buttonVariants({ variant: "default", size: "lg" }))}
             >
-              <span className="relative z-10">{t("home.viewWork")}</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-accent-600 to-accent-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              {t("home.viewWork")}
             </Link>
             <Link
               href="#about"
-              className="flex items-center justify-center px-8 py-3.5 border border-gray-200 dark:border-primary-800/50 text-gray-700 dark:text-primary-200 font-bold rounded-2xl hover:bg-gray-50 dark:hover:bg-primary-900/50 transition-all duration-300 active:scale-95"
+              className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
             >
               {t("home.learnMore")}
             </Link>
