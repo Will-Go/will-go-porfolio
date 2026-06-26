@@ -9,9 +9,7 @@ export function EducationPanel() {
     <div className="space-y-4">
       <div className="flex items-center gap-2">
         <span className="w-2 h-2 rounded-full bg-accent-500" />
-        <h2 className="text-xl font-bold text-white">
-          {t("education.title")}
-        </h2>
+        <h2 className="text-xl font-bold text-white">{t("education.title")}</h2>
       </div>
       <p className="text-xs text-gray-400">{t("education.subtitle")}</p>
       <div className="p-3 rounded-xl bg-white/5 border border-accent-500/10 space-y-2">

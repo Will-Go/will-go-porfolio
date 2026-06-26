@@ -26,15 +26,20 @@ function getWrappedOffset(
 }
 
 function useCarouselMetrics() {
-  const [metrics, setMetrics] = useState({ spacing: 260, cardWidth: 420 });
+  const [metrics, setMetrics] = useState({
+    spacing: 200,
+    cardWidth: 300,
+    stageHeight: 340,
+  });
 
   useEffect(() => {
     const update = () => {
       const width = window.innerWidth;
-      const cardWidth = Math.min(Math.max(width * 0.28, 320), 520);
-      const spacing = Math.min(Math.max(width * 0.2, 110), 320);
+      const cardWidth = Math.min(Math.max(width * 0.22, 240), 360);
+      const spacing = Math.min(Math.max(width * 0.16, 90), 240);
+      const stageHeight = Math.min(Math.max(cardWidth * 1.35, 360), 420);
 
-      setMetrics({ spacing, cardWidth });
+      setMetrics({ spacing, cardWidth, stageHeight });
     };
 
     update();
@@ -48,7 +53,7 @@ function useCarouselMetrics() {
 export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
   const t = useTranslations("projects.carousel");
   const [activeIndex, setActiveIndex] = useState(0);
-  const { spacing, cardWidth } = useCarouselMetrics();
+  const { spacing, cardWidth, stageHeight } = useCarouselMetrics();
   const total = projects.length;
 
   const goTo = useCallback(
@@ -88,18 +93,21 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
 
   return (
     <section
-      className="relative w-full select-none"
+      className="relative isolate flex w-full flex-col select-none"
       aria-roledescription="carousel"
       aria-label={t("label")}
     >
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        className="pointer-events-none absolute inset-x-0 overflow-hidden"
+        style={{ top: 0, height: stageHeight }}
+      >
         <div className="absolute inset-x-[10%] top-1/2 h-[55%] -translate-y-1/2 rounded-full bg-accent-500/8 blur-[80px]" />
         <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-linear-to-r from-transparent via-accent-500/25 to-transparent" />
       </div>
 
       <div
-        className="relative mx-auto flex min-h-[520px] w-full items-center justify-center overflow-visible"
-        style={{ perspective: "1400px" }}
+        className="relative mx-auto w-full shrink-0 overflow-visible"
+        style={{ height: stageHeight, perspective: "1200px" }}
       >
         <motion.div
           className="relative h-full w-full transform-3d"
@@ -117,11 +125,12 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
               <motion.div
                 key={`${project.name}-${index}`}
                 className={cn(
-                  "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+                  "absolute left-1/2 top-0 -translate-x-1/2",
                   !isCenter && "cursor-pointer",
                 )}
                 style={{
                   width: cardWidth,
+                  height: stageHeight,
                   zIndex: VISIBLE_RANGE - distance + (isCenter ? 1 : 0),
                   transformStyle: "preserve-3d",
                 }}
@@ -129,8 +138,8 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
                 animate={{
                   x: offset * spacing,
                   rotateY: offset * -32,
-                  z: -distance * 90,
-                  scale: isCenter ? 1.1 : 1 - distance * 0.1,
+                  z: -distance * 70,
+                  scale: isCenter ? 1 : 1 - distance * 0.1,
                   opacity: isCenter ? 1 : 1 - distance * 0.22,
                   filter: isCenter ? "blur(0px)" : `blur(${distance * 0.6}px)`,
                 }}
@@ -146,7 +155,7 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
                 aria-hidden={!isCenter}
               >
                 <motion.div
-                  className="transform-3d"
+                  className="h-full transform-3d overflow-hidden"
                   style={{
                     rotateY: direction * (isCenter ? 0 : 4),
                   }}
@@ -159,27 +168,27 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
         </motion.div>
       </div>
 
-      <div className="relative z-10 mt-2 flex items-center justify-center gap-6 px-4">
+      <div className="relative z-20 mt-4 flex shrink-0 items-center justify-center gap-2.5 px-4">
         <button
           type="button"
           onClick={() => goTo(-1)}
-          className="group flex h-11 w-11 items-center cursor-pointer justify-center rounded-full border border-gray-200/80 bg-white/80 text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-accent-500/60 hover:bg-accent-500/15 hover:text-accent-500 dark:border-primary-700/60 dark:bg-primary-900/80 dark:text-primary-200 dark:hover:text-accent-300"
+          className="group flex h-8 w-8 items-center cursor-pointer justify-center rounded-full border border-gray-200/80 bg-white/80 text-gray-700 shadow-md backdrop-blur-sm transition-all duration-300 hover:border-accent-500/60 hover:bg-accent-500/15 hover:text-accent-500 dark:border-primary-700/60 dark:bg-primary-900/80 dark:text-primary-200 dark:hover:text-accent-300"
           aria-label={t("previous")}
         >
-          <ChevronLeft className="h-5 w-5 transition-transform duration-300 group-hover:-translate-x-0.5" />
+          <ChevronLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5" />
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex max-w-[min(100%,280px)] flex-wrap items-center justify-center gap-1.5">
           {projects.map((project, index) => (
             <button
               key={`dot-${project.name}-${index}`}
               type="button"
               onClick={() => goToIndex(index)}
               className={cn(
-                "h-2 rounded-full cursor-pointer transition-all duration-300",
+                "h-1.5 rounded-full cursor-pointer transition-all duration-300",
                 index === activeIndex
-                  ? "w-8 bg-accent-500"
-                  : "w-2 bg-gray-300 hover:bg-accent-500/50 dark:bg-primary-600 dark:hover:bg-accent-500/50",
+                  ? "w-5 bg-accent-500"
+                  : "w-1.5 bg-gray-300 hover:bg-accent-500/50 dark:bg-primary-600 dark:hover:bg-accent-500/50",
               )}
               aria-label={t("goToProject", { name: project.name })}
               aria-current={index === activeIndex}
@@ -190,14 +199,14 @@ export default function ProjectsCarousel({ projects }: IProjectsCarouselProps) {
         <button
           type="button"
           onClick={() => goTo(1)}
-          className="group flex h-11 w-11 items-center cursor-pointer justify-center rounded-full border border-gray-200/80 bg-white/80 text-gray-700 shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-accent-500/60 hover:bg-accent-500/15 hover:text-accent-500 dark:border-primary-700/60 dark:bg-primary-900/80 dark:text-primary-200 dark:hover:text-accent-300"
+          className="group flex h-8 w-8 items-center cursor-pointer justify-center rounded-full border border-gray-200/80 bg-white/80 text-gray-700 shadow-md backdrop-blur-sm transition-all duration-300 hover:border-accent-500/60 hover:bg-accent-500/15 hover:text-accent-500 dark:border-primary-700/60 dark:bg-primary-900/80 dark:text-primary-200 dark:hover:text-accent-300"
           aria-label={t("next")}
         >
-          <ChevronRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5" />
+          <ChevronRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
         </button>
       </div>
 
-      <p className="mt-4 text-center text-xs tracking-[0.2em] text-gray-400 uppercase dark:text-primary-500">
+      <p className="mt-1.5 text-center text-[9px] tracking-[0.12em] text-gray-400 uppercase dark:text-primary-500">
         {t("hint")}
       </p>
     </section>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLenis } from "lenis/react";
 import Typed from "typed.js";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -48,6 +49,7 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const titulo = useRef<HTMLSpanElement>(null);
+  const lenis = useLenis();
   const navRef = useRef<HTMLElement>(null);
   const t = useTranslations("navigation");
   const pathname = usePathname();
@@ -56,8 +58,7 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
   const expandedPanel = usePanelStore((state) => state.expandedPanel);
   const introComplete = useIntroStore((state) => state.introComplete);
   const panelOpen =
-    !isMobileOrTablet &&
-    (expandedPanel !== null || (is3D && !introComplete));
+    !isMobileOrTablet && (expandedPanel !== null || (is3D && !introComplete));
 
   const isActive = useCallback(
     (href: string) => {
@@ -150,6 +151,14 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
       e.preventDefault();
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+          if (lenis) {
+            lenis.scrollTo(`#${sectionId}`, {
+              duration: 1.2,
+              easing: (t: number) => 1 - (1 - t) ** 3,
+            });
+            return;
+          }
+
           document
             .getElementById(sectionId)
             ?.scrollIntoView({ behavior: "smooth" });

@@ -1,11 +1,6 @@
 "use client";
 import { useRef, useEffect } from "react";
-import {
-  motion,
-  useInView,
-  useAnimation,
-  type Variants,
-} from "framer-motion";
+import { motion, useInView, useAnimation, type Variants } from "framer-motion";
 
 import { cn } from "@/utils/cn";
 

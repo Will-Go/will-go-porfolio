@@ -14,10 +14,10 @@ export default function Presentation() {
   const t = useTranslations();
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-[90vh] w-full max-w-5xl mx-auto text-center py-20 px-4">
+    <section className="relative mx-auto flex w-full max-w-5xl flex-col items-center justify-center px-4 text-center">
       {/* Synthetic "Video" Mesh Gradient (Reliable & Premium) */}
 
-      <div className="relative z-10 space-y-12">
+      <div className="relative z-10 space-y-8">
         {/* Central Avatar/Icon Element */}
         <Reveal animationType="scale" duration={1.2} easing="backOut">
           <div className="relative inline-block">

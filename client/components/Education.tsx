@@ -16,10 +16,7 @@ function Education() {
   const capabilities: string[] = t.raw("capabilities");
 
   return (
-    <div
-      id="education"
-      className="flex flex-col items-center justify-center my-16 gap-8 px-4"
-    >
+    <div className="flex flex-col items-center justify-center gap-4 px-4 py-2">
       <Reveal animationType="slideDown" duration={1} easing="backOut">
         <div className="text-center space-y-4 max-w-4xl">
           <div className="flex items-center justify-center gap-3 mb-6">
