@@ -235,6 +235,8 @@
   "threeExperience": {
     "clickToLook": "para mirar",
     "wasdToMove": "para moverte",
+    "scrollToTravel": "para viajar entre estaciones",
+    "scrollDownToAdvance": "desplázate abajo para avanzar",
     "clickPanelsToExplore": "sigue el camino y haz clic en las computadoras",
     "clickComputer": "Haz clic en la computadora",
     "press": "Presiona",

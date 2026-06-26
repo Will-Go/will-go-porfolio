@@ -11,9 +11,14 @@ import {
   WELCOME_ZONE,
   STATIONS,
   STATION_COLLIDER,
+  SCROLL_ARRIVAL_DISTANCE,
+  SCROLL_TRAVEL_DURATION,
+  SCROLL_LOOK_Y,
+  SCROLL_COOLDOWN,
   getStationBoxColliders,
 } from "./constants";
 import { moveWithBoxCollisions } from "./collision";
+import { useStationStore } from "@/stores/useStationStore";
 
 const moveVec = new THREE.Vector3();
 const forwardVec = new THREE.Vector3();
@@ -21,6 +26,11 @@ const rightVec = new THREE.Vector3();
 const rayDir = new THREE.Vector3();
 const raycaster = new THREE.Raycaster();
 const STATION_COLLIDERS = getStationBoxColliders();
+
+// Scratch objects reused while building scroll-travel targets.
+const travelMatrix = new THREE.Matrix4();
+const travelDirVec = new THREE.Vector3();
+const travelLookAt = new THREE.Vector3();
 
 // Head-bob tuning. The bob runs on its own continuous time/phase so it stays
 // smooth regardless of frame-rate, and its intensity eases in/out separately
@@ -60,6 +70,17 @@ export default function Player({
   const hoveredRef = useRef<string | null>(null);
   const expandedPanelRef = useRef(expandedPanel);
   expandedPanelRef.current = expandedPanel;
+
+  // Scroll-to-travel auto-walk state. `tourIndex` tracks the station we're
+  // heading to / parked at along the ordered STATIONS path (-1 = spawn).
+  const tourIndex = useRef(-1);
+  const traveling = useRef(false);
+  const travelElapsed = useRef(0);
+  const lastWheel = useRef(0);
+  const startPos = useRef(new THREE.Vector3());
+  const targetPos = useRef(new THREE.Vector3());
+  const startQuat = useRef(new THREE.Quaternion());
+  const targetQuat = useRef(new THREE.Quaternion());
 
   // Create invisible hit targets over each station's computer table so the
   // center-ray can detect what the player is aiming at while pointer-locked.
@@ -115,6 +136,8 @@ export default function Player({
 
     const onMouse = (e: MouseEvent) => {
       if (document.pointerLockElement !== canvas) return;
+      // Let the scroll-travel slerp own the orientation while gliding.
+      if (traveling.current) return;
       euler.current.setFromQuaternion(camera.quaternion);
       euler.current.y -= e.movementX * 0.002;
       euler.current.x -= e.movementY * 0.002;
@@ -143,11 +166,61 @@ export default function Player({
       keys.current[e.code] = false;
     };
 
+    // Build the camera glide toward a station: stop a few units in front of
+    // its desk and orient to face it. `dir` comes from the live camera pos, so
+    // scrolling back automatically turns the camera around and walks it back.
+    const beginTravel = (station: (typeof STATIONS)[number]) => {
+      startPos.current.copy(camera.position);
+      startQuat.current.copy(camera.quaternion);
+
+      travelDirVec.set(
+        station.position[0] - camera.position.x,
+        0,
+        station.position[2] - camera.position.z,
+      );
+      if (travelDirVec.lengthSq() < 1e-6) {
+        travelDirVec.set(0, 0, -1);
+      }
+      travelDirVec.normalize();
+
+      targetPos.current.set(
+        station.position[0] - travelDirVec.x * SCROLL_ARRIVAL_DISTANCE,
+        PLAYER_EYE_HEIGHT,
+        station.position[2] - travelDirVec.z * SCROLL_ARRIVAL_DISTANCE,
+      );
+
+      travelLookAt.set(station.position[0], SCROLL_LOOK_Y, station.position[2]);
+      travelMatrix.lookAt(targetPos.current, travelLookAt, camera.up);
+      targetQuat.current.setFromRotationMatrix(travelMatrix);
+
+      travelElapsed.current = 0;
+      traveling.current = true;
+    };
+
+    const onWheel = (e: WheelEvent) => {
+      if (expandedPanelRef.current || traveling.current) return;
+      e.preventDefault();
+      const now = performance.now() / 1000;
+      if (now - lastWheel.current < SCROLL_COOLDOWN) return;
+      lastWheel.current = now;
+
+      if (e.deltaY === 0) return;
+      const dir = Math.sign(e.deltaY);
+      const next = Math.max(
+        0,
+        Math.min(STATIONS.length - 1, tourIndex.current + dir),
+      );
+      if (next === tourIndex.current) return;
+      tourIndex.current = next;
+      beginTravel(STATIONS[next]);
+    };
+
     canvas.addEventListener("click", onClick);
     document.addEventListener("pointerlockchange", onLock);
     document.addEventListener("mousemove", onMouse);
     window.addEventListener("keydown", onKey);
     window.addEventListener("keyup", onKeyUp);
+    window.addEventListener("wheel", onWheel, { passive: false });
 
     return () => {
       canvas.removeEventListener("click", onClick);
@@ -155,6 +228,7 @@ export default function Player({
       document.removeEventListener("mousemove", onMouse);
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("keyup", onKeyUp);
+      window.removeEventListener("wheel", onWheel);
       if (document.pointerLockElement === canvas) {
         document.exitPointerLock();
       }
@@ -165,6 +239,33 @@ export default function Player({
     const dt = Math.min(clock.current.getDelta(), 0.1);
     const speed = PLAYER_SPEED * dt;
     const k = keys.current;
+
+    // Scroll-to-travel glide takes over the camera while active, suspending
+    // WASD movement and head-bob for the duration of the hop.
+    if (traveling.current) {
+      travelElapsed.current += dt;
+      const raw = Math.min(1, travelElapsed.current / SCROLL_TRAVEL_DURATION);
+      const t = raw * raw * (3 - 2 * raw); // smoothstep ease in/out
+
+      camera.position.lerpVectors(startPos.current, targetPos.current, t);
+      camera.quaternion.slerpQuaternions(
+        startQuat.current,
+        targetQuat.current,
+        t,
+      );
+
+      if (raw >= 1) {
+        traveling.current = false;
+        basePos.current.copy(targetPos.current);
+        bobPhase.current = 0;
+        bobIntensity.current = 0;
+        // Re-sync mouse-look so free roam continues from the arrival heading.
+        euler.current.setFromQuaternion(camera.quaternion);
+        const arrived = STATIONS[tourIndex.current];
+        if (arrived) useStationStore.getState().markVisited(arrived.id);
+      }
+      return;
+    }
 
     camera.getWorldDirection(forwardVec);
     forwardVec.y = 0;
@@ -219,7 +320,8 @@ export default function Player({
     } else {
       bobPhase.current = 0;
     }
-    const bobY = Math.sin(bobPhase.current) * BOB_VERTICAL * bobIntensity.current;
+    const bobY =
+      Math.sin(bobPhase.current) * BOB_VERTICAL * bobIntensity.current;
     // Lateral sway is half-frequency so it sways once per two vertical bobs.
     const bobSide =
       Math.cos(bobPhase.current * 0.5) * BOB_LATERAL * bobIntensity.current;

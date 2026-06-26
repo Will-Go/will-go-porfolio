@@ -22,6 +22,7 @@ import Player from "./Player";
 import { PanelContent } from "./PanelContent";
 import FloatingHeadOverlay from "./FloatingHeadOverlay";
 import StartIntroOverlay from "./StartIntroOverlay";
+import { ScrollDownHintIcon } from "./ScrollDownHintIcon";
 import { usePanelStore } from "@/stores/usePanelStore";
 import { useIntroStore } from "@/stores/useIntroStore";
 import { useStationStore } from "@/stores/useStationStore";
@@ -282,6 +283,11 @@ export default function ThreeExperience() {
                 WASD
               </kbd>
               {t("wasdToMove")}
+            </span>
+            <span className="w-px h-3 bg-accent-500/20" />
+            <span className="flex items-center gap-1.5">
+              <ScrollDownHintIcon />
+              {t("scrollDownToAdvance")}
             </span>
             <span className="w-px h-3 bg-accent-500/20" />
             <span className="text-[10px] text-gray-500">

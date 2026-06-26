@@ -14,6 +14,12 @@ export const GROUND_SIZE = 64;
 export const PATH_WIDTH = 1.6;
 export const STATION_CIRCLE_RADIUS = 3;
 
+// Scroll-to-travel (wheel) auto-walk between stations
+export const SCROLL_ARRIVAL_DISTANCE = 3.5; // stop just outside the station ring (radius 3)
+export const SCROLL_TRAVEL_DURATION = 1.1; // seconds per station hop
+export const SCROLL_LOOK_Y = 1.2; // look slightly down toward the desk
+export const SCROLL_COOLDOWN = 0.12; // s; ignore extra wheel deltas mid-gesture
+
 // voxel_computer_table.glb placement (tuned for the model's native scale)
 export const COMPUTER_SCALE = 0.35;
 export const COMPUTER_Y = 0;

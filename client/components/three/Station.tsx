@@ -120,7 +120,7 @@ export function Station({
 
     const dx = camera.position.x - station.position[0];
     const dz = camera.position.z - station.position[2];
-    const zoneRadius = STATION_CIRCLE_RADIUS + 0.18;
+    const zoneRadius = STATION_CIRCLE_RADIUS + 0.75;
     const inZone = dx * dx + dz * dz < zoneRadius * zoneRadius;
     if (inZone !== playerInZoneRef.current) {
       playerInZoneRef.current = inZone;
