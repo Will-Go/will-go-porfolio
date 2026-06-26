@@ -12,6 +12,10 @@ import { cn } from "@/utils/cn";
 
 type DescriptionElement = "p" | "span" | "div";
 
+type IViewportMargin = NonNullable<
+  NonNullable<Parameters<typeof useInView>[1]>["margin"]
+>;
+
 interface IDescriptionRevealProps {
   children: React.ReactNode;
   className?: string;
@@ -23,7 +27,7 @@ interface IDescriptionRevealProps {
   scale?: number;
   once?: boolean;
   threshold?: number;
-  viewportMargin?: string;
+  viewportMargin?: IViewportMargin;
 }
 
 const easing = [0, 0, 0.2, 1] as const;
