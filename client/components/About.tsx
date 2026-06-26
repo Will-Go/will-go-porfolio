@@ -1,5 +1,6 @@
 "use client";
 
+import DescriptionReveal from "@/components/DescriptionReveal";
 import Reveal from "@/components/Reveal";
 import Card from "@/components/Card";
 import { useTranslations } from "next-intl";
@@ -52,18 +53,18 @@ function About() {
   return (
     <div className="flex flex-col items-center justify-center gap-4 px-4 py-2">
       <Reveal animationType="slideDown" duration={1} easing="backOut">
-        <div className="text-center space-y-4 max-w-4xl">
-          <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="max-w-4xl text-center">
+          <div className="mb-6 flex items-center justify-center gap-3">
             <FaUser className="text-3xl text-accent-500" />
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("title")}
             </h1>
           </div>
-          <p className="text-lg text-gray-600 dark:text-primary-300 leading-relaxed max-w-2xl mx-auto">
-            {t("subtitle")}
-          </p>
         </div>
       </Reveal>
+      <DescriptionReveal className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-primary-300">
+        {t("subtitle")}
+      </DescriptionReveal>
 
       {/* Two-column: Intro + Stats */}
       <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -84,9 +85,9 @@ function About() {
                 </span>
               </div>
 
-              <p className="text-gray-700 dark:text-primary-300 leading-relaxed text-base">
+              <DescriptionReveal className="text-base leading-relaxed text-gray-700 dark:text-primary-300">
                 {t("intro")}
-              </p>
+              </DescriptionReveal>
 
               {/* Core Tech Stack */}
               <div className="pt-4 border-t border-gray-200 dark:border-primary-800/30">

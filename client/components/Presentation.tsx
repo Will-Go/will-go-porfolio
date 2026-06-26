@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 
 // COMPONENTS
 import BackgroundBlur from "@/components/BackgroundBlur";
+import DescriptionReveal from "@/components/DescriptionReveal";
 import Reveal from "@/components/Reveal";
 
 export default function Presentation() {
@@ -50,11 +51,12 @@ export default function Presentation() {
             </h2>
           </Reveal>
 
-          <Reveal animationType="fadeUp" delay={0.6} duration={1}>
-            <p className="text-base sm:text-lg text-gray-500 dark:text-primary-400 leading-relaxed max-w-2xl mx-auto">
-              {t("home.description", { location: t("home.location") })}
-            </p>
-          </Reveal>
+          <DescriptionReveal
+            duration={1}
+            className="mx-auto max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg dark:text-primary-400"
+          >
+            {t("home.description", { location: t("home.location") })}
+          </DescriptionReveal>
         </div>
 
         {/* Action Buttons */}

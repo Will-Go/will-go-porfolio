@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, useAnimation } from "framer-motion";
 import BackgroundBlur from "@/components/BackgroundBlur";
+import DescriptionReveal from "@/components/DescriptionReveal";
 import Reveal from "@/components/Reveal";
 import { useQuery } from "@tanstack/react-query";
 import { getSkills, TechSkill } from "@/lib/api/skills";
@@ -71,7 +72,7 @@ function Skills() {
       <BackgroundBlur className="h-96 w-96 opacity-30" />
 
       <Reveal animationType="slideDown" duration={1} easing="backOut">
-        <div className="max-w-4xl space-y-2 text-center">
+        <div className="max-w-4xl text-center">
           <div className="mb-2 flex items-center justify-center gap-3">
             <FaCode className="text-3xl text-accent-500" />
             <h1
@@ -81,11 +82,11 @@ function Skills() {
               {t("skills.title")}
             </h1>
           </div>
-          <p className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-primary-300">
-            {t("skills.subtitle")}
-          </p>
         </div>
       </Reveal>
+      <DescriptionReveal className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-primary-300">
+        {t("skills.subtitle")}
+      </DescriptionReveal>
 
       {/* Search Input */}
       <motion.div

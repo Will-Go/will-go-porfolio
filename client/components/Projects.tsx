@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import DescriptionReveal from "@/components/DescriptionReveal";
 import Reveal from "@/components/Reveal";
 import ProjectsCarousel from "@/components/ProjectsCarousel";
 import { useTranslations } from "next-intl";
@@ -91,18 +92,18 @@ function Projects() {
     <div className="flex w-full max-w-none flex-col items-center px-4 pt-10 md:px-8">
       <div className="relative z-10 flex w-full shrink-0 flex-col items-center gap-3">
         <Reveal animationType="slideDown" duration={1} easing="backOut">
-          <div className="max-w-4xl space-y-3 text-center">
+          <div className="max-w-4xl text-center">
             <div className="mb-3 flex items-center justify-center gap-3">
               <FaGithub className="text-3xl text-accent-500" />
               <h1 className="bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 bg-clip-text text-3xl font-bold text-transparent md:text-4xl dark:from-primary-100 dark:via-accent-400 dark:to-primary-200">
                 {t("projects.title")}
               </h1>
             </div>
-            <p className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-primary-300 md:text-lg">
-              {t("projects.subtitle")}
-            </p>
           </div>
         </Reveal>
+        <DescriptionReveal className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 dark:text-primary-300 md:text-lg">
+          {t("projects.subtitle")}
+        </DescriptionReveal>
         {projects.length > 0 && (
           <Reveal
             animationType="fadeUp"
