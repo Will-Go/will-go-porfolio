@@ -18,7 +18,7 @@ const sectionShellClass =
   "relative flex h-dvh w-full flex-col items-center justify-center overflow-hidden snap-start";
 
 const fadeShellClass =
-  "flex h-full max-h-full w-full flex-col justify-center overflow-hidden";
+  "flex h-full max-h-full w-full flex-col justify-center overflow-hidden max-md:pt-20 md:pt-0";
 
 function SectionDivider() {
   return (
@@ -69,7 +69,7 @@ export default function HomeSections() {
           <SectionDivider />
           <section id="about" data-snap-section className={sectionShellClass}>
             <FadeInOut distance={20} threshold={2} className={fadeShellClass}>
-              <Reveal animationType="fadeIn" duration={0.8} easing="easeOut">
+              <Reveal animationType="fadeIn" duration={0.8} easing="easeOut" className="w-full">
                 <About />
               </Reveal>
             </FadeInOut>
@@ -105,6 +105,7 @@ export default function HomeSections() {
                 duration={0.8}
                 easing="easeOut"
                 distance={30}
+                className="w-full"
               >
                 <Suspense fallback={<SectionSpinner />}>
                   <Skills />
@@ -124,6 +125,7 @@ export default function HomeSections() {
                 duration={0.8}
                 easing="easeOut"
                 distance={30}
+                className="w-full"
               >
                 <Education />
               </Reveal>

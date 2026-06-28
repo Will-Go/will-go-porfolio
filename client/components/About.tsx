@@ -51,10 +51,10 @@ function About() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 px-4 py-2">
+    <div className="flex w-full max-w-none flex-col items-center gap-3 px-4 md:px-8 md:pt-10">
       <Reveal animationType="slideDown" duration={1} easing="backOut">
         <div className="max-w-4xl text-center">
-          <div className="mb-6 flex items-center justify-center gap-3">
+          <div className="mb-3 flex items-center justify-center gap-3">
             <FaUser className="text-3xl text-accent-500" />
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("title")}
@@ -62,12 +62,12 @@ function About() {
           </div>
         </div>
       </Reveal>
-      <DescriptionReveal className="mx-auto max-w-2xl text-lg leading-relaxed text-gray-600 dark:text-primary-300">
+      <DescriptionReveal className="mx-auto max-w-2xl text-base leading-relaxed text-gray-600 md:text-lg dark:text-primary-300">
         {t("subtitle")}
       </DescriptionReveal>
 
       {/* Two-column: Intro + Stats */}
-      <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-5 gap-6">
+      <div className="w-full max-w-4xl grid grid-cols-1 gap-4 md:gap-6 lg:grid-cols-5">
         {/* Left: Bio Card */}
         <Reveal
           animationType="fadeRight"
@@ -77,7 +77,7 @@ function About() {
           className="lg:col-span-3"
         >
           <Card className="h-full">
-            <div className="p-4 md:p-6 space-y-4">
+            <div className="space-y-3 p-3 md:space-y-4 md:p-6">
               <div className="flex items-center gap-2 text-gray-800 dark:text-primary-200">
                 <FaMapMarkerAlt className="text-accent-500" />
                 <span className="text-sm font-medium text-gray-500 dark:text-primary-400">
@@ -98,7 +98,7 @@ function About() {
                   {CORE_STACK.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1.5 text-xs font-medium bg-gradient-to-r from-accent-500/10 to-accent-500/5 border border-accent-500/20 rounded-full text-accent-600 dark:text-accent-400 dark:from-accent-500/20 dark:to-accent-500/10 dark:border-accent-500/30 transition-all duration-300 hover:border-accent-500/50 hover:bg-accent-500/20 cursor-default"
+                      className="rounded-full border border-accent-500/20 bg-gradient-to-r from-accent-500/10 to-accent-500/5 px-2.5 py-1 text-xs font-medium text-accent-600 transition-all duration-300 hover:border-accent-500/50 hover:bg-accent-500/20 dark:border-accent-500/30 dark:from-accent-500/20 dark:to-accent-500/10 dark:text-accent-400 md:px-3 md:py-1.5 cursor-default"
                     >
                       {tech}
                     </span>
@@ -117,7 +117,7 @@ function About() {
           easing="easeOut"
           className="lg:col-span-2"
         >
-          <div className="grid grid-cols-2 gap-3 h-full">
+          <div className="grid h-full grid-cols-2 gap-2 md:gap-3">
             {stats.map((stat, index) => (
               <Reveal
                 key={index}
@@ -126,11 +126,11 @@ function About() {
                 duration={0.5}
                 easing="backOut"
               >
-                <div className="h-full flex flex-col items-center justify-center text-center p-4 rounded-lg bg-gray-50 dark:bg-primary-900/30 border border-gray-200 dark:border-primary-800/40 hover:border-accent-500/50 transition-all duration-300 group cursor-default">
+                <div className="group flex h-full cursor-default flex-col items-center justify-center rounded-lg border border-gray-200 bg-gray-50 p-3 text-center transition-all duration-300 hover:border-accent-500/50 dark:border-primary-800/40 dark:bg-primary-900/30 md:p-4">
                   <div className="text-lg mb-1.5 group-hover:scale-110 transition-transform duration-300">
                     {stat.icon}
                   </div>
-                  <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-primary-100">
+                  <p className="text-lg font-bold text-gray-900 md:text-2xl dark:text-primary-100">
                     {stat.value}
                   </p>
                   <p className="text-[11px] text-gray-500 dark:text-primary-400 mt-0.5">

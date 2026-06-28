@@ -89,7 +89,7 @@ function Projects() {
     );
   }
   return (
-    <div className="flex w-full max-w-none flex-col items-center px-4 pt-10 md:px-8">
+    <div className="flex w-full max-w-none flex-col items-center px-4 md:px-8 md:pt-10">
       <div className="relative z-10 flex w-full shrink-0 flex-col items-center gap-3">
         <Reveal animationType="slideDown" duration={1} easing="backOut">
           <div className="max-w-4xl text-center">

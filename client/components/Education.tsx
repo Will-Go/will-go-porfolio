@@ -16,10 +16,10 @@ function Education() {
   const capabilities: string[] = t.raw("capabilities");
 
   return (
-    <div className="flex flex-col items-center justify-center gap-4 px-4 py-2">
+    <div className="flex w-full max-w-none flex-col items-center gap-3 px-4 md:px-8 md:pt-10">
       <Reveal animationType="slideDown" duration={1} easing="backOut">
-        <div className="text-center space-y-4 max-w-4xl">
-          <div className="flex items-center justify-center gap-3 mb-6">
+        <div className="max-w-4xl text-center">
+          <div className="mb-3 flex items-center justify-center gap-3">
             <FaGraduationCap className="text-3xl text-accent-500" />
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent">
               {t("title")}
@@ -41,18 +41,18 @@ function Education() {
             <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-accent-500 via-accent-400 to-accent-600" />
 
             {/* Background watermark */}
-            <div className="absolute -right-8 -top-8 text-[180px] text-gray-100 dark:text-primary-800/20 select-none pointer-events-none leading-none">
+            <div className="absolute -right-8 -top-8 text-[100px] leading-none text-gray-100 select-none pointer-events-none sm:text-[140px] md:text-[180px] dark:text-primary-800/20">
               <FaGraduationCap />
             </div>
 
-            <div className="relative p-6 md:p-8 space-y-6">
+            <div className="relative space-y-4 p-4 md:space-y-6 md:p-8">
               {/* Header with large icon */}
-              <div className="flex flex-col sm:flex-row gap-5 items-start">
-                <div className="w-14 h-14 rounded-xl bg-accent-500/10 dark:bg-accent-500/20 border border-accent-500/20 flex items-center justify-center flex-shrink-0">
+              <div className="flex flex-col items-start gap-5 sm:flex-row">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl border border-accent-500/20 bg-accent-500/10 md:h-14 md:w-14 dark:bg-accent-500/20">
                   <FaGraduationCap className="text-accent-500 text-2xl" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-primary-100 leading-tight">
+                  <h2 className="text-lg font-bold leading-tight text-gray-900 md:text-2xl dark:text-primary-100">
                     {t("university")}
                   </h2>
                   <p className="text-base text-accent-500 font-semibold mt-1">
@@ -104,7 +104,7 @@ function Education() {
               </div>
 
               {/* Capabilities strip */}
-              <div className="-mx-6 md:-mx-8 -mb-6 md:-mb-8 mt-4 px-6 md:px-8 py-4 bg-accent-500/5 dark:bg-accent-500/10 border-t border-accent-500/10 dark:border-accent-500/20">
+              <div className="-mx-4 -mb-4 mt-4 border-t border-accent-500/10 bg-accent-500/5 px-4 py-3 md:-mx-8 md:-mb-8 md:px-8 md:py-4 dark:border-accent-500/20 dark:bg-accent-500/10">
                 <div className="flex flex-wrap items-center gap-3 md:gap-6">
                   <span className="text-xs font-semibold text-accent-600 dark:text-accent-400 uppercase tracking-wider">
                     {t("capabilitiesLabel")}

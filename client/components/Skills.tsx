@@ -20,7 +20,8 @@ import SkillChipSkeleton from "@/components/skeletons/SkillChipSkeleton";
 function getDisplayLimit(width: number) {
   if (width >= 1280) return 18;
   if (width >= 1024) return 15;
-  return 12;
+  if (width >= 640) return 12;
+  return 8;
 }
 
 function Skills() {
@@ -68,12 +69,12 @@ function Skills() {
   }, [isInViewSkills, controls]);
 
   return (
-    <div className="relative flex flex-col items-center justify-center gap-3 px-4 py-2">
+    <div className="relative flex w-full max-w-none flex-col items-center gap-3 px-4 md:px-8 md:pt-10">
       <BackgroundBlur className="h-96 w-96 opacity-30" />
 
       <Reveal animationType="slideDown" duration={1} easing="backOut">
         <div className="max-w-4xl text-center">
-          <div className="mb-2 flex items-center justify-center gap-3">
+          <div className="mb-3 flex items-center justify-center gap-3">
             <FaCode className="text-3xl text-accent-500" />
             <h1
               className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-800 via-accent-500 to-gray-900 dark:from-primary-100 dark:via-accent-400 dark:to-primary-200 bg-clip-text text-transparent"
@@ -127,7 +128,7 @@ function Skills() {
         easing="easeOut"
         className="!z-50 "
       >
-        <div className="w-full max-w-6xl min-h-[200px]">
+        <div className="min-h-[120px] w-full max-w-6xl md:min-h-[200px]">
           {!isLoading && isInViewSkills && (
             <>
               {displayedSkills.length > 0 ? (
@@ -155,7 +156,7 @@ function Skills() {
                   )}
                 </>
               ) : (
-                <div className="flex flex-col items-center justify-center h-[300px] text-gray-500 dark:text-primary-300">
+                <div className="flex h-[160px] flex-col items-center justify-center text-gray-500 md:h-[300px] dark:text-primary-300">
                   <HiOutlineEmojiSad className="text-5xl mb-4 text-gray-400 dark:text-primary-400" />
                   <p className="text-lg font-medium">{t("skills.noSkills")}</p>
                 </div>
@@ -165,7 +166,7 @@ function Skills() {
 
           {isLoading && (
             <div className="grid grid-cols-2 justify-items-center gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-              {Array.from({ length: 12 }).map((_, i) => (
+              {Array.from({ length: displayLimit }).map((_, i) => (
                 <SkillChipSkeleton key={i} index={i} />
               ))}
             </div>
