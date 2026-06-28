@@ -269,8 +269,13 @@ export default function ThreeExperience() {
 
       {/* Controls hint (only when no panel is open) */}
       {introComplete && !locked && !expandedPanel && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 pointer-events-none">
-          <div className="flex items-center gap-4 px-5 py-3 rounded-full bg-black/50 backdrop-blur-md border border-accent-500/25 text-xs text-gray-300 shadow-lg shadow-black/30">
+        <div className="fixed bottom-8 left-1/2 z-40 flex -translate-x-1/2 flex-col items-center gap-2 pointer-events-none">
+          <div className="flex items-center gap-2.5 text-sm text-white/90">
+            <ScrollDownHintIcon />
+            <span>{t("scrollDownToAdvance")}</span>
+          </div>
+
+          <div className="flex items-center gap-4 rounded-full border border-accent-500/20 bg-black/40 px-5 py-2.5 text-xs text-gray-300 backdrop-blur-md">
             <span className="flex items-center gap-1.5">
               <kbd className="px-1.5 py-0.5 rounded bg-accent-500/10 border border-accent-500/20 text-accent-400 text-[10px]">
                 Click
@@ -284,12 +289,7 @@ export default function ThreeExperience() {
               </kbd>
               {t("wasdToMove")}
             </span>
-            <span className="w-px h-4 bg-accent-500/20" />
-            <span className="flex items-center gap-2.5 rounded-full border border-accent-400/30 bg-accent-500/15 px-3 py-1.5 text-sm font-medium text-white/90">
-              <ScrollDownHintIcon />
-              {t("scrollDownToAdvance")}
-            </span>
-            <span className="w-px h-4 bg-accent-500/20" />
+            <span className="w-px h-3 bg-accent-500/20" />
             <span className="text-[10px] text-gray-500">
               {t("clickPanelsToExplore")}
             </span>
