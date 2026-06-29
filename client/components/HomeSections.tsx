@@ -119,7 +119,11 @@ export default function HomeSections() {
             data-snap-section
             className={sectionShellClass}
           >
-            <FadeInOut distance={30} threshold={0.1} className={fadeShellClass}>
+            <FadeInOut
+              distance={30}
+              threshold={0.1}
+              className={cn(fadeShellClass, "max-md:justify-start")}
+            >
               <Reveal
                 animationType="slideRight"
                 duration={0.8}

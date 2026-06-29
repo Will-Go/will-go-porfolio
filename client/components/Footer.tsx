@@ -11,11 +11,15 @@ import {
   FaRocket,
 } from "react-icons/fa";
 
-function Footer() {
+interface IFooterProps {
+  isMobileOrTablet?: boolean;
+}
+
+function Footer({ isMobileOrTablet = false }: IFooterProps) {
   const t = useTranslations();
   const is3D = useViewModeStore((state) => state.is3D);
 
-  if (is3D) return null;
+  if (is3D && !isMobileOrTablet) return null;
 
   const socials = [
     {

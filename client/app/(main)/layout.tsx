@@ -32,7 +32,7 @@ export default async function Layout({
           <main className="min-h-screen">{children}</main>
         </ChatBotProvider>
 
-        <Footer />
+        <Footer isMobileOrTablet={isMobileOrTablet} />
       </LenisWrapper>
     </ParticlesWrapper>
   );
