@@ -18,7 +18,7 @@ const sectionShellClass =
   "relative flex h-dvh w-full flex-col items-center justify-center overflow-hidden snap-start";
 
 const fadeShellClass =
-  "flex h-full max-h-full w-full flex-col justify-center overflow-hidden max-md:pt-20 md:pt-0";
+  "flex h-full max-h-full w-full flex-col justify-center overflow-hidden max-md:py-20 md:py-0";
 
 function SectionDivider() {
   return (
@@ -122,14 +122,15 @@ export default function HomeSections() {
             <FadeInOut
               distance={30}
               threshold={0.1}
-              className={cn(fadeShellClass, "max-md:justify-start")}
+              maxBlur={0}
+              className={fadeShellClass}
             >
               <Reveal
                 animationType="slideRight"
                 duration={0.8}
                 easing="easeOut"
                 distance={30}
-                className="w-full"
+                className="flex h-full w-full flex-col justify-center"
               >
                 <Education />
               </Reveal>
