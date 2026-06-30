@@ -57,8 +57,10 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
   const is3D = useViewModeStore((state) => state.is3D);
   const expandedPanel = usePanelStore((state) => state.expandedPanel);
   const introComplete = useIntroStore((state) => state.introComplete);
-  const panelOpen =
-    !isMobileOrTablet && (expandedPanel !== null || (is3D && !introComplete));
+  // const panelOpen = expandedPanel !== null || (is3D && !introComplete);
+  const panelOpen = isMobileOrTablet
+    ? false
+    : expandedPanel !== null || (is3D && !introComplete);
 
   const isActive = useCallback(
     (href: string) => {
@@ -72,12 +74,20 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
   );
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    const updateScrolled = () => {
+      const scrollY = lenis?.scroll ?? window.scrollY;
+      setScrolled(scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
+    lenis?.on("scroll", updateScrolled);
+
+    return () => {
+      window.removeEventListener("scroll", updateScrolled);
+      lenis?.off("scroll", updateScrolled);
+    };
+  }, [lenis]);
 
   useEffect(() => {
     const sectionIds = ["home", "about", "projects", "experience"];
@@ -193,6 +203,7 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
   }, [isOpen]);
 
   const isCompactNav = scrolled || isOpen;
+  const isMobileScrolledCompact = scrolled && !isOpen && !panelOpen;
 
   return (
     <>
@@ -202,7 +213,11 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
         animate={{
           opacity: 1,
           y: 0,
-          width: panelOpen ? 56 : "min(calc(100vw - 1.5rem), 64rem)",
+          width: panelOpen
+            ? 56
+            : isMobileScrolledCompact
+              ? "auto"
+              : "min(calc(100vw - 1.5rem), 64rem)",
         }}
         transition={{
           opacity: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
@@ -210,27 +225,33 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
           width: NAV_SPRING,
         }}
         className={cn(
-          "fixed left-1/2 z-50 -translate-x-1/2 rounded-full py-2",
+          "fixed left-1/2 z-50 -translate-x-1/2 rounded-full",
+          isMobileScrolledCompact
+            ? "top-2 py-0"
+            : cn("py-2", isCompactNav || panelOpen ? "top-3" : "top-5"),
           panelOpen ? "overflow-hidden" : "overflow-visible",
-          isCompactNav || panelOpen ? "top-3" : "top-5",
           panelOpen
             ? "border-0 bg-black shadow-none ring-0 backdrop-blur-none dark:bg-black"
-            : cn(
-                "bg-white/20 shadow-lg shadow-black/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-white/5 dark:shadow-black/40",
-                !isOpen &&
-                  "border border-white/30 ring-1 ring-inset ring-white/40 dark:border-white/10 dark:ring-white/10",
-                isOpen && "border border-transparent ring-0 dark:bg-black/60",
-                scrolled && !isOpen && "bg-white/30 dark:bg-white/8",
-              ),
+            : isMobileScrolledCompact
+              ? "border-0 bg-transparent shadow-none ring-0 backdrop-blur-none"
+              : cn(
+                  "bg-white/20 shadow-lg shadow-black/5 backdrop-blur-2xl backdrop-saturate-150 dark:bg-white/5 dark:shadow-black/40",
+                  !isOpen &&
+                    "border border-white/30 ring-1 ring-inset ring-white/40 dark:border-white/10 dark:ring-white/10",
+                  isOpen && "border border-transparent ring-0 dark:bg-black/60",
+                  scrolled && !isOpen && "bg-white/30 dark:bg-white/8",
+                ),
         )}
       >
         <div
           className={cn(
-            "flex h-9 w-full min-w-0 items-center",
+            "flex w-full min-w-0 items-center",
             panelOpen ? "overflow-hidden" : "overflow-visible",
             panelOpen
               ? "justify-center px-2 py-2"
-              : "justify-between px-4 py-2.5",
+              : isMobileScrolledCompact
+                ? "h-8 justify-between gap-2 px-2 py-0"
+                : "h-9 justify-between px-4 py-2.5",
           )}
         >
           {/* Brand */}
@@ -241,10 +262,13 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
           >
             <div
               className={cn(
-                "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-200",
+                "flex shrink-0 items-center justify-center rounded-full border transition-colors duration-200",
+                isMobileScrolledCompact ? "h-7 w-7" : "h-8 w-8",
                 panelOpen
                   ? "border-white/20 bg-white/10 group-hover:border-white/40 group-hover:bg-white/20"
-                  : "border-white/30 bg-white/25 group-hover:border-accent-400/50 group-hover:bg-accent-500/80 dark:border-white/15 dark:bg-white/10 dark:group-hover:bg-accent-400/80",
+                  : isMobileScrolledCompact
+                    ? "border-white/25 bg-white/15 group-hover:border-accent-400/50 group-hover:bg-accent-500/80 dark:border-white/15 dark:bg-white/10 dark:group-hover:bg-accent-400/80"
+                    : "border-white/30 bg-white/25 group-hover:border-accent-400/50 group-hover:bg-accent-500/80 dark:border-white/15 dark:bg-white/10 dark:group-hover:bg-accent-400/80",
               )}
             >
               <FaCode
@@ -260,9 +284,12 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
               layout="size"
               initial={false}
               animate={{
-                width: panelOpen ? 0 : `${typedTitleWidthCh}ch`,
-                opacity: panelOpen ? 0 : 1,
-                marginLeft: panelOpen ? 0 : 10,
+                width:
+                  panelOpen || isMobileScrolledCompact
+                    ? 0
+                    : `${typedTitleWidthCh}ch`,
+                opacity: panelOpen || isMobileScrolledCompact ? 0 : 1,
+                marginLeft: panelOpen || isMobileScrolledCompact ? 0 : 10,
               }}
               transition={NAV_CONTENT_SPRING}
               className="hidden overflow-hidden sm:block"
@@ -286,13 +313,16 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
             layout="size"
             initial={false}
             animate={{
-              maxWidth: panelOpen ? 0 : 960,
-              opacity: panelOpen ? 0 : 1,
-              marginInline: panelOpen ? 0 : 8,
+              maxWidth: panelOpen || isMobileScrolledCompact ? 0 : 960,
+              opacity: panelOpen || isMobileScrolledCompact ? 0 : 1,
+              marginInline: panelOpen || isMobileScrolledCompact ? 0 : 8,
             }}
             transition={NAV_CONTENT_SPRING}
             className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 overflow-hidden md:flex"
-            style={{ pointerEvents: panelOpen ? "none" : "auto" }}
+            style={{
+              pointerEvents:
+                panelOpen || isMobileScrolledCompact ? "none" : "auto",
+            }}
           >
             {desktopLinks.map(({ text, href }) => (
               <Link
@@ -328,9 +358,9 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
             layout="size"
             initial={false}
             animate={{
-              maxWidth: panelOpen ? 0 : 420,
+              maxWidth: panelOpen ? 0 : isMobileScrolledCompact ? 36 : 420,
               opacity: panelOpen ? 0 : 1,
-              marginLeft: panelOpen ? 0 : 8,
+              marginLeft: panelOpen ? 0 : isMobileScrolledCompact ? 0 : 8,
             }}
             transition={NAV_CONTENT_SPRING}
             className={cn(
@@ -339,30 +369,37 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
             )}
             style={{ pointerEvents: panelOpen ? "none" : "auto" }}
           >
-            <div className="hidden items-center sm:flex">
-              <LanguageSwitcher />
-              {!is3D && (
-                <>
-                  <span
-                    aria-hidden
-                    className="mx-1.5 h-3.5 w-px bg-white/30 dark:bg-white/15"
-                  />
-                  <ThemeToggle />
-                </>
-              )}
-            </div>
+            {!isMobileScrolledCompact && (
+              <div className="hidden items-center sm:flex">
+                <LanguageSwitcher />
+                {!is3D && (
+                  <>
+                    <span
+                      aria-hidden
+                      className="mx-1.5 h-3.5 w-px bg-white/30 dark:bg-white/15"
+                    />
+                    <ThemeToggle />
+                  </>
+                )}
+              </div>
+            )}
 
-            <Link
-              href="/contact"
-              className="hidden rounded-full bg-accent-500/90 px-4 py-2 text-[13px] font-semibold tracking-wide text-white shadow-sm shadow-accent-500/20 backdrop-blur-sm transition-colors duration-200 hover:bg-accent-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/50 lg:inline-flex"
-            >
-              {t("contact")}
-            </Link>
+            {!isMobileScrolledCompact && (
+              <Link
+                href="/contact"
+                className="hidden rounded-full bg-accent-500/90 px-4 py-2 text-[13px] font-semibold tracking-wide text-white shadow-sm shadow-accent-500/20 backdrop-blur-sm transition-colors duration-200 hover:bg-accent-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/50 lg:inline-flex"
+              >
+                {t("contact")}
+              </Link>
+            )}
 
             <button
               type="button"
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-primary-800 transition-colors hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 md:hidden dark:text-primary-100 dark:hover:bg-white/10"
+              className={cn(
+                "inline-flex items-center justify-center rounded-full text-primary-800 transition-colors hover:bg-white/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 dark:text-primary-100 dark:hover:bg-white/10",
+                isMobileScrolledCompact ? "h-8 w-8" : "h-9 w-9 md:hidden",
+              )}
               aria-expanded={isOpen}
               aria-label="Toggle menu"
             >
