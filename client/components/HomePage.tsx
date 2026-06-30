@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import ThreeExperience from "@/components/three/Experience";
 import HomeSections from "@/components/HomeSections";
+import ScrollEdgeBlur from "@/components/ScrollEdgeBlur";
 import { useTranslations } from "next-intl";
 import { FaCube, FaScroll } from "react-icons/fa";
 import { useViewModeStore } from "@/stores/useViewModeStore";
@@ -47,7 +48,9 @@ export default function HomePage() {
 
   return (
     <>
-      <HomeSections />
+      <ScrollEdgeBlur>
+        <HomeSections />
+      </ScrollEdgeBlur>
       <button
         type="button"
         onClick={toggleView}

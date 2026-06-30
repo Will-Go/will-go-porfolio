@@ -1,5 +1,10 @@
 import HomeSections from "@/components/HomeSections";
+import ScrollEdgeBlur from "@/components/ScrollEdgeBlur";
 
 export default function HomePageServer() {
-  return <HomeSections />;
+  return (
+    <ScrollEdgeBlur>
+      <HomeSections />
+    </ScrollEdgeBlur>
+  );
 }

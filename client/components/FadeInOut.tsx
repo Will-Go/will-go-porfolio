@@ -2,7 +2,6 @@
 import { useRef } from "react";
 import {
   motion,
-  useMotionTemplate,
   useScroll,
   useTransform,
 } from "framer-motion";
@@ -13,7 +12,6 @@ interface FadeInOutProps {
   className?: string;
   distance?: number;
   threshold?: number;
-  maxBlur?: number;
 }
 
 function FadeInOut({
@@ -21,7 +19,6 @@ function FadeInOut({
   className,
   distance = 20,
   threshold = 0.1,
-  maxBlur = 12,
 }: FadeInOutProps) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -48,14 +45,6 @@ function FadeInOut({
     [0.75, 1, 0.75],
   );
 
-  const scrollBlur = useTransform(
-    scrollYProgress,
-    [fadeInStart, midPoint, fadeOutEnd],
-    [maxBlur, 0, maxBlur],
-  );
-
-  const blurFilter = useMotionTemplate`blur(${scrollBlur}px)`;
-
   return (
     <motion.div
       ref={ref}
@@ -63,7 +52,6 @@ function FadeInOut({
       style={{
         opacity: scrollOpacity,
         scale: scrollScale,
-        filter: blurFilter,
       }}
     >
       {children}

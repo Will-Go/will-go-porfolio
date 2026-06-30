@@ -20,17 +20,6 @@ const sectionShellClass =
 const fadeShellClass =
   "flex h-full max-h-full w-full flex-col justify-center overflow-hidden max-md:py-20 md:py-0";
 
-function SectionDivider() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none flex shrink-0 items-center justify-center px-4 py-12 md:py-16 lg:py-20"
-    >
-      <div className="h-px w-full max-w-lg bg-linear-to-r from-transparent via-accent-500/20 to-transparent" />
-    </div>
-  );
-}
-
 function SectionSpinner() {
   return (
     <div className="flex flex-col items-center justify-center gap-3 px-4 py-2">
@@ -66,7 +55,6 @@ export default function HomeSections() {
               </Reveal>
             </FadeInOut>
           </section>
-          <SectionDivider />
           <section id="about" data-snap-section className={sectionShellClass}>
             <FadeInOut distance={20} threshold={2} className={fadeShellClass}>
               <Reveal animationType="fadeIn" duration={0.8} easing="easeOut" className="w-full">
@@ -74,7 +62,6 @@ export default function HomeSections() {
               </Reveal>
             </FadeInOut>
           </section>
-          <SectionDivider />
           <section
             id="projects"
             data-snap-section
@@ -97,7 +84,6 @@ export default function HomeSections() {
               </Reveal>
             </FadeInOut>
           </section>
-          <SectionDivider />
           <section id="skills" data-snap-section className={sectionShellClass}>
             <FadeInOut distance={30} threshold={0.1} className={fadeShellClass}>
               <Reveal
@@ -113,18 +99,12 @@ export default function HomeSections() {
               </Reveal>
             </FadeInOut>
           </section>
-          <SectionDivider />
           <section
             id="education"
             data-snap-section
             className={sectionShellClass}
           >
-            <FadeInOut
-              distance={30}
-              threshold={0.1}
-              maxBlur={0}
-              className={fadeShellClass}
-            >
+            <FadeInOut distance={30} threshold={0.1} className={fadeShellClass}>
               <Reveal
                 animationType="slideRight"
                 duration={0.8}
@@ -136,18 +116,12 @@ export default function HomeSections() {
               </Reveal>
             </FadeInOut>
           </section>
-          <SectionDivider />
           <section
             id="experience"
             data-snap-section
             className="relative flex min-h-dvh w-full flex-col items-center justify-center py-8 snap-start"
           >
-            <FadeInOut
-              distance={20}
-              threshold={0.2}
-              maxBlur={0}
-              className="relative w-full"
-            >
+            <FadeInOut distance={20} threshold={0.2} className="relative w-full">
               <Reveal
                 animationType="fadeUp"
                 duration={0.8}
