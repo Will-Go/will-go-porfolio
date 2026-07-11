@@ -387,6 +387,7 @@ export default function Navbar({ isMobileOrTablet = false }: INavbarProps) {
             {!isMobileScrolledCompact && (
               <Link
                 href="/contact"
+                onClick={() => setIs3D(false)}
                 className="hidden rounded-full bg-accent-500/90 px-4 py-2 text-[13px] font-semibold tracking-wide text-white shadow-sm shadow-accent-500/20 backdrop-blur-sm transition-colors duration-200 hover:bg-accent-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/50 lg:inline-flex"
               >
                 {t("contact")}
