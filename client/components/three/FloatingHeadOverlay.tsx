@@ -7,6 +7,7 @@ import WilsonFloatingHead from "@/components/three/WilsonFloatingHead";
 import { PanelContent } from "./PanelContent";
 import { getPanelHeadPlacement } from "./panelHeadPlacement";
 import { usePanelAnchorPosition } from "./hook/usePanelAnchorPosition";
+import { unstable_ViewTransition as ViewTransition } from "react";
 
 // Avoid scale on the head wrapper — CSS transform scale on a Canvas parent
 // fights ResizeObserver and makes the head appear to grow during scroll.
@@ -152,7 +153,9 @@ export default function FloatingHeadOverlay({
         )}
       </AnimatePresence>
 
-      <FloatingHead locked={locked} variants={viewportHeadVariants} />
+      <ViewTransition name="Wilson-avatar">
+        <FloatingHead locked={locked} variants={viewportHeadVariants} />
+      </ViewTransition>
     </div>
   );
 }
