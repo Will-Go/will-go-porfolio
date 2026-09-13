@@ -27,8 +27,8 @@ interface ITileCell {
 }
 
 export default function StartIntroOverlay() {
-	const setIntroComplete = useIntroStore((s) => s.setIntroComplete);
-	const [visible, setVisible] = useState(true);
+  const setIntroComplete = useIntroStore((s) => s.setIntroComplete);
+  const [visible, setVisible] = useState(true);
 
   const tiles = useMemo<ITileCell[]>(() => {
     const centerCol = (COLS - 1) / 2;
@@ -56,10 +56,13 @@ export default function StartIntroOverlay() {
     STAGGER_SPREAD + DISSOLVE_DURATION + BG_FADE_DELAY + BG_FADE_DURATION;
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setVisible(false);
-      setIntroComplete(true);
-    }, totalDuration * 1000 + 80);
+    const timer = window.setTimeout(
+      () => {
+        setVisible(false);
+        setIntroComplete(true);
+      },
+      totalDuration * 1000 + 80,
+    );
 
     return () => window.clearTimeout(timer);
   }, [setIntroComplete, totalDuration]);

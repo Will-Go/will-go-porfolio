@@ -129,12 +129,7 @@ function clipSegmentToCircle(
   const tMax = Math.min(1, Math.max(tEnter, tExit));
   if (tMin > tMax) return null;
 
-  return [
-    x1 + dx * tMin,
-    z1 + dz * tMin,
-    x1 + dx * tMax,
-    z1 + dz * tMax,
-  ];
+  return [x1 + dx * tMin, z1 + dz * tMin, x1 + dx * tMax, z1 + dz * tMax];
 }
 
 function useCircularAccentGridGeometry() {
@@ -191,18 +186,17 @@ function useGradientGroundGeometry() {
       colors[i * 3] = tmp.r;
       colors[i * 3 + 1] = tmp.g;
       colors[i * 3 + 2] = tmp.b;
-      alphas[i] = 1 - THREE.MathUtils.smoothstep(
-        dist,
-        GROUND_RADIUS - GROUND_SOFT_BORDER,
-        GROUND_RADIUS,
-      );
+      alphas[i] =
+        1 -
+        THREE.MathUtils.smoothstep(
+          dist,
+          GROUND_RADIUS - GROUND_SOFT_BORDER,
+          GROUND_RADIUS,
+        );
     }
 
     geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
-    geometry.setAttribute(
-      "groundAlpha",
-      new THREE.BufferAttribute(alphas, 1),
-    );
+    geometry.setAttribute("groundAlpha", new THREE.BufferAttribute(alphas, 1));
 
     const index = geometry.index;
     if (index) {
@@ -217,10 +211,7 @@ function useGradientGroundGeometry() {
         const by = position.getY(bi);
         const cx = position.getX(ci);
         const cy = position.getY(ci);
-        const centroidDist = Math.hypot(
-          (ax + bx + cx) / 3,
-          (ay + by + cy) / 3,
-        );
+        const centroidDist = Math.hypot((ax + bx + cx) / 3, (ay + by + cy) / 3);
         if (centroidDist <= GROUND_RADIUS) {
           kept.push(ai, bi, ci);
         }

@@ -190,7 +190,8 @@ export async function composeFramedImage(
   const img = await blobToImage(qrBlob);
   const layout = FRAME_LAYOUTS[frame];
   const width = img.width + layout.pad * 2;
-  const height = img.height + layout.pad * 2 + layout.extraTop + layout.extraBottom;
+  const height =
+    img.height + layout.pad * 2 + layout.extraTop + layout.extraBottom;
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;

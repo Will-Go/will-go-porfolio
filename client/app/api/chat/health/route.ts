@@ -9,7 +9,7 @@ export async function GET() {
       },
       {
         status: 500,
-      }
+      },
     );
   }
   try {
@@ -26,7 +26,7 @@ export async function GET() {
     //RETURN TRUE IF THE SERVICE IS UP
     return NextResponse.json(
       { res: isHealthy === true },
-      { status: isHealthy ? 200 : 503 }
+      { status: isHealthy ? 200 : 503 },
     );
   } catch (error) {
     // If the service is down, return false

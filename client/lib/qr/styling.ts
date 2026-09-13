@@ -106,9 +106,11 @@ export function resolveLogoSrc(options: {
   scanLabel: string;
 }): string | undefined {
   if (options.preset === "none") return undefined;
-  if (options.preset === "custom" && options.customSrc) return options.customSrc;
+  if (options.preset === "custom" && options.customSrc)
+    return options.customSrc;
   if (options.preset === "mark") return makeMarkLogo(options.color);
-  if (options.preset === "scan") return makeScanLogo(options.color, options.scanLabel);
+  if (options.preset === "scan")
+    return makeScanLogo(options.color, options.scanLabel);
   return undefined;
 }
 

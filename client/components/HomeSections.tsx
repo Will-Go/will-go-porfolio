@@ -57,7 +57,12 @@ export default function HomeSections() {
           </section>
           <section id="about" data-snap-section className={sectionShellClass}>
             <FadeInOut distance={20} threshold={2} className={fadeShellClass}>
-              <Reveal animationType="fadeIn" duration={0.8} easing="easeOut" className="w-full">
+              <Reveal
+                animationType="fadeIn"
+                duration={0.8}
+                easing="easeOut"
+                className="w-full"
+              >
                 <About />
               </Reveal>
             </FadeInOut>
@@ -121,7 +126,11 @@ export default function HomeSections() {
             data-snap-section
             className="relative flex min-h-dvh w-full flex-col items-center justify-center py-8 snap-start"
           >
-            <FadeInOut distance={20} threshold={0.2} className="relative w-full">
+            <FadeInOut
+              distance={20}
+              threshold={0.2}
+              className="relative w-full"
+            >
               <Reveal
                 animationType="fadeUp"
                 duration={0.8}

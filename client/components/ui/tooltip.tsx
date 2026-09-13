@@ -48,7 +48,7 @@ export function Tooltip({
           className={cn(
             "absolute z-50 px-2 py-1 text-xs text-white bg-gray-900 rounded shadow-lg whitespace-nowrap pointer-events-none",
             sideClasses[side],
-            className
+            className,
           )}
           style={{ marginBottom: side === "top" ? sideOffset : undefined }}
         >

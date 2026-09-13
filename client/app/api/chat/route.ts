@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
       },
       {
         status: 500,
-      }
+      },
     );
   }
   try {
@@ -21,19 +21,19 @@ export async function POST(request: NextRequest) {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     return NextResponse.json(data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return NextResponse.json(
         { error: error.message },
-        { status: error.response?.status || 500 }
+        { status: error.response?.status || 500 },
       );
     }
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

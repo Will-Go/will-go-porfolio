@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     if (!jwtSecret) {
       return NextResponse.json(
         { error: "JWT secret not configured" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -49,19 +49,19 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json(
         { valid: false, message: "Invalid code" },
-        { status: 401 }
+        { status: 401 },
       );
     }
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return NextResponse.json(
         { error: error.message },
-        { status: error.response?.status || 500 }
+        { status: error.response?.status || 500 },
       );
     }
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

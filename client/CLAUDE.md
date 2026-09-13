@@ -28,11 +28,13 @@ npm run lint
 ## Architecture
 
 ### Framework & Routing
+
 - **Next.js 15** with App Router using route groups
 - **TypeScript** with strict mode enabled
 - **Path alias**: `@/*` maps to project root
 
 ### Route Structure
+
 - **`app/(main)/`** - Main public portfolio routes (home, contact)
   - Uses shared layout with Navbar, Footer, ChatBubble, and ParticlesWrapper
   - Includes ChatBotProvider context
@@ -44,6 +46,7 @@ npm run lint
   - `logout/` - Session termination
 
 ### Internationalization (i18n)
+
 - Uses `next-intl` library for translations
 - **Supported locales**: English (`en`), Spanish (`es`)
 - **Configuration**: `i18n/config.ts` defines locales and default
@@ -53,6 +56,7 @@ npm run lint
 - `NextIntlClientProvider` wraps the entire app in root layout
 
 ### Authentication & Middleware
+
 - JWT-based authentication using `jose` library
 - **Middleware** (`middleware.ts`) protects `/do-not-get-in-here` route
 - Requires `JWT_SECRET` environment variable
@@ -60,12 +64,14 @@ npm run lint
 - Invalid/missing tokens redirect to `/give-me-the-token`
 
 ### State Management
+
 - **ChatBotProvider** (`context/ChatBotProvider.tsx`): Global context for chatbot state
   - Manages messages, chat open/close state, and chat availability
   - Uses `useChatBot()` hook for consuming context
   - Checks chatbot health via `/api/chat/health` endpoint
 
 ### UI Components & Styling
+
 - **Tailwind CSS v4** with PostCSS configuration
 - **shadcn/ui** components in `components/ui/` (New York style)
 - **Framer Motion** for animations
@@ -75,6 +81,7 @@ npm run lint
 - **Typed.js** for typewriter effects
 
 ### Key Components
+
 - **Navbar.tsx** - Main navigation with language switcher
 - **Footer.tsx** - Site footer
 - **ChatBubble.tsx** - Interactive chatbot interface
@@ -84,6 +91,7 @@ npm run lint
 - **LanguageSwitcher.tsx** - Locale selection component
 
 ### Data Structure
+
 - **Interfaces** in `interfaces/`:
   - `IProject.ts` - Project schema
   - `IExperience.ts` - Work experience schema
@@ -93,22 +101,27 @@ npm run lint
   - `techSkills.ts` - Technical skills data
 
 ### Utilities
+
 - `utils/cn.ts` - Class name utility (likely `clsx` + `tailwind-merge`)
 - `utils/dateFormatter.ts` - Date formatting utilities
 - `utils/firstLetterCap.ts` - String capitalization
 - `utils/removeHTMLtags.ts` - HTML sanitization
 
 ### Environment Variables
+
 Required in `.env`:
+
 - `JWT_SECRET` - Secret key for JWT token signing
 - `SECRET_PASS` - Admin password for authentication
 - `NEXT_PUBLIC_API_URL` - External API endpoint (Make.com webhook)
 
 ### View Transitions
+
 - Experimental view transitions enabled in `next.config.ts`
 - Currently commented out in root layout but configured
 
 ### Analytics
+
 - Vercel Analytics integrated in root layout
 
 ## Important Notes
