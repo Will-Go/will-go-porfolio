@@ -261,6 +261,10 @@
       "title": "Generador UUID",
       "description": "Genera UUIDs versión 4 aleatorios instantáneamente con soporte de generación masiva."
     },
+    "qr": {
+      "title": "Generador de códigos QR",
+      "description": "Crea códigos QR con estilo para sitios web y texto, y descárgalos como PNG, JPG o SVG."
+    },
     "openTool": "Abrir Herramienta"
   },
   "loremTool": {
@@ -327,5 +331,70 @@
     "copyTooltip": "Copiar UUID",
     "placeholder": "Haz clic en Generar para crear UUIDs",
     "total": "Total: {count}"
+  },
+  "qrTool": {
+    "title": "Generador de códigos QR",
+    "subtitle": "Crea un código QR con estilo para una URL o cualquier texto, y descárgalo al instante.",
+    "content": "CONTENIDO",
+    "design": "DISEÑO",
+    "types": {
+      "website": "SITIO WEB",
+      "text": "TEXTO"
+    },
+    "tabs": {
+      "frame": "Marco",
+      "logo": "Logotipo",
+      "style": "Color y forma"
+    },
+    "fields": {
+      "websiteUrl": "URL de tu sitio web",
+      "text": "Tu texto"
+    },
+    "placeholders": {
+      "websiteUrl": "www.mi-sitio.com",
+      "text": "Escribe el mensaje que las personas verán al escanear."
+    },
+    "autoGenerate": "Tu código QR se genera automáticamente",
+    "textCount": "{count} / 1000 caracteres",
+    "scanMe": "ESCÁNEAME",
+    "logoNone": "Sin logotipo",
+    "logoMark": "Marca simple",
+    "logoCustom": "Logotipo subido",
+    "uploadLogo": "Sube tu logotipo",
+    "uploadHint": "Tipos de archivo: png, jpg, gif o svg - tamaño máximo de 2 MB",
+    "logoTypeError": "Usa un archivo png, jpg, gif o svg.",
+    "logoSizeError": "El logotipo debe pesar 2 MB o menos.",
+    "qrColor": "Color del código QR",
+    "bgColor": "Color de fondo",
+    "contrastWarning": "Estos colores son muy parecidos. Algunas cámaras pueden tener problemas para escanear el código.",
+    "downloadPng": "Descargar PNG",
+    "downloadJpg": "Descargar JPG",
+    "downloadSvg": "Descargar SVG",
+    "downloadFormats": "Elegir formato de descarga",
+    "downloading": "Descargando",
+    "downloadFailed": "No se pudo descargar el código QR. Inténtalo de nuevo.",
+    "emptyHint": "Agrega una URL o un texto para generar tu código QR.",
+    "frames": {
+      "none": "Sin marco",
+      "square": "Marco cuadrado",
+      "rounded": "Marco redondeado",
+      "dashed": "Marco punteado",
+      "double": "Marco doble",
+      "corners": "Marco de esquinas",
+      "scan-me": "Leyenda Escáneame",
+      "scan-me-top": "Escáneame arriba",
+      "balloon": "Marco globo",
+      "polaroid": "Marco polaroid",
+      "ticket": "Marco ticket",
+      "badge": "Marco insignia"
+    },
+    "shapes": {
+      "square": "Puntos cuadrados",
+      "rounded": "Puntos redondeados",
+      "dots": "Puntos circulares",
+      "extra-rounded": "Puntos extra redondeados",
+      "classy": "Puntos clásicos",
+      "classy-rounded": "Puntos clásicos redondeados"
+    }
   }
 }

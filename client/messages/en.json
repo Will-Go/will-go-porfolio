@@ -261,6 +261,10 @@
       "title": "UUID Generator",
       "description": "Generate random version 4 UUIDs instantly with bulk generation support."
     },
+    "qr": {
+      "title": "QR Code Generator",
+      "description": "Create styled QR codes for websites and plain text, then download them as PNG, JPG, or SVG."
+    },
     "openTool": "Open Tool"
   },
   "loremTool": {
@@ -327,5 +331,70 @@
     "copyTooltip": "Copy UUID",
     "placeholder": "Click Generate to create UUIDs",
     "total": "Total: {count}"
+  },
+  "qrTool": {
+    "title": "QR Code Generator",
+    "subtitle": "Create a styled QR code for a website URL or any text, then download it instantly.",
+    "content": "CONTENT",
+    "design": "DESIGN",
+    "types": {
+      "website": "WEBSITE",
+      "text": "TEXT"
+    },
+    "tabs": {
+      "frame": "Frame",
+      "logo": "Logo",
+      "style": "Color & Shape"
+    },
+    "fields": {
+      "websiteUrl": "Your website URL",
+      "text": "Your text"
+    },
+    "placeholders": {
+      "websiteUrl": "www.my-website.com",
+      "text": "Type the message you want people to read after they scan."
+    },
+    "autoGenerate": "Your QR code will be generated automatically",
+    "textCount": "{count} / 1000 characters",
+    "scanMe": "SCAN ME",
+    "logoNone": "No logo",
+    "logoMark": "Simple mark",
+    "logoCustom": "Uploaded logo",
+    "uploadLogo": "Upload your logo",
+    "uploadHint": "File types: png, jpg, gif or svg - max size of 2 MB",
+    "logoTypeError": "Use a png, jpg, gif, or svg file.",
+    "logoSizeError": "The logo must be 2 MB or smaller.",
+    "qrColor": "QR Code Color",
+    "bgColor": "Background Color",
+    "contrastWarning": "These colors are close. Some cameras may have trouble scanning the code.",
+    "downloadPng": "Download PNG",
+    "downloadJpg": "Download JPG",
+    "downloadSvg": "Download SVG",
+    "downloadFormats": "Choose download format",
+    "downloading": "Downloading",
+    "downloadFailed": "Could not download the QR code. Try again.",
+    "emptyHint": "Add a website URL or some text to generate your QR code.",
+    "frames": {
+      "none": "No frame",
+      "square": "Square frame",
+      "rounded": "Rounded frame",
+      "dashed": "Dashed frame",
+      "double": "Double frame",
+      "corners": "Corner frame",
+      "scan-me": "Scan me caption",
+      "scan-me-top": "Scan me on top",
+      "balloon": "Balloon frame",
+      "polaroid": "Polaroid frame",
+      "ticket": "Ticket frame",
+      "badge": "Badge frame"
+    },
+    "shapes": {
+      "square": "Square dots",
+      "rounded": "Rounded dots",
+      "dots": "Circular dots",
+      "extra-rounded": "Extra rounded dots",
+      "classy": "Classy dots",
+      "classy-rounded": "Classy rounded dots"
+    }
   }
 }

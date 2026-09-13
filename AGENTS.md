@@ -81,6 +81,7 @@ export interface IProject {
 - File naming: PascalCase (e.g., `Navbar.tsx`, `ProjectCard.tsx`)
 - Default exports for page/component files
 - Named exports for utilities and hooks
+- Props de componente: siempre `interface <Componente>Props` exportada, nunca el tipo inline en la firma de la función.
 
 ### Imports Organization
 
