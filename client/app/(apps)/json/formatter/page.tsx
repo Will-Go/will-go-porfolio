@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Card from "@/components/Card";
 import CopyText from "@/components/CopyText";
 import Reveal from "@/components/Reveal";
@@ -17,8 +17,283 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import { cn } from "@/utils/cn";
 import { useTranslations } from "next-intl";
-import { JsonView, allExpanded, defaultStyles } from "react-json-view-lite";
-import "react-json-view-lite/dist/index.css";
+
+const lineNumberClass =
+  "pr-4 border-r border-neutral-200 dark:border-neutral-800 select-none text-neutral-500 dark:text-neutral-400 tabular-nums";
+
+const tokenClass = {
+  key: "text-neutral-950 dark:text-neutral-50",
+  punct: "text-neutral-600 dark:text-neutral-300",
+  string: "text-emerald-800 dark:text-emerald-300",
+  number: "text-blue-700 dark:text-blue-300",
+  boolean: "text-violet-700 dark:text-violet-300",
+  null: "text-rose-700 dark:text-rose-300",
+  muted: "text-neutral-500 dark:text-neutral-400",
+} as const;
+
+type ValueTone = "string" | "number" | "boolean" | "null" | "plain";
+
+interface ValueToken {
+  text: string;
+  tone: ValueTone;
+}
+
+interface CodeRow {
+  kind: "code";
+  number: number;
+  depth: number;
+  togglePath: string | null;
+  expanded: boolean;
+  key?: string;
+  value?: ValueToken;
+  bracket: "{" | "}" | "[" | "]" | "{}" | "[]" | "{...}" | "[...]" | null;
+  comma: boolean;
+}
+
+type JsonRow = CodeRow;
+
+function isBranch(value: unknown): value is object {
+  return value !== null && typeof value === "object";
+}
+
+function lineCount(value: unknown): number {
+  if (!isBranch(value)) return 1;
+  const children = Array.isArray(value) ? value : Object.values(value);
+  if (children.length === 0) return 1;
+  let lines = 2;
+  for (const child of children) lines += lineCount(child);
+  return lines;
+}
+
+function primitiveToken(value: unknown): ValueToken {
+  if (value === null) return { text: "null", tone: "null" };
+  if (typeof value === "string") return { text: JSON.stringify(value), tone: "string" };
+  if (typeof value === "number") return { text: String(value), tone: "number" };
+  if (typeof value === "boolean") return { text: String(value), tone: "boolean" };
+  return { text: String(value), tone: "plain" };
+}
+
+function branchEntries(value: object, path: string) {
+  if (Array.isArray(value)) {
+    return value.map((child, index) => ({
+      key: undefined as string | undefined,
+      child: child as unknown,
+      path: `${path}/i:${index}`,
+    }));
+  }
+  return Object.entries(value).map(([key, child]) => ({
+    key,
+    child,
+    path: `${path}/k:${encodeURIComponent(key)}`,
+  }));
+}
+
+// Line numbers belong to the fully expanded document. A collapsed branch is one
+// `{ ... }` row on its opening line; the lines inside it disappear from the gutter.
+function buildJsonRows(value: unknown, collapsed: ReadonlySet<string>): JsonRow[] {
+  const rows: JsonRow[] = [];
+  const cursor = { n: 0 };
+
+  const emit = (
+    current: unknown,
+    path: string,
+    depth: number,
+    key: string | undefined,
+    comma: boolean,
+  ) => {
+    if (!isBranch(current)) {
+      cursor.n += 1;
+      rows.push({
+        kind: "code",
+        number: cursor.n,
+        depth,
+        togglePath: null,
+        expanded: false,
+        key,
+        value: primitiveToken(current),
+        bracket: null,
+        comma,
+      });
+      return;
+    }
+
+    const entries = branchEntries(current, path);
+    const openBracket = Array.isArray(current) ? "[" : "{";
+    const closeBracket = Array.isArray(current) ? "]" : "}";
+
+    if (entries.length === 0) {
+      cursor.n += 1;
+      rows.push({
+        kind: "code",
+        number: cursor.n,
+        depth,
+        togglePath: null,
+        expanded: false,
+        key,
+        bracket: Array.isArray(current) ? "[]" : "{}",
+        comma,
+      });
+      return;
+    }
+
+    cursor.n += 1;
+    const openNumber = cursor.n;
+
+    if (collapsed.has(path)) {
+      for (const entry of entries) cursor.n += lineCount(entry.child);
+      cursor.n += 1;
+      rows.push({
+        kind: "code",
+        number: openNumber,
+        depth,
+        togglePath: path,
+        expanded: false,
+        key,
+        bracket: Array.isArray(current) ? "[...]" : "{...}",
+        comma,
+      });
+      return;
+    }
+
+    rows.push({
+      kind: "code",
+      number: openNumber,
+      depth,
+      togglePath: path,
+      expanded: true,
+      key,
+      bracket: openBracket,
+      comma: false,
+    });
+
+    entries.forEach((entry, index) => {
+      emit(entry.child, entry.path, depth + 1, entry.key, index < entries.length - 1);
+    });
+    cursor.n += 1;
+    rows.push({
+      kind: "code",
+      number: cursor.n,
+      depth,
+      togglePath: null,
+      expanded: false,
+      bracket: closeBracket,
+      comma,
+    });
+  };
+
+  emit(value, "$", 0, undefined, false);
+  return rows;
+}
+
+interface LineNumbersProps {
+  count: number;
+}
+
+function LineNumbers({ count }: LineNumbersProps) {
+  return (
+    <div className={cn(lineNumberClass, "shrink-0")} aria-hidden="true">
+      {Array.from({ length: count }, (_, index) => (
+        <div key={index} className="text-right">
+          {index + 1}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+interface JsonTreeProps {
+  data: object;
+  collapsed: ReadonlySet<string>;
+  onToggle: (path: string) => void;
+}
+
+function JsonTree({ data, collapsed, onToggle }: JsonTreeProps) {
+  const rows = useMemo(() => buildJsonRows(data, collapsed), [data, collapsed]);
+  const widest = String(lineCount(data)).length;
+
+  return (
+    <div className="flex font-mono text-sm leading-6">
+      <div
+        className={cn(lineNumberClass, "shrink-0")}
+        style={{ minWidth: `${Math.max(widest, 3)}ch` }}
+      >
+        {rows.map((row) => (
+          <div key={row.number} className="h-6 text-right leading-6">
+            {row.number}
+          </div>
+        ))}
+      </div>
+      <div className="min-w-0 flex-1 pl-4">
+        {rows.map((row) => (
+          <JsonCodeLine key={row.number} row={row} onToggle={onToggle} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+interface JsonCodeLineProps {
+  row: CodeRow;
+  onToggle: (path: string) => void;
+}
+
+function JsonCodeLine({ row, onToggle }: JsonCodeLineProps) {
+  const content = (
+    <>
+      <span className="inline-flex h-6 w-4 shrink-0 items-center justify-center">
+        {row.togglePath ? (row.expanded ? "▾" : "▸") : null}
+      </span>
+      {row.key !== undefined && (
+        <>
+          <span className={tokenClass.key}>{row.key}</span>
+          <span className={tokenClass.punct}>: </span>
+        </>
+      )}
+      {row.value && (
+        <span className={tokenClass[row.value.tone === "plain" ? "key" : row.value.tone]}>
+          {row.value.text}
+        </span>
+      )}
+      {row.bracket === "{...}" || row.bracket === "[...]" ? (
+        <>
+          <span className={tokenClass.punct}>
+            {row.bracket === "{...}" ? "{ " : "[ "}
+          </span>
+          <span className={tokenClass.muted}>...</span>
+          <span className={tokenClass.punct}>
+            {row.bracket === "{...}" ? " }" : " ]"}
+          </span>
+        </>
+      ) : (
+        row.bracket && <span className={tokenClass.punct}>{row.bracket}</span>
+      )}
+      {row.comma && <span className={tokenClass.punct}>,</span>}
+    </>
+  );
+
+  const className =
+    "flex h-6 w-full items-center whitespace-nowrap border-0 bg-transparent p-0 text-left leading-6";
+
+  if (!row.togglePath) {
+    return (
+      <div className={className} style={{ paddingLeft: row.depth * 16 }}>
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={cn(className, tokenClass.punct, "cursor-pointer")}
+      style={{ paddingLeft: row.depth * 16 }}
+      aria-expanded={row.expanded}
+      onClick={() => onToggle(row.togglePath as string)}
+    >
+      {content}
+    </button>
+  );
+}
 
 export default function JsonFormatterPage() {
   const t = useTranslations("jsonTool");
@@ -27,12 +302,28 @@ export default function JsonFormatterPage() {
   const [error, setError] = useState("");
   const [indent, setIndent] = useState(2);
   const [showTreeView, setShowTreeView] = useState(true);
+  const [collapsedPaths, setCollapsedPaths] = useState<Set<string>>(
+    () => new Set(),
+  );
+
+  const acceptParsed = (parsed: object) => {
+    setCollapsedPaths(new Set());
+    setFormatted(parsed);
+    setError("");
+  };
+
+  const toggleCollapsed = (path: string) => {
+    setCollapsedPaths((current) => {
+      const next = new Set(current);
+      if (next.has(path)) next.delete(path);
+      else next.add(path);
+      return next;
+    });
+  };
 
   const handleFormat = () => {
     try {
-      const parsed = JSON.parse(input);
-      setFormatted(parsed);
-      setError("");
+      acceptParsed(JSON.parse(input));
     } catch (e) {
       setError(e instanceof Error ? e.message : t("invalidJson"));
       setFormatted(null);
@@ -42,6 +333,7 @@ export default function JsonFormatterPage() {
   const handleClear = () => {
     setInput("");
     setFormatted(null);
+    setCollapsedPaths(new Set());
     setError("");
   };
 
@@ -49,8 +341,7 @@ export default function JsonFormatterPage() {
     try {
       const parsed = JSON.parse(input);
       setInput(JSON.stringify(parsed));
-      setFormatted(parsed);
-      setError("");
+      acceptParsed(parsed);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Invalid JSON");
     }
@@ -60,8 +351,7 @@ export default function JsonFormatterPage() {
     try {
       const parsed = JSON.parse(input);
       setInput(JSON.stringify(parsed, null, indent));
-      setFormatted(parsed);
-      setError("");
+      acceptParsed(parsed);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Invalid JSON");
     }
@@ -170,10 +460,10 @@ export default function JsonFormatterPage() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder='Paste your JSON here... e.g., {"name": "John", "age": 30}'
                   className={cn(
-                    "flex-1 p-4 bg-gray-50 dark:bg-primary-950/20 text-gray-900 dark:text-primary-100",
+                    "flex-1 p-4 bg-neutral-50 dark:bg-primary-950 text-neutral-950 dark:text-neutral-50",
                     "font-mono text-sm resize-none",
                     "focus:outline-none focus:ring-2 focus:ring-accent-500",
-                    "placeholder:text-gray-400 dark:placeholder-primary-500",
+                    "placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
                   )}
                 />
               </Card>
@@ -206,7 +496,7 @@ export default function JsonFormatterPage() {
                     )}
                   </div>
                 </div>
-                <div className="flex-1 overflow-auto p-4 bg-gray-50 dark:bg-primary-950/20">
+                <div className="flex-1 overflow-auto p-4 bg-neutral-50 dark:bg-primary-950">
                   {formatted ? (
                     <div>
                       {showTreeView ? (
@@ -215,28 +505,12 @@ export default function JsonFormatterPage() {
                           <h3 className="text-sm font-semibold mb-2 text-gray-700 dark:text-primary-300">
                             {t("interactiveTitle")}
                           </h3>
-                          <div className="p-3 bg-white dark:bg-primary-900/50 rounded-md border border-gray-100 dark:border-primary-800 overflow-x-auto text-sm font-mono">
-                            <div className="flex">
-                              <div className="pr-4 border-r border-gray-200 dark:border-primary-800 select-none text-gray-400 dark:text-primary-500">
-                                {getFormattedOutput()
-                                  .split("\n")
-                                  .map((_, i) => (
-                                    <div key={i} className="text-right">
-                                      {i + 1}
-                                    </div>
-                                  ))}
-                              </div>
-                              <div className="flex-1 pl-4">
-                                <JsonView
-                                  data={formatted}
-                                  shouldExpandNode={allExpanded}
-                                  style={{
-                                    ...defaultStyles,
-                                    container: "font-mono text-sm",
-                                  }}
-                                />
-                              </div>
-                            </div>
+                          <div className="p-3 bg-white dark:bg-primary-950 rounded-md border border-neutral-200 dark:border-neutral-800 overflow-x-auto text-sm font-mono">
+                            <JsonTree
+                              data={formatted}
+                              collapsed={collapsedPaths}
+                              onToggle={toggleCollapsed}
+                            />
                           </div>
                         </div>
                       ) : (
@@ -245,17 +519,11 @@ export default function JsonFormatterPage() {
                           <h3 className="text-sm font-semibold mb-2 text-gray-700 dark:text-primary-300">
                             {t("formattedTitle")}
                           </h3>
-                          <div className="p-3 bg-white text-gray-900 dark:bg-primary-900/50 dark:text-primary-100 rounded-md overflow-x-auto text-sm font-mono border border-gray-100 dark:border-primary-800">
+                          <div className="p-3 bg-white text-neutral-950 dark:bg-primary-950 dark:text-neutral-50 rounded-md overflow-x-auto text-sm font-mono border border-neutral-200 dark:border-neutral-800">
                             <div className="flex">
-                              <div className="pr-4 border-r border-gray-200 dark:border-primary-800 select-none text-gray-400 dark:text-primary-500">
-                                {getFormattedOutput()
-                                  .split("\n")
-                                  .map((_, i) => (
-                                    <div key={i} className="text-right">
-                                      {i + 1}
-                                    </div>
-                                  ))}
-                              </div>
+                              <LineNumbers
+                                count={getFormattedOutput().split("\n").length}
+                              />
                               <pre className="flex-1 pl-4">
                                 {getFormattedOutput()}
                               </pre>
@@ -265,7 +533,7 @@ export default function JsonFormatterPage() {
                       )}
                     </div>
                   ) : (
-                    <div className="h-full flex items-center justify-center text-gray-400 dark:text-primary-500">
+                    <div className="h-full flex items-center justify-center text-neutral-500 dark:text-neutral-400">
                       <p className="text-center">
                         {t("placeholder")}
                         <br />
