@@ -259,7 +259,7 @@
     },
     "uuid": {
       "title": "UUID Generator",
-      "description": "Generate random version 4 UUIDs instantly with bulk generation support."
+      "description": "Generate RFC 9562 UUIDs (v1, v3–v8), format them as GUIDs, copy in bulk, and decode timestamps."
     },
     "qr": {
       "title": "QR Code Generator",
@@ -322,15 +322,169 @@
   },
   "uuidTool": {
     "title": "UUID Generator",
-    "subtitle": "Generate version 4 UUIDs (Universally Unique Identifier) instantly.",
-    "countLabel": "Number of UUIDs",
-    "generateButton": "Generate UUIDs",
-    "generatedTitle": "Generated UUIDs",
-    "copyAll": "Copy All",
-    "copyAllTooltip": "Copy all UUIDs",
-    "copyTooltip": "Copy UUID",
-    "placeholder": "Click Generate to create UUIDs",
-    "total": "Total: {count}"
+    "backToApps": "All tools",
+    "yourUuid": "Your {label} UUID",
+    "clickToCopy": "Click to copy",
+    "copied": "Copied",
+    "copy": "Copy",
+    "copyAll": "Copy all",
+    "copyJson": "Copy JSON",
+    "generate": "Generate new",
+    "download": "Download .txt",
+    "versionLabel": "UUID version",
+    "privacy": "UUIDs are generated in your browser. Nothing is sent to a server.",
+    "constantHint": "This value is defined by the RFC and never changes.",
+    "versions": {
+      "v1": "v1",
+      "v3": "v3",
+      "v4": "v4",
+      "v5": "v5",
+      "v6": "v6",
+      "v7": "v7",
+      "v8": "v8",
+      "nil": "Nil",
+      "max": "Max"
+    },
+    "versionNames": {
+      "v1": "Version 1",
+      "v3": "Version 3",
+      "v4": "Version 4",
+      "v5": "Version 5",
+      "v6": "Version 6",
+      "v7": "Version 7",
+      "v8": "Version 8",
+      "nil": "Nil",
+      "max": "Max"
+    },
+    "hints": {
+      "v1": "Timestamp plus node. Useful for time-aware IDs, not for privacy.",
+      "v3": "Name-based with MD5. The same name always produces the same UUID.",
+      "v4": "Random 122-bit IDs. The default choice for most apps.",
+      "v5": "Name-based with SHA-1. Prefer this over v3 for deterministic IDs.",
+      "v6": "Reordered v1 timestamp so values sort in time order.",
+      "v7": "Unix time-ordered. The best UUID for database primary keys.",
+      "v8": "Custom layout filled with a cryptographically secure random source.",
+      "nil": "All zeros. A sentinel empty value.",
+      "max": "All ones. A sentinel maximum value."
+    },
+    "format": {
+      "title": "Format",
+      "uppercase": "Uppercase",
+      "hyphens": "Hyphens",
+      "braces": "Braces '{' '}'",
+      "urn": "urn:uuid:",
+      "guidPreset": "GUID style",
+      "separator": "Bulk separator",
+      "newline": "New line",
+      "comma": "Comma"
+    },
+    "count": {
+      "label": "How many",
+      "helper": "1 to 1,000",
+      "lockedHelper": "Name-based and constant UUIDs always generate one value.",
+      "decrease": "Decrease count",
+      "increase": "Increase count",
+      "errorInvalid": "Enter a whole number",
+      "errorMin": "Minimum is 1 UUID",
+      "errorMax": "Maximum is 1,000 UUIDs"
+    },
+    "nameBased": {
+      "title": "Name and namespace",
+      "helper": "The same name and namespace always produce the same UUID.",
+      "namespace": "Namespace",
+      "dns": "DNS",
+      "url": "URL",
+      "oid": "OID",
+      "x500": "X.500",
+      "custom": "Custom UUID",
+      "customLabel": "Custom namespace",
+      "customPlaceholder": "Paste a namespace UUID",
+      "customError": "Enter a valid namespace UUID",
+      "name": "Name",
+      "namePlaceholder": "www.example.com",
+      "nameHelper": "A domain, URL, or any string to hash."
+    },
+    "bulk": {
+      "title": "Bulk output",
+      "total": "{count} UUIDs"
+    },
+    "inspector": {
+      "title": "Decode",
+      "version": "Version",
+      "variant": "Variant",
+      "timestamp": "Timestamp",
+      "clockSequence": "Clock sequence",
+      "node": "Node",
+      "canonical": "Canonical",
+      "pasteLabel": "Decode another UUID",
+      "pastePlaceholder": "Paste a UUID to inspect",
+      "invalid": "That is not a valid UUID.",
+      "empty": "Generate a UUID to inspect it.",
+      "rfc": "RFC 9562",
+      "nil": "Nil UUID",
+      "max": "Max UUID",
+      "variantRfc": "RFC 4122 / 9562",
+      "variantNcs": "NCS",
+      "variantMicrosoft": "Microsoft",
+      "variantUnknown": "Unknown"
+    },
+    "about": {
+      "title": "About {label}",
+      "use": "When to use",
+      "avoid": "When to avoid",
+      "v1": {
+        "body": "A version 1 UUID encodes a Gregorian timestamp, a clock sequence, and a 48-bit node. In the browser the node is a random value with the multicast bit set, not a hardware MAC address.",
+        "use": "Legacy systems that already expect v1, or cases where you need a timestamp plus a stable node for the session.",
+        "avoid": "Public IDs. The timestamp (and a node) can leak when the value was created."
+      },
+      "v3": {
+        "body": "A version 3 UUID is a 128-bit MD5 hash of a namespace UUID plus a name. It is deterministic: the same inputs always yield the same output.",
+        "use": "Stable IDs derived from a name when you must match an existing MD5-based system.",
+        "avoid": "New designs. Prefer v5 (SHA-1) for name-based IDs, or v4/v7 for unique keys."
+      },
+      "v4": {
+        "body": "A version 4 UUID is made almost entirely of random data: 122 of 128 bits are random, and the rest record the version and variant. This generator uses a cryptographically secure source.",
+        "use": "General-purpose IDs for APIs, files, request tracing, and anything that must not reveal when it was created.",
+        "avoid": "Large indexed database tables where insert locality matters. Prefer v7 there."
+      },
+      "v5": {
+        "body": "A version 5 UUID hashes a namespace and name with SHA-1, then sets the version and variant bits. Like v3, it is deterministic.",
+        "use": "IDs that must be reproducible from a URL, domain, or other unique name.",
+        "avoid": "Secrets. A name-based UUID is guessable if the name is guessable."
+      },
+      "v6": {
+        "body": "Version 6 keeps the v1 timestamp and node, but reorders the bits so the most significant time bits come first. Values sort in creation order.",
+        "use": "A time-ordered drop-in when you already have v1 data and need lexicographic sort.",
+        "avoid": "New databases. v7 is simpler and uses Unix time in milliseconds."
+      },
+      "v7": {
+        "body": "A version 7 UUID stores a 48-bit Unix timestamp in milliseconds, then random bits. Later values sort after earlier ones, which keeps B-tree indexes healthy.",
+        "use": "Primary keys, event IDs, and any store that is scanned in time order.",
+        "avoid": "IDs that must hide creation time. Use v4 when the timestamp would be a leak."
+      },
+      "v8": {
+        "body": "Version 8 is the RFC 9562 custom layout. This tool fills it with a cryptographically secure random source and sets the version and variant bits.",
+        "use": "Experiments and custom schemes that need the v8 version nibble.",
+        "avoid": "Standard application IDs. Prefer v4 or v7 unless you have a defined custom layout."
+      },
+      "nil": {
+        "body": "The nil UUID is 128 zero bits. RFC 9562 defines it as a sentinel for “no value”.",
+        "use": "Placeholder or missing-value representation in APIs and databases.",
+        "avoid": "Using it as a real identifier. Every nil UUID is the same."
+      },
+      "max": {
+        "body": "The max UUID is 128 one bits. RFC 9562 defines it as the maximum sentinel value.",
+        "use": "Range queries, exclusive upper bounds, or a defined “greater than any UUID” token.",
+        "avoid": "Using it as a unique key. Every max UUID is the same."
+      }
+    },
+    "status": {
+      "generated": "Generated {count, plural, one {# UUID} other {# UUIDs}}",
+      "copiedOne": "UUID copied",
+      "copiedAll": "All UUIDs copied",
+      "copiedJson": "JSON copied",
+      "downloaded": "Download started"
+    }
   },
   "qrTool": {
     "title": "QR Code Generator",

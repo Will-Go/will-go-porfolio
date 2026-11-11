@@ -259,7 +259,7 @@
     },
     "uuid": {
       "title": "Generador UUID",
-      "description": "Genera UUIDs versión 4 aleatorios instantáneamente con soporte de generación masiva."
+      "description": "Genera UUIDs RFC 9562 (v1–v8), formateálos como GUID, cópialos en lote y decodifica marcas de tiempo."
     },
     "qr": {
       "title": "Generador de códigos QR",
@@ -322,15 +322,169 @@
   },
   "uuidTool": {
     "title": "Generador UUID",
-    "subtitle": "Genera UUIDs versión 4 (Identificador Único Universal) al instante.",
-    "countLabel": "Número de UUIDs",
-    "generateButton": "Generar UUIDs",
-    "generatedTitle": "UUIDs Generados",
-    "copyAll": "Copiar Todo",
-    "copyAllTooltip": "Copiar todos los UUIDs",
-    "copyTooltip": "Copiar UUID",
-    "placeholder": "Haz clic en Generar para crear UUIDs",
-    "total": "Total: {count}"
+    "backToApps": "Todas las herramientas",
+    "yourUuid": "Tu UUID {label}",
+    "clickToCopy": "Haz clic para copiar",
+    "copied": "Copiado",
+    "copy": "Copiar",
+    "copyAll": "Copiar todo",
+    "copyJson": "Copiar JSON",
+    "generate": "Generar nuevo",
+    "download": "Descargar .txt",
+    "versionLabel": "Versión de UUID",
+    "privacy": "Los UUID se generan en tu navegador. No se envía nada a un servidor.",
+    "constantHint": "Este valor lo define el RFC y nunca cambia.",
+    "versions": {
+      "v1": "v1",
+      "v3": "v3",
+      "v4": "v4",
+      "v5": "v5",
+      "v6": "v6",
+      "v7": "v7",
+      "v8": "v8",
+      "nil": "Nulo",
+      "max": "Máx"
+    },
+    "versionNames": {
+      "v1": "versión 1",
+      "v3": "versión 3",
+      "v4": "versión 4",
+      "v5": "versión 5",
+      "v6": "versión 6",
+      "v7": "versión 7",
+      "v8": "versión 8",
+      "nil": "nulo",
+      "max": "máximo"
+    },
+    "hints": {
+      "v1": "Marca de tiempo más nodo. Útil para IDs con tiempo, no para privacidad.",
+      "v3": "Basado en nombre con MD5. El mismo nombre siempre produce el mismo UUID.",
+      "v4": "IDs aleatorios de 122 bits. La opción predeterminada para la mayoría de las apps.",
+      "v5": "Basado en nombre con SHA-1. Prefiere esta versión sobre v3 para IDs deterministas.",
+      "v6": "Reordena la marca de tiempo de v1 para que los valores se ordenen en el tiempo.",
+      "v7": "Ordenado por tiempo Unix. El mejor UUID para claves primarias de base de datos.",
+      "v8": "Diseño personalizado rellenado con una fuente aleatoria criptográficamente segura.",
+      "nil": "Todo ceros. Un valor centinela vacío.",
+      "max": "Todo unos. Un valor centinela máximo."
+    },
+    "format": {
+      "title": "Formato",
+      "uppercase": "Mayúsculas",
+      "hyphens": "Guiones",
+      "braces": "Llaves '{' '}'",
+      "urn": "urn:uuid:",
+      "guidPreset": "Estilo GUID",
+      "separator": "Separador del lote",
+      "newline": "Nueva línea",
+      "comma": "Coma"
+    },
+    "count": {
+      "label": "Cuántos",
+      "helper": "De 1 a 1.000",
+      "lockedHelper": "Los UUID basados en nombre y los constantes siempre generan un solo valor.",
+      "decrease": "Disminuir cantidad",
+      "increase": "Aumentar cantidad",
+      "errorInvalid": "Ingresa un número entero",
+      "errorMin": "El mínimo es 1 UUID",
+      "errorMax": "El máximo es 1.000 UUIDs"
+    },
+    "nameBased": {
+      "title": "Nombre y espacio de nombres",
+      "helper": "El mismo nombre y espacio de nombres siempre producen el mismo UUID.",
+      "namespace": "Espacio de nombres",
+      "dns": "DNS",
+      "url": "URL",
+      "oid": "OID",
+      "x500": "X.500",
+      "custom": "UUID personalizado",
+      "customLabel": "Espacio de nombres personalizado",
+      "customPlaceholder": "Pega un UUID de espacio de nombres",
+      "customError": "Ingresa un UUID de espacio de nombres válido",
+      "name": "Nombre",
+      "namePlaceholder": "www.example.com",
+      "nameHelper": "Un dominio, una URL o cualquier cadena para calcular el hash."
+    },
+    "bulk": {
+      "title": "Salida masiva",
+      "total": "{count} UUIDs"
+    },
+    "inspector": {
+      "title": "Decodificar",
+      "version": "Versión",
+      "variant": "Variante",
+      "timestamp": "Marca de tiempo",
+      "clockSequence": "Secuencia de reloj",
+      "node": "Nodo",
+      "canonical": "Canónico",
+      "pasteLabel": "Decodificar otro UUID",
+      "pastePlaceholder": "Pega un UUID para inspeccionarlo",
+      "invalid": "Ese no es un UUID válido.",
+      "empty": "Genera un UUID para inspeccionarlo.",
+      "rfc": "RFC 9562",
+      "nil": "UUID nulo",
+      "max": "UUID máximo",
+      "variantRfc": "RFC 4122 / 9562",
+      "variantNcs": "NCS",
+      "variantMicrosoft": "Microsoft",
+      "variantUnknown": "Desconocida"
+    },
+    "about": {
+      "title": "Acerca de {label}",
+      "use": "Cuándo usarlo",
+      "avoid": "Cuándo evitarlo",
+      "v1": {
+        "body": "Un UUID versión 1 codifica una marca de tiempo gregoriana, una secuencia de reloj y un nodo de 48 bits. En el navegador el nodo es un valor aleatorio con el bit multicast activado, no una dirección MAC.",
+        "use": "Sistemas heredados que ya esperan v1, o casos en los que necesitas una marca de tiempo más un nodo estable durante la sesión.",
+        "avoid": "Identificadores públicos. La marca de tiempo (y un nodo) puede revelar cuándo se creó el valor."
+      },
+      "v3": {
+        "body": "Un UUID versión 3 es un hash MD5 de 128 bits de un UUID de espacio de nombres más un nombre. Es determinista: las mismas entradas siempre dan la misma salida.",
+        "use": "IDs estables derivados de un nombre cuando debes coincidir con un sistema existente basado en MD5.",
+        "avoid": "Diseños nuevos. Prefiere v5 (SHA-1) para IDs basados en nombre, o v4/v7 para claves únicas."
+      },
+      "v4": {
+        "body": "Un UUID versión 4 está hecho casi por completo de datos aleatorios: 122 de 128 bits son aleatorios y el resto registra la versión y la variante. Este generador usa una fuente criptográficamente segura.",
+        "use": "IDs de propósito general para APIs, archivos, trazas de peticiones y cualquier cosa que no deba revelar cuándo se creó.",
+        "avoid": "Tablas de base de datos indexadas y grandes donde importa la localidad de inserción. Prefiere v7 ahí."
+      },
+      "v5": {
+        "body": "Un UUID versión 5 calcula el hash de un espacio de nombres y un nombre con SHA-1, y luego fija los bits de versión y variante. Como v3, es determinista.",
+        "use": "IDs que deben ser reproducibles a partir de una URL, un dominio u otro nombre único.",
+        "avoid": "Secretos. Un UUID basado en nombre es adivinable si el nombre es adivinable."
+      },
+      "v6": {
+        "body": "La versión 6 conserva la marca de tiempo y el nodo de v1, pero reordena los bits para que los más significativos del tiempo vayan primero. Los valores se ordenan por momento de creación.",
+        "use": "Un reemplazo ordenado por tiempo cuando ya tienes datos v1 y necesitas orden lexicográfico.",
+        "avoid": "Bases de datos nuevas. v7 es más simple y usa tiempo Unix en milisegundos."
+      },
+      "v7": {
+        "body": "Un UUID versión 7 guarda una marca de tiempo Unix de 48 bits en milisegundos, y después bits aleatorios. Los valores posteriores se ordenan después de los anteriores, lo que mantiene sanos los índices B-tree.",
+        "use": "Claves primarias, IDs de eventos y cualquier almacén que se recorra en orden temporal.",
+        "avoid": "IDs que deban ocultar la hora de creación. Usa v4 cuando la marca de tiempo sería una filtración."
+      },
+      "v8": {
+        "body": "La versión 8 es el diseño personalizado de RFC 9562. Esta herramienta lo rellena con una fuente aleatoria criptográficamente segura y fija los bits de versión y variante.",
+        "use": "Experimentos y esquemas propios que necesitan el nibble de versión v8.",
+        "avoid": "IDs de aplicación estándar. Prefiere v4 o v7 salvo que tengas un diseño personalizado definido."
+      },
+      "nil": {
+        "body": "El UUID nulo son 128 bits en cero. RFC 9562 lo define como centinela de «sin valor».",
+        "use": "Representación de un valor vacío o ausente en APIs y bases de datos.",
+        "avoid": "Usarlo como identificador real. Todos los UUID nulos son el mismo."
+      },
+      "max": {
+        "body": "El UUID máximo son 128 bits en uno. RFC 9562 lo define como el valor centinela máximo.",
+        "use": "Consultas por rango, límites superiores exclusivos o un token de «mayor que cualquier UUID».",
+        "avoid": "Usarlo como clave única. Todos los UUID máximos son el mismo."
+      }
+    },
+    "status": {
+      "generated": "Se {count, plural, one {generó # UUID} other {generaron # UUIDs}}",
+      "copiedOne": "UUID copiado",
+      "copiedAll": "Todos los UUID copiados",
+      "copiedJson": "JSON copiado",
+      "downloaded": "Descarga iniciada"
+    }
   },
   "qrTool": {
     "title": "Generador de códigos QR",
